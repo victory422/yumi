@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!-- 공통 Javascript/css -->
+<th:block th:replace="common/plugin"></th:block>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>::: YUMI KOREA ADMIN :::</title>
+</head>
+<style>
+	a {
+		cursor: pointer;
+	}
+	
+</style>
+
+<script th:inline="javascript">
+	let global_loginInfo = getLoginInfo();	// session의 사용자정보 호출 
+	let global_menuArray = [];
+	let global_authorityList = [];
+	window.addEventListener("load", function() {
+		
+		if( global_loginInfo.userName != null && global_loginInfo.userName != "" ) {
+			document.querySelector("a[change-modal-id=getMyInfo]").innerHTML= global_loginInfo.userName;
+		}
+		
+		if ( document.querySelectorAll("#lnb > ul > li").length == 0 || document.querySelectorAll("#lnb > ul > li")[0].id == "" ) {
+			global_menuArray = getMenuList();	// 동기화된 호출  commonJs.js
+			makeLeftNav(global_menuArray, addEventOnLeftNav);	// showMenuJs.js
+			
+			global_authorityList = getScreenAuthorityList();	// commonJs.js
+			authorityButtonsController();	// commonJs.js
+		}
+	});
+	
+</script>
+<body>
+<div id="container">
+	<!-- HEADER : S -->
+	<div id="header">
+		<div class="header_area">
+			<div class="hd_logo_wrap">
+				<div class="hd_logo" tabindex="-1">
+<!--					<a href="${pageContext.request.contextPath}/stat-realtime-list">-->
+					<a href="#">
+						<span class="ad_logo"><img src="/images/yumi.png" alt="관리자 로고" /></span>
+						<span class="ad_text">YUMI KOREA</span>
+					</a>
+				</div>
+			</div>
+			<div class="hd_menu">
+				<div class="hamburger nav-toggle">
+					<a href="#">
+						<span class="screen-reader-text">
+							<span class="listIcon"><i class="las la-bars"></i></span>
+						</span>
+					</a>
+				</div>
+				<div class="brand_text02" >
+					<span id="brand_text02"></span>
+					<i class="las la-angle-right"></i>
+					<span class="brand_text01" id="brand_text01"></span>
+				</div>
+			</div>
+			<div class="hd_logout">
+				<ul>
+					<li><a onclick="logout()" tabindex="-1"><i class="la la-power-off"></i>로그아웃</a>
+					</li>
+				</ul>
+			</div>
+			<div class="hd_info">
+				<ul>
+					<li>
+						<a change-modal-id="updateMyPw">비밀번호 변경</a>
+					</li>
+				</ul>
+			</div>
+			<div class="hd_user">
+				<ul>
+					<li>
+						<span class="txt_blue">
+							<a change-modal-id="getMyInfo" th:onclick="getMyInfo()"></a>
+						</span>님 안녕하세요.
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+  	<!-- HEADER : E -->
+  	<!-- Content : S -->
+  	<div id="content">
+    	<div id="content_area">
+    	<!-- Side Bar -->
+    	<th:block th:replace="common/layout/leftMenu"></th:block>
+    	<th:block th:include="common/myInfo"></th:block>
+    	<th:block th:include="common/myInfoUpdatePw"></th:block>
+</html>

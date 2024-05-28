@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<style>
+		#auth_title {
+		font-size: 16px;
+		margin-top : 20px;
+	}
+	</style>
+<div id="admin_authoritys" class="modal-box-change" style="width:800px;">
+	<div class="modal_header"><a class="js-modal-close-change pop_close" style='cursor:pointer'><i class="la la-close"></i></a>
+		<p class="modal_tit" style="text-align: center;">화면권한 상세</p>
+		<p id="auth_title"></p>
+		<input type="hidden" id="authority_adminId"/>
+	</div>
+	<div class="modal_body">
+		<th:block th:include="authority/authorityListTable"></th:block>
+	</div>
+	<div class="modal_footer">
+		<div class="modal_footer_box">
+			<!-- ~ button -->
+ 			<div class="pop_btn_one width_100"> 
+ 				<a href="javascript:registDeleteAuthorityUser();">저장</a> 
+ 			</div>
+<!-- 			<div class="pop_btn_one width_100 local_btn_delete"> -->
+<!-- 				<a href="javascript:registDeleteAuthorityUser('delete');">삭제</a> -->
+<!-- 			</div> -->
+			<div class="pop_btn_cancle width_100 js-modal-close-change">
+				<a href="#">닫기</a>
+			</div>
+			<!-- button ~ -->
+        </div>
+    </div>
+</div>
+<!-- Detail : E -->
+</html>

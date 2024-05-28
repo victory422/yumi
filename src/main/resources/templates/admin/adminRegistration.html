@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!-- 
+		HTML Info
+		1. file path	: /templates/admin/adminRegistration.html
+		2. project name	: yumi korea Admin
+		3. description	: 관리자 관리 > 등록  
+ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div id="registerAdmin" class="modal-box-change">
+	<div class="modal_header"><a class="js-modal-close-change pop_close" style='cursor:pointer'><i class="la la-close"></i></a>
+		<p class="modal_tit" style="text-align: center;">관리자 등록</p>
+	</div>
+	<div class="modal_body">
+		<table class="dt_tbl03">
+			<colgroup>
+				<col class="dt_tbl_width30">
+				<col class="dt_tbl_width70">
+			</colgroup>
+			<tbody>
+				<tr>
+					<td class="dt_tbl_col_th02">아이디<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td>
+						<input type="text" class="width_300 input_txt" name="rAdminId" id="rAdminId" placeholder="아이디를 입력하세요." onkeyup="chkCharCode(event)" />
+						<div style="display: none;"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">이름<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td>
+						<input type="text" class="width_300 input_txt" name="rName" id="rName" placeholder="이름을 입력하세요." onkeyup="chkCharCode(event)" />
+					</td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">회사명</td>
+					<td>
+						<input type="text" class="width_300 input_txt" name="rCompanyName" id="rCompanyName" placeholder="회사명을 입력하세요." />
+					</td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">부서<span class="str_txt"></span></td>
+					<td><input type="text" class="width_300 input_txt" name="rDeptName" id="rDeptName" placeholder="부서를 입력하세요." /></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">Phone<span class="str_txt"></span></td>
+					<td><input type="text" class="width_300 input_txt" name="rTelNo" id="rTelNo" placeholder="핸드폰 번호를 입력하세요." /></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">이메일<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td>
+						<input type="email" class="width_300 input_txt" name="rEmail" id="rEmail" placeholder="이메일을 입력하세요." onkeyup="chkCharCodeForEmail(event)" />
+					</td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">권한<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td>
+						<select name="rAuth" id="rAuth" class="styled" style='width:290px;' onChange="" title="관리자 구분">
+<!--							<option value="0">관리자</option>								-->
+							<th:block th:each="auth : ${authorityList}">
+								<option th:value="${auth.authorityId}"
+									th:text="${auth.authorityName}">
+								</option>
+<!-- 									th:selected="${srcKeyword.srcCommand != null} ? ${#strings.equals(srcKeyword.srcCommand, code.code)} : false"  -->
+							</th:block>
+						</select>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal_footer">
+		<div class="modal_footer_box">
+			<!-- ~ button -->
+			<div class="pop_btn_one width_100">
+				<a href="javascript:;" onclick="goRegistry()">등록</a>
+			</div>
+			<div class="pop_btn_cancle width_100 js-modal-close-change">
+				<a href="#">취소</a>
+			</div>
+			<!-- button ~ -->
+        </div>
+    </div>
+</div>
+<div id="checkInitPw" class="modal-box-change">
+	<div class="modal_header"><a class="js-modal-close-change pop_close" style='cursor:pointer'><i class="la la-close"></i></a>
+		<p class="modal_tit" style="text-align: center;">등록되었습니다. 초기비밀번호를 확인해주세요.</p>
+	</div>
+	<div class="modal_body">
+		<table class="dt_tbl03">
+			<colgroup>
+				<col class="dt_tbl_width30">
+				<col class="dt_tbl_width70">
+			</colgroup>
+			<tbody>
+				<tr>
+					<td>초기 비밀번호</td>
+					<td id="initPw"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal_footer">
+		<div class="modal_footer_box">
+			<!-- ~ button -->
+			<div class="pop_btn_cancle width_100 js-modal-close-change">
+				<a href="#">확인</a>
+			</div>
+			<!-- button ~ -->
+        </div>
+    </div>
+</div>
+</html>

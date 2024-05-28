@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<script>
+	/* 화면 로드 후 이벤트 */
+	window.addEventListener("load", function() {
+		var dom = document.querySelector("#pagenation_area_squar");
+		convertId(dom);
+	});
+	
+	var convertId = function(dom) {
+		var parentId = dom.parentElement.id;
+		dom.setAttribute("id", parentId + "_" + dom.id);
+		var firstDom = document.getElementById("paging_first");
+		var prevDom = document.getElementById("paging_prev");
+		var nextDom = document.getElementById("paging_next");
+		var lastDom = document.getElementById("paging_last");
+		var totalDom = document.getElementById("paging_total");
+		var lis = document.getElementById("paging_pages");
+		
+		var domArr = [
+			firstDom, prevDom, nextDom, lastDom, totalDom, lis
+		];
+		
+		domArr.forEach(function(d){
+			d.setAttribute("id", parentId + "_" + d.id);
+		});
+	}
+	
+	
+	var makePaging = function(page, pageId, functionName) {
+		var firstDom = document.getElementById(pageId + "_paging_first");
+		var prevDom = document.getElementById(pageId + "_paging_prev");
+		var nextDom = document.getElementById(pageId + "_paging_next");
+		var lastDom = document.getElementById(pageId + "_paging_last");
+		var totalDom = document.getElementById(pageId + "_paging_total");
+		var lis = document.getElementById(pageId + "_paging_pages");
+		
+		if ( lis == null ) return;
+		while (lis.firstChild ) {
+			lis.removeChild(lis.firstChild);
+		}
+		
+		var _setDisplay = function(_dom, _bool, _page) {
+			if( _bool ) {
+				_dom.removeAttribute("style");
+				_dom.querySelector("a").setAttribute("onclick", functionName + "("+_page+")");
+			} else {
+				_dom.setAttribute("style", "display:none;")
+			}
+		}
+		
+		if( page == null || Object.keys(page).length == 0 ) {
+			_setDisplay(firstDom, false, 0);
+			_setDisplay(prevDom, false, 0);
+			_setDisplay(nextDom, false, 0);
+			_setDisplay(lastDom, false, 0);
+			
+			totalDom.innerText = 0;
+			return;
+		}
+		var startPage = page.startPage;
+		var endPage = page.endPage;
+		var realEnd = page.realEnd;
+		var nowPage = page.page;
+		var prev = page.prev;
+		var next = page.next;
+		
+		_setDisplay(firstDom, prev, 1);
+		_setDisplay(prevDom, nowPage > 1, nowPage - 1);
+		_setDisplay(nextDom, nowPage < realEnd, nowPage + 1);
+		_setDisplay(lastDom, next, realEnd);
+		
+		for( var i = 1 ; i <= endPage ; i ++ ) {
+			var li = makeLiForPaging(i, functionName);
+			if( nowPage == i ) {
+				li.firstChild.setAttribute("class", "active");
+				li.firstChild.setAttribute("onclick", "#");
+			}
+			lis.appendChild(li);
+		}
+		
+		totalDom.innerText = page.totalData;
+	}
+	
+	
+	var makeLiForPaging = function(page, functionName) {
+		let li = document.createElement("li");
+		let aTag = document.createElement("a");
+		aTag.setAttribute("href", "#");
+		aTag.setAttribute("style", "padding:0 0.5em");
+		aTag.setAttribute("onclick", functionName + "("+page+")");
+		aTag.innerText = page;
+		li.appendChild(aTag);
+		return li;
+	}
+
+</script>
+	
+	<div class="pagenation_area_squar" id="pagenation_area_squar">
+		<span class="con_btn_area_float_l">
+			<span class="total_view_list">Total 
+				<span class="txt_blue" id="paging_total">0</span>
+					 <!-- 글 개수가 0보다 크면 페이지 넘버 출력 -->		
+			</span>
+		</span>
+		<div class="pagenation_squar" style="width:350px;">
+			<ul class="list_page">
+				<!-- 처음 -->
+				<!-- 이전 페이지가 있는 경우 -->
+				<li id="paging_first" style="display: none;">
+					<a class="btn_tb_back">
+						<i class="la la-angle-double-left"></i>
+					</a>
+				</li>
+			<!-- 처음 -->
+			<!-- 이전 -->
+				<li id="paging_prev" style="display: none;">
+					<a class="btn_tb_back">
+						<i class="la la-angle-left"></i>
+					</a>
+				</li>					
+			<!-- 이전 -->
+			<!-- page number -->
+				<div id="paging_pages" style="display: inline-block;">
+				</div>
+			<!-- 다음 -->
+				<li id="paging_next" style="display: none;">
+					<a class="btn_tb_next">
+						<i class="la la-angle-right"></i>
+					</a>
+				</li>					
+			<!-- 맨뒤 -->
+				<li id="paging_last" style="display: none;">
+					<a class="btn_tb_next">
+						<i class="la la-angle-double-right"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</html>

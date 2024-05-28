@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!-- 
+		HTML Info
+		1. file path	: /templates/user/userDetail.html
+		2. project name	: yumi korea Admin
+		3. description	: 사용자 관리 > 상세  
+ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div id="updateUser" class="modal-box-change" style="width:800px;">
+	<div class="modal_header"><a class="js-modal-close-change pop_close" style='cursor:pointer'><i class="la la-close"></i></a>
+		<p class="modal_tit" style="text-align: center;">사용자 상세</p>
+	</div>
+	<div class="modal_body">
+		<table class="dt_tbl06">
+			<colgroup>
+				<col class="dt_tbl_width20">
+				<col class="dt_tbl_width30">
+				<col class="dt_tbl_width20">
+				<col class="dt_tbl_width30">
+			</colgroup>
+			<tbody>
+				<tr>
+					<td class="dt_tbl_col_th02">ID<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td><input type="text" class="width_200 input_txt" name="detUserId" id="detUserId" readonly /></td>
+					<td class="dt_tbl_col_th02">이름<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td><input type="text" class="width_200 input_txt" name="detUserName" id="detUserName" /></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">비밀번호</td>
+					<td><input type="password" class="width_200 input_txt" name="detUserNewPw" id="detUserNewPw" placeholder="비밀번호를 입력하세요." /></td>
+					<td class="dt_tbl_col_th02">비밀번호확인</td>
+					<td><input type="password" class="width_200 input_txt" name="detUserNewPwChk" id="detUserNewPwChk" placeholder="비밀번호확인을 입력하세요." /></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">직급<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td><input type="text" class="width_200 input_txt" name="detUserLv" id="detUserLv" /></td>
+					<td class="dt_tbl_col_th02">부서<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td><input type="text" class="width_200 input_txt" name="detUserDept" id="detUserDept" /></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">서버명<span class="str_txt"></span></td>
+					<td><input type="text" class="width_200 input_txt" name="detServerName" id="detServerName" readonly /></td>
+					<td class="dt_tbl_col_th02">서버 코드<span class="str_txt"></span></td>
+					<td><input type="text" class="width_200 input_txt" name="detServerCode" id="detServerCode" readonly /></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">상태<span class="str_txt"></span></td>
+					<td><input type="text" class="width_200 input_txt" name="detUserState" id="detUserState" readonly /></td>
+					<td class="dt_tbl_col_th02">권한<span class="str_txt"></span></td>
+					<td><input type="text" class="width_200 input_txt" name="detUserAuth" id="detUserAuth" readonly /></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">이메일<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td colspan="3"><input type="text" class="width_600 input_txt" name="detUserEmail" id="detUserEmail" /></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal_footer">
+		<div class="modal_footer_box">
+			<!-- ~ button -->
+			<div class="pop_btn_one width_100">
+				<a href="javascript:;" onclick="goUpdate()">수정</a>
+			</div>
+			<div class="pop_btn_cancle width_100 js-modal-close-change">
+				<a href="#">취소</a>
+			</div>
+			<!-- button ~ -->
+        </div>
+    </div>
+</div>
+</html>

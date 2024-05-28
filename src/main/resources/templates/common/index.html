@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<!-- 
+	HTML info
+	1. file path	: /templates/index.html
+	2. project name	: yumi korea Admin
+	3. description	: 로그인
+ -->
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="common/plugin"></th:block>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>::: YUMI KOREA Web Admin:::</title>
+</head>
+<script th:inline="javascript">
+	$(function(){
+		
+		$('#loginId').focus();
+		
+		// 비밀번호 CapsLock 체크
+		checkCapsLock("loginPw");
+	})
+
+	window.addEventListener('load', function() {
+		// 로그인 실패 시 set, 실행
+		let springSecurityLoginRst = /*[[${#request.getAttribute('loginFailMap')}]]*/ false;
+			
+		let cId = getCookie("cookie-id");
+		if( cId != null && cId != "undefined" && cId != "" ) {
+			document.querySelector("#loginId").value = cId;
+			document.querySelector("#useCookie").checked = true;
+		}
+		
+		// 스프링 시큐리티 결과값 호출 :: CustomAuthFailureHandler.java 에 정의
+		if ( springSecurityLoginRst ) {
+			if( springSecurityLoginRst.status == "session_duplication" ) {
+				confirmPopup(springSecurityLoginRst.message);
+				document.querySelector( ".js-modal-next" ).onclick = function(e){
+					e.stopPropagation();
+					$(".modal-box, .modal-overlay").fadeOut(function () {
+						$(".modal-overlay").remove();
+					       $("#confirmpopup").remove();
+					       $("#confirmpopuparea").remove();
+					});
+					
+					// 기존 입력한 비밀번호 파라미터로 지정하는 옵션 추가
+					springSecurityLogin(springSecurityLoginRst.loginId, springSecurityLoginRst.password);
+				};
+				document.querySelector( ".js-modal-close-confirm" ).onclick = function(e){
+					document.getElementById("confirmLogout").value = "false";
+					document.getElementById("loginPwHidden").value = "";
+				}
+				
+			} else if ( springSecurityLoginRst.status == "ROLE_INIT" ) {
+				successPopup(springSecurityLoginRst.message, "/common/initPw");
+			} else {
+				alertPopup(springSecurityLoginRst.message);
+				/*
+				## 계정이 잠겼을 경우 ##
+				관리자관리 화면에서 잠김상태를 상태변경 해주면 아래의 로직대로 처리되어 재로그인 가능.
+				
+				비밀번호는 계정 ID 의 암호화된 값으로 초기화
+				AdminRepositoryCustom.updateAdminUserStateLock 
+				String newPw = PwHashUtils.getPwHash(adminId, adminId); 으로 처리
+				아래의 SQL 을 실행하여 LOCK을 풀고 loginId로 로그인하면 된다.
+				 update ADMIN 
+				 set ACCESS_COUNT = 0
+				 , USER_STATE = '02'   -- '01'정상 로그인, '02'초기비밀번호 초기화페이지로 이동  
+				 where admin_id= 'ID';
+				 */
+			}
+		}
+		
+		// 다른 url 로 들어왔을 시 pathname을 login으로 변경해준다.
+		if( location.pathname == "/loginForm" ) {
+			history.pushState(null, null, 'login')
+		}
+		
+	});
+
+	window.addEventListener('keydown', function(event) {
+	    // Check if the pressed key is Enter (key code 13)
+	    if (event.key === 'Enter') {
+	        // Your code to handle the Enter key press globally goes here
+	        springSecurityLogin();
+	    }
+	});
+	
+	
+	// 스프링 시큐리티 로그인 호출
+	function springSecurityLogin(retryId, retryPw) {
+		
+		// 파라미터가 있을 때 : 중복로그인된 계정을 expire하고 로그인 시도일 때
+		if( typeof retryId != 'undefined' && typeof retryPw != 'undefined' ) {
+			document.getElementById("loginId").value = retryId;
+			document.getElementById("loginPwHidden").value = retryPw;
+			document.getElementById("confirmLogout").value = "true";
+			document.getElementById("form").submit();
+			return;
+		}
+		
+		// 파라미터로 넘어가는 비밀번호 암호화
+		let id = document.getElementById("loginId").value.trim();
+		document.getElementById("loginId").value = id;
+		let pw = document.getElementById("loginPw").value;
+		let token = getLoginInfo().sessionId;	// // 서버의 세션값을 불러온다. JSESSIONID
+		
+		//validation check
+		if( id == "" || pw == "" ) {
+			alertPopup( "아이디/비밀번호를 입력하세요." );
+			return;
+		}
+		
+		// ID 저장하기
+		if( document.querySelector("#useCookie").checked ) {
+			// 30 :: 30일 간 저장
+			setCookie("cookie-id", document.getElementById("loginId").value, 30);
+		} else {
+			deleteCookie("cookie-id");
+		}
+		
+		// password encode
+		document.getElementById("loginPwHidden").value = encodePassword(id, pw, token);
+		document.getElementById("form").submit();
+	}
+
+	
+	//쿠키값 set
+	function setCookie(cookieName, value, exdays){
+	    let exdate = new Date();
+	    exdate.setDate(exdate.getDate() + exdays);
+	    let cookieValue = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toGMTString());
+	    document.cookie = cookieName + "=" + cookieValue;
+	}
+	
+	//쿠키값 get
+	function getCookie(cookieName){
+	    cookieName = cookieName + "=";
+	    let cookieData = document.cookie;
+	    let start = cookieData.indexOf(cookieName);
+	    let cookieValue = '';
+	    if(start != -1){
+	        start += cookieName.length;
+	        let end = cookieData.indexOf(';', start);
+	        if(end == -1)end = cookieData.length;
+	        cookieValue = cookieData.substring(start, end);
+	    }
+	    return unescape(cookieValue); //unescape로 디코딩 후 값 리턴
+	}
+	
+	//쿠키값 delete
+	function deleteCookie(cookieName){
+	    let expireDate = new Date();
+	    expireDate.setDate(expireDate.getDate() -1);
+	    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+	}
+	
+	
+</script>
+<body>
+	<input type="hidden" id="token" value="" />
+	<input type="hidden" id="sha256pw" value="" />
+	<input type="hidden" id="sha256PWToken" value="" />
+ 	<div class="login_wrap">
+        <div class="login_area">
+            <div class="login_box">
+                <div class="login_tit"><span class="txt_bold">YUMI KOREA</span><br/>업무 관리</div>
+				<form action="/loginForm" method="post" id="form">
+	                <div class="input_wrap02">
+	                    <input value="" type="text" class="input_box" placeholder="아이디를 입력하세요." id="loginId" name="loginId" title="아이디" maxlength="30"/>
+	                    <input value="" type="password" class="input_box" placeholder="비밀번호를 입력하세요." id="loginPw" name="" title="비밀번호"  maxlength="30"/>
+	                    <input type="hidden" id="loginPwHidden" name="password"/>
+	                    <input type="hidden" id="confirmLogout" name="confirmLogout" value="false"/>
+	                </div>
+	                <span class="btn_login_blu"><a href="#" onclick="springSecurityLogin()" >로그인</a></span>
+				</form>
+                <div id="capsWarning" style="display:none;"><font color="red">* Caps Lock is on.</font></div>
+                <div class="noti_wrap" id="setCookie">
+                    <span class="left"><input type="checkbox" id="useCookie">
+	                    <label for="useCookie" style="width: auto;"><span></span>ID 저장하기</label>
+					</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

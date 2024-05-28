@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!-- 
+		HTML Info
+		1. file path	: /templates/admin/adminAuditDetail.html
+		2. project name	: yumi korea Admin
+		3. description	: 감사로그 > Admin 감사로그 > 상세(팝업)  
+ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div id="adminAuditDetail" class="modal-box-change" style="width:700px;">
+	<div class="modal_header"><a class="js-modal-close-change pop_close" style='cursor:pointer'><i class="la la-close"></i></a>
+		<p class="modal_tit" style="text-align: center;">Admin 감사로그 상세</p>
+	</div>
+	<div class="modal_body">
+		<table class="dt_tbl06">
+			<colgroup>
+				<col class="dt_tbl_width15">
+				<col class="dt_tbl_width35">
+				<col class="dt_tbl_width15">
+				<col class="dt_tbl_width35">
+			</colgroup>
+			<tbody>
+				<tr>
+					<td class="dt_tbl_col_th02">번호</td>
+					<td id="detWebAuditNo"></td>
+					<td class="dt_tbl_col_th02">일자</td>
+					<td id="detWebAuditRegDate"></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">요청 명령어</td>
+					<td id="detWebAuditCommand"></td>
+					<td class="dt_tbl_col_th02">결과</td>
+					<td id="detWebAuditResult"></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">관리자 ID</td>
+					<td id="detWebAuditRegId"></td>
+					<td class="dt_tbl_col_th02">관리자 이름</td>
+					<td id="detWebAuditRegName"></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">관리자 IP</td>
+					<td id="detWebAuditAdminIp"></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">요청 인자</td>
+					<td colspan="3">
+						<textarea class="tb_result textarea" cols="120" rows="4" style="resize:none;" maxlength="4000"
+							name="detWebAuditReqMsg" id="detWebAuditReqMsg" readonly>
+						</textarea>
+					</td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">오류 메시지</td>
+					<td colspan="3">
+						<textarea class="tb_result textarea" cols="120" rows="4" style="resize:none;" maxlength="4000" 
+							name="detWebAuditErrMsg" id="detWebAuditErrMsg" readonly>
+						</textarea>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal_footer">
+		<div class="modal_footer_box">
+			<!-- ~ button -->
+			<div class="pop_btn_cancle width_100 js-modal-close-change">
+				<a href="#">취소</a>
+			</div>
+			<!-- button ~ -->
+        </div>
+    </div>
+</div>
+</html>

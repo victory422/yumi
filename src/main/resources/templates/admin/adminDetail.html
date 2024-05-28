@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div id="updateAdmin" class="modal-box-change" style="width:800px;">
+	<div class="modal_header"><a class="js-modal-close-change pop_close" style='cursor:pointer'><i class="la la-close"></i></a>
+		<p class="modal_tit" style="text-align: center;">관리자 상세</p>
+	</div>
+	<div class="modal_body">
+		<table class="dt_tbl05">
+			<colgroup>
+				<col class="dt_tbl_width20">
+				<col class="dt_tbl_width30">
+				<col class="dt_tbl_width20">
+				<col class="dt_tbl_width30">
+			</colgroup>
+			<tbody>
+				<tr>
+					<td class="dt_tbl_col_th02">아이디</td>
+					<td id="detAdminId"></td>
+					<td class="dt_tbl_col_th02">이름</td>
+					<td id="detAdminName"></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">등록일</td>
+					<td id="detAdminRegDate"></td>
+					<td class="dt_tbl_col_th02">최근 접속일</td>
+					<td id="detAdminLastDate"></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">회사</td>
+					<td id="detAdminCompany"></td>
+					<td class="dt_tbl_col_th02">부서</td>
+					<td id="detAdminDept"></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">전화번호</td>
+					<td id="detAdminTelNo"></td>
+					<td class="dt_tbl_col_th02">이메일</td>
+					<td id="detAdminEmail"></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">권한</td>
+					<td id="detAdminAuth"></td>
+					<td class="dt_tbl_col_th02">화면권한</td>
+					<td id="detAdminAuthoritys"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal_footer">
+		<div class="modal_footer_box">
+			<!-- ~ button -->
+<!-- 			<div class="pop_btn_one width_100"> -->
+<!-- 				<a href="javascript:goRegistry();">확인</a> -->
+<!-- 			</div> -->
+			<div class="pop_btn_cancle width_100 js-modal-close-change">
+				<a href="#">닫기</a>
+			</div>
+			<!-- button ~ -->
+        </div>
+    </div>
+</div>
+<!-- Detail : E -->
+</html>

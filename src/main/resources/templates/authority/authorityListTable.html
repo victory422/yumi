@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!-- 
+		HTML Info
+		1. file path	: /templates/authority/authorityListTable.html
+		2. project name	: yumi korea Admin
+		3. description	: 환경설정 > 권한 관리 > 목록  
+ -->
+	<!-- Data Table : S -->
+	<div class="con_tb_area">
+		<table id="tableData" class="dt_tbl">
+			<colgroup>
+				<col style="width: 10%;">
+				<col style="width: 15%;">
+				<col style="width: 30%;">
+			</colgroup>
+			<thead>
+				<tr>
+	                <th>선택</th>
+					<th>권한ID</th>
+					<th>권한명</th>
+				</tr>
+			</thead>
+			<tbody id="authorityTable">
+			</tbody>
+		</table>
+		<!-- paging.html -->
+		<div id="page_authority">
+			<th:block th:include="common/paging_script"></th:block>
+		</div>
+	</div>
+	<!-- Data Table : E -->
+</html>

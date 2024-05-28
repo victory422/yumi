@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!-- 
+		HTML Info
+		1. file path	: /templates/announce/announceList.html
+		2. project name	: yumi korea Admin
+		3. description	: 공지사항  
+ -->
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!-- Header -->
+<th:block th:include="common/layout/header"></th:block>
+<!-- 프로그램별 script 추가 -->
+<script type="text/javascript" th:src="@{/js/views/settingMenuJs.js}"></script> 
+<!-- <script type="text/javascript" th:src="@{/js/views/announceJs.js}"></script>  -->
+<style>
+	#con_wrap > div > div > div:nth-child(1) > span.con_tit_nav > span, i {
+		cursor: pointer;
+	}
+</style>
+
+<!-- Content : S -->
+<div id="con_wrap"><div class="con_box_flex"><div class="flex_wrap">
+	<div style="padding-left: 30px;">
+     	<span class="con_tit_nav">
+			<i onclick="javascript:location.reload()" class="la la-home"></i>
+			<i class="la la-angle-right" style="margin-right: 5px;"></i>
+     		<span id="thisMenuName" class="con_tit_nav_st" style="font-size: 14px;">공지사항</span>
+     		<input type="hidden" id="thisMenuCode" value="home">
+     		<input type="hidden" id="thisMenuDepth" value="1">
+     	</span>
+		<span class="con_tit"></span>
+	</div><!-- con_tit_wrap -->
+	
+	<!-- List Area : S -->
+	<div class="con_sub_wrap"><div class="con_sub_all_box">
+		<!-- Title & Button : S -->
+		<div class="con_sub_tit_wrap">
+			<span class="con_sub_tit">목록</span>
+			<span class="btn_area_top">
+<!--				<a onclick="javascript:addMenu(this)" change-modal-id="menuDetail"><span class="width_100 btn_grn">등록</span></a>-->
+				<a change-modal-id="menuDetail" onclick="javascript:openRegistPopup()" button-type="POST"><span class="width_100 btn_grn">등록</span></a>
+				<a onclick="javascript:goUpdateSt()" id="updateBtn" button-type="PUT"><span class="width_100 btn_blu">상태 변경</span></a>
+				<a onclick="javascript:changeOrderStart(this)" id="changeOrderBtn" button-type="PUT"><span class="width_100 btn_blu">순서 변경</span></a>
+				<a onclick="javascript:goDelete()" id="deleteBtn" button-type="DELETE"><span class="width_100 btn_redd">삭제</span></a>
+				<a id="cancelBtn" style="display:none;"><span onclick="javascript:location.reload()" class="width_100 btn_redd">취소</span></a>
+			</span>
+		</div>
+		<!-- Title & Button : E -->
+		<!-- Data Table : S -->
+		<div class="con_tb_area"><div class="con_menu_tb_wrap">
+			<table id="tableData" class="dt_tbl">
+				<colgroup>
+					<col style="width:10%;">
+					<col style="width:15%;">
+					<col style="width:50%;">
+					<col style="width:15%;">
+					<col style="width:10%;">
+				</colgroup>
+				<thead>
+					<tr>
+						<th>No</th>
+						<th>작성자</th>
+						<th>제목</th>
+						<th>등록일</th>
+						<th>조회</th>
+					</tr>
+				</thead>
+				<tbody id="tbody">
+				</tbody>
+			</table>
+			<!-- paging.html -->
+			<div id="page_menuList">
+				<th:block th:include="common/paging_script"></th:block>
+			</div>
+		</div>
+<!--		<div style="text-align: center; margin-top:30px;">-->
+<!--			<a id="regist" style="display:none;">-->
+<!--				<span onclick="javascript:goRegister()" class="width_100 btn_grn">등록저장</span>-->
+<!--			</a>-->
+<!--		</div>-->
+		</div>
+		<!-- Data Table : E -->
+	</div></div>
+	<!-- List Area : E -->
+</div></div></div>
+<!-- Content : E -->
+<th:block th:include="setting/menuDetail"></th:block>
+<th:block th:include="common/layout/footer"></th:block>
+</html>

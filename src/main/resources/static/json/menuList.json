@@ -1,0 +1,138 @@
+[
+    {
+        "isGetChild": false,
+        "menuAttribute1": "la la-home",
+        "menuAttribute2": "home",
+        "menuCode": "dashboard",
+        "menuDepth": 1,
+        "menuName": "대시보드",
+        "menuOrder": 1,
+        "menuUpperCode": "home",
+        "menuUrl": "/dashboard",
+        "menuUse": "Y"
+    },
+    {
+        "isGetChild": false,
+        "menuAttribute1": "la la-user-secret",
+        "menuCode": "admin",
+        "menuDepth": 1,
+        "menuName": "관리자 관리",
+        "menuOrder": 2,
+        "menuUpperCode": "home",
+        "menuUrl": "/admin/list",
+        "menuUse": "Y"
+    },
+    {
+        "menuAttribute1": "la la-key",
+        "menuCode": "key",
+        "menuDepth": 1,
+        "menuName": "암호키 관리",
+        "menuOrder": 3,
+        "menuUpperCode": "home",
+        "menuUrl": "#",
+        "menuUse": "Y"
+    },
+    {
+        "menuCode": "policy",
+        "menuDepth": 2,
+        "menuName": "암호키 정책 관리",
+        "menuOrder": 1,
+        "menuUpperCode": "key",
+        "menuUrl": "/policy/list",
+        "menuUse": "Y"
+    },
+    {
+        "menuCode": "symmetrickey",
+        "menuDepth": 2,
+        "menuName": "대칭키 관리",
+        "menuOrder": 2,
+        "menuUpperCode": "key",
+        "menuUrl": "/symmetrickey/list",
+        "menuUse": "Y"
+    },
+    {
+        "menuCode": "keypair",
+        "menuDepth": 2,
+        "menuName": "비대칭키 관리",
+        "menuOrder": 3,
+        "menuUpperCode": "key",
+        "menuUrl": "/keypair/list",
+        "menuUse": "Y"
+    },
+    {
+        "menuCode": "splitkey",
+        "menuDepth": 2,
+        "menuName": "분할키 관리",
+        "menuOrder": 4,
+        "menuUpperCode": "key",
+        "menuUrl": "/splitkey/list",
+        "menuUse": "Y"
+    },
+    {
+        "isGetChild": true,
+        "menuCode": "cert",
+        "menuDepth": 2,
+        "menuName": "인증서 관리",
+        "menuOrder": 5,
+        "menuUpperCode": "key",
+        "menuUrl": "/cert/list",
+        "menuUse": "Y"
+    },
+    {
+        "menuAttribute1": "la la-list-ul",
+        "menuCode": "audit",
+        "menuDepth": 1,
+        "menuName": "감사 로그",
+        "menuOrder": 4,
+        "menuUpperCode": "home",
+        "menuUrl": "#",
+        "menuUse": "Y"
+    },
+    {
+        "menuCode": "audit_kms",
+        "menuDepth": 2,
+        "menuName": "KMS 감사로그",
+        "menuOrder": 1,
+        "menuUpperCode": "audit",
+        "menuUrl": "/audit/kms/list",
+        "menuUse": "Y"
+    },
+    {
+        "isGetChild": true,
+        "menuCode": "audit_admin",
+        "menuDepth": 2,
+        "menuName": "Admin 감사로그",
+        "menuOrder": 2,
+        "menuUpperCode": "audit",
+        "menuUrl": "/audit/admin/list",
+        "menuUse": "Y"
+    },
+    {
+        "menuAttribute1": "la la-cog",
+        "menuCode": "setting",
+        "menuDepth": 1,
+        "menuName": "환경 설정",
+        "menuOrder": 5,
+        "menuUpperCode": "home",
+        "menuUrl": "#",
+        "menuUse": "Y"
+    },
+    {
+        "menuCode": "setting_service",
+        "menuDepth": 2,
+        "menuName": "서비스 관리",
+        "menuOrder": 1,
+        "menuUpperCode": "setting",
+        "menuUrl": "/service/list",
+        "menuUse": "Y"
+    },
+    {
+        "menuCode": "setting_user",
+        "menuDepth": 2,
+        "menuName": "사용자 관리",
+        "menuOrder": 2,
+        "menuUpperCode": "setting",
+        "menuUrl": "/user/list",
+        "menuUse": "Y"
+ 	}
+]

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!-- 
+		HTML Info
+		1. file path	: /templates/admin/menuDetail.html
+		2. project name	: yumi korea Admin
+		3. description	: 감사로그 > Admin 감사로그 > 상세(팝업)  
+ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<style>
+	#instruction {
+		height: 10px;
+	    font-size: 12px;
+	    text-align: right !important;
+	    font-weight: 300;
+	}
+	
+</style>
+<div id="menuDetail" class="modal-box-change" style="width:700px;">
+	<div class="modal_header"><a class="js-modal-close-change pop_close" style='cursor:pointer'><i class="la la-close"></i></a>
+		<p class="modal_tit" style="text-align: center;">메뉴 상세</p>
+	</div>
+	<div class="modal_body">
+		<table class="dt_tbl06">
+			<colgroup>
+				<col class="dt_tbl_width15">
+				<col class="dt_tbl_width35">
+				<col class="dt_tbl_width15">
+				<col class="dt_tbl_width35">
+			</colgroup>
+				<tr>
+					<td class="dt_tbl_col_th02">분류코드<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td>
+						<input type="text" class="width_170 input_txt" id="details_menuCode" placeholder="분류코드" name="details" maxlength="50" disabled="disabled">
+					</td>
+					<td class="dt_tbl_col_th02">메뉴명<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td>
+						<input type="text" class="width_170 input_txt" id="details_menuName" placeholder="메뉴명" name="details" maxlength="16">
+					</td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">메뉴순서<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td>
+						<input type="text" class="width_170 input_txt" id="details_menuOrder" placeholder="메뉴순서" name="details" disabled="disabled">						
+					</td>
+					<td class="dt_tbl_col_th02">URL<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td>
+						<input type="text" class="width_170 input_txt" id="details_menuUrl" placeholder="URL" name="details" maxlength="100">
+					</td>
+				<tr>
+					<td id="instruction" colspan='4' class="dt_tbl_col_th02">※ URL은 화면권한과 연관성 있게 작성해야 합니다. 하위 메뉴가 있는 메뉴는 #으로 기입하세요.<br>ex) /{controllerMapping}/list => controllerMapping 부분을 체크하여 권한유무 확인</td>
+					
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">상위코드<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td>
+						<input type="text" class="width_170 input_txt" id="details_menuUpperCode" placeholder="상위코드" name="details" maxlength="50" disabled="disabled">
+						<input type="hidden" id="details_menuDepth" name="details">
+					</td>
+					<td class="dt_tbl_col_th02">사용여부<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td>
+						<select id="details_menuUse" name="details" class="styled" style='width:200px;'>
+							<option value="Y" selected="selected">Y</option>
+							<option value="N">N</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">속성(class)</td>
+					<td>
+						<input type="text" class="width_170 input_txt" id="details_menuAttribute1" placeholder="속성(class, depth 1 default la)" name="details" maxlength="200">
+					</td>
+				</tr>
+				<tr>
+					<table name="details_lowerDepth" class="dt_tbl">
+						<span name="details_lowerDepth" style="padding-top: 20px;display: block;">하위 메뉴</span>
+						<colgroup>
+							<col style="width:10%;">
+							<col style="width:20%;">
+							<col style="width:10%;">
+							<col style="width:25%;">
+							<col style="width:10%;">
+							<col style="width:20%;">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>분류코드</th>
+								<th>메뉴명</th>
+								<th>메뉴순서</th>
+								<th>URL</th>
+								<th>사용여부</th>
+								<th>속성(class)</th>
+							</tr>
+						</thead>
+						<tbody id="details_tbody">
+						</tbody>
+					</table>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal_footer">
+		<div class="modal_footer_box">
+			<!-- ~ button -->
+			<div class="pop_btn_one width_100">
+				<a id="detailRegist" href="#" onclick="goRegist()">등록</a>
+				<a id="detailUpdate" href="#" onclick="goUpdate()">수정</a>
+			</div>
+			<div class="pop_btn_one width_100" id="detailLowerMenus">
+				<a href="#" onclick="searchLowerMenus()">하위메뉴조회</a>
+			</div>
+			<div class="pop_btn_cancle width_100 js-modal-close-change">
+				<a href="#">취소</a>
+			</div>
+			<!-- button ~ -->
+        </div>
+    </div>
+</div>
+</html>

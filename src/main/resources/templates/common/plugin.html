@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<th:block th:fragment="plugin">
+		<!--Common CSS -->
+		<link th:href="@{/css/common.css}" rel="stylesheet" />
+		<link th:href="@{/css/jquery.datetimepicker.css}" rel="stylesheet" />
+		<link th:href="@{/css/jquery.datepicker.min.css}" rel="stylesheet" />
+		
+        <!--Common JS-->
+		<script type="text/javascript" th:src="@{/js/jquery/jquery-1.11.1.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/jquery/jquery-nav.js}"></script>
+		
+		<script type="text/javascript" th:src="@{/js/common.js}"></script>
+		<script type="text/javascript" th:src="@{/js/validator.js}"></script>
+		<script type="text/javascript" th:src="@{/js/sha256.js}"></script>
+		<script type="text/javascript" th:src="@{/js/core-min.js}"></script>
+		
+		<script type="text/javascript" th:src="@{/js/aes/aes.js}"></script>
+		<script type="text/javascript" th:src="@{/js/aes/AesUtil.js}"></script>
+		<script type="text/javascript" th:src="@{/js/aes/pbkdf2.js}"></script>
+		<script type="text/javascript" th:src="@{/js/np/Base64.js}"></script>
+		
+		<script type="text/javascript" th:src="@{/js/accodion.js}"></script>
+		<script type="text/javascript" th:src="@{/js/jquery/jquery-autoclear.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/jquery/jquery-select.js}"></script>
+		<script type="text/javascript" th:src="@{/js/jquery/jquery.tablesorter.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/jquery/jquery.datetimepicker.full.min.js}"></script>	<!-- 시간 달력 -->
+		<script type="text/javascript" th:src="@{/js/jquery/jquery-datepicker.js}"></script>				<!-- 연월일 달력 -->						
+		<script type="text/javascript" th:src="@{/js/jquery/jquery.form.min.js}"></script>
+		
+		<script type="text/javascript" th:src="@{/js/stringUtil.js}"></script>
+		<script type="text/javascript" th:src="@{/js/jquery/jquery.capslockstate.js}"></script>
+		
+		
+		
+		<script type="text/javascript" th:src="@{/js/messagePopup.js}"></script>
+		<script type="text/javascript" th:src="@{/js/globalize.js}"></script>
+		<script type="text/javascript" th:src="@{/js/jqxcore.js}"></script>
+		<script type="text/javascript" th:src="@{/js/jqxsortable.js}"></script>
+		
+		<script type="text/javascript" th:src="@{/js/views/commonJs.js}"></script>
+		<script type="text/javascript" th:src="@{/js/views/showMenuJs.js}"></script>
+
+	</th:block>
+</html>

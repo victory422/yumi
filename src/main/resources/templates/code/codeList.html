@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!-- 
+		HTML Info
+		1. file path	: /templates/user/userList.html
+		2. project name	: yumi korea Admin
+		3. description	: 환경 설정 > 사용자 관리 > 목록  
+ -->
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="common/layout/header"></th:block>
+<!-- 프로그램별 script 추가 -->
+<script type="text/javascript" th:src="@{/js/views/codeMasterJs.js}"></script> 
+<script type="text/javascript" th:src="@{/js/views/codeDetailJs.js}"></script> 
+
+<!-- Content : S -->
+<div id="con_wrap"><div class="con_box_flex"><div class="flex_wrap">
+	<!-- Search Area : S -->
+	<div class="con_search_area"><div class="con_menu_search_wrap03">
+		<div class="con_sub_tit_wrap">
+			<span class="con_sub_tit">검색</span>
+		</div>
+		<form th:action="@{/code/list}" method="get">
+		<div class="searchWrap">
+			<!-- 코드명 -->
+			<span class="sw_tit">코드명 </span> 
+			<input type="text" class="width_200 input_txt" placeholder="코드명을 입력하세요" 
+				name="srcMasterCode" id="srcMasterCode" > 
+			<div class="btn_area">
+				<button>
+					<span class="width_100 btn_blu"><i class="la la-search"></i>조회</span>
+				</button>
+			</div>	
+		</div>
+		</form>
+	</div>
+	</div>
+	<!-- Search Area : E -->
+	
+	<!-- List Area : S -->
+	<div class="con_sub_wrap"><div class="con_sub_all_box">
+			<!-- Title & Button : S -->
+			<div class="con_sub_tit_wrap">
+				<span class="con_sub_tit">목록</span>
+				<span class="btn_area_top">
+					<a change-modal-id="registerMasterCode"><span class="width_100 btn_grn">등록</span></a>
+					<a href="javascript:;" onclick="goDetail()"><span class="width_100 btn_blu">수정</span></a>
+					<a href="javascript:;" onclick="goDelete()" ><span class="width_100 pop_btn_red">삭제</span></a>
+				</span>
+			</div>
+			<!-- Title & Button : E -->
+			<!-- Data Table : S -->
+			<div class="con_tb_area" ><div class="con_menu_tb_wrap" style="height: 400px; overflow-y: auto;">
+				<table id="tableData" class="dt_tbl">
+					<colgroup>
+						<col style="width:5%;">
+						<col style="width:20%;">
+						<col style="width:10%;">
+						<col style="width:25%;">
+						<col style="width:20%;">
+						<col style="width:20%;">
+					</colgroup>
+					<thead>
+						<tr>
+			                <th class="list_chk_box">
+			                	<input type="checkbox" th:id="allCheckBox" th:onclick="allChecked()" />
+								<label th:for="allCheckBox"><span></span></label>
+							</th>
+			                <th>코드명</th>
+			                <th>길이</th>
+			                <th>설명</th>
+			                <th>등록일</th>
+			                <th>수정일</th>
+			            </tr>
+					</thead>
+					<tbody>
+						<th:block th:each="item : ${list}">
+							<tr th:onclick="openDetailList([[${item.masterCode}]])" style="cursor: pointer">
+								<td class="list_chk_box" onclick="event.cancelBubble=true">
+									<input type="checkbox" th:id="${item.masterCode + '_chk'}" name="chk" class="chk" th:onclick="chkClicked()" 
+															th:chkId="${item.masterCode}" th:chkLen="${item.length}" th:chkDesc="${item.description}"  />
+									<label th:for="${item.masterCode + '_chk'}"><span></span></label>
+								</td>
+								<td th:text = "${item.masterCode}"></td>
+								<td th:text = "${item.length}"></td>
+								<td th:text = "${item.description}"></td>
+								<td th:text = "${#dates.format(item.regDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+								<td th:text = "${#dates.format(item.modDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+							</tr>
+							<tr th:id="${item.masterCode + '_detail'}"  class="td_detail" th:chk="false"></tr>
+						</th:block>
+					</tbody>
+				</table>
+			</div>
+
+			
+
+			<!-- paging.html -->
+			<th:block th:include="common/paging"></th:block>
+		</div>
+		<!-- Data Table : E -->
+	</div>
+	<!-- List Area : E -->
+</div></div></div>
+<!-- Content : E -->
+
+<th:block th:include="code/mcodeRegistration"></th:block>
+<th:block th:include="code/mcodeDetail"></th:block>
+<th:block th:include="common/layout/footer"></th:block>
+
+</html>

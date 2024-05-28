@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div id="updateAuthority" class="modal-box-change">
+	<div class="modal_header"><a class="js-modal-close-change pop_close" style='cursor:pointer'><i class="la la-close"></i></a>
+		<p id="authority_modalTitle" class="modal_tit" style="text-align: center;">권한 상세</p>
+	</div>
+	<div class="modal_body">
+		<input type="hidden" id="new_authority_operation" value="update" />
+		<table class="dt_tbl03">
+			<colgroup>
+				<col class="dt_tbl_width30">
+				<col class="dt_tbl_width70">
+			</colgroup>
+			<tbody>
+				<tr>
+					<td class="dt_tbl_col_th02">권한ID
+						<span class="str_txt"><img src="/images/bullet02.png"></span>
+					</td>
+					<td><input type="text" class="width_300 input_txt" id="new_authorityId" value="" maxlength="12"/></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">권한명
+						<span class="str_txt"><img src="/images/bullet02.png"></span>
+					</td>
+					<td><input type="text" class="width_300 input_txt" id="new_authorityName" value="" maxlength="15"/></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">설명</td>
+					<td><textarea class="tb_result textarea width_300" id="new_authorityDesc" cols="20" rows="5" maxlength="65"></textarea></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal_footer">
+		<div class="modal_footer_box">
+			<!-- ~ button -->
+			<div class="pop_btn_one width_100">
+				<a id="authority_btn_save" href="javascript:;" onclick="goRegistAuthority()">수정</a>
+			</div>
+			<div class="pop_btn_cancle width_100 js-modal-close-change">
+				<a href="#">취소</a>
+			</div>
+			<!-- button ~ -->
+        </div>
+    </div>
+</div>
+</html>

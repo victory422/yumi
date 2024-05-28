@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!-- 
+		HTML Info
+		1. file path	: /templates/authority/authorityManagement.html
+		2. project name	: yumi korea Admin
+		3. description	: 권한관리 > 목록  
+ -->
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:include="common/layout/header"></th:block>
+<!-- 프로그램별 script 추가 -->
+<script type="text/javascript" th:src="@{/js/views/authorityManagementJs.js}"></script>
+
+<!-- Content : S -->
+<div id="con_wrap" style="display: inline-block;width: 30%;">
+	<div class="con_box_flex" style="min-width: auto;">
+		<th:block th:include="authority/authorityList"></th:block>
+	</div>
+</div>
+<div id="con_wrap" style="display: inline-block;width: 60%;">
+	<div class="con_box_flex" style="min-width: auto;">
+		<th:block th:include="authority/authorityUrlList"></th:block>
+	</div>
+</div>
+<!-- Content : E -->
+<!--<th:block th:include="policy/policyRegistration"></th:block>-->
+<!--<th:block th:include="policy/policyDetail"></th:block>-->
+<th:block th:include="common/layout/footer"></th:block>
+</html>

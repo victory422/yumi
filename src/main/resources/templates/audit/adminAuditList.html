@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!-- 
+		HTML Info
+		1. file path	: /templates/audit/adminAuditList.html
+		2. project name	: yumi korea Admin
+		3. description	: 감사로그 > Admin 감사로그 > 목록  
+ -->
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!-- Header -->
+<th:block th:include="common/layout/header"></th:block>
+<!-- 프로그램별 script 추가 -->
+<script type="text/javascript" th:src="@{/js/views/adminAuditJs.js}"></script> 
+<!-- Content : S -->
+<div id="con_wrap"><div class="con_box_flex"><div class="flex_wrap">
+	<!-- Search Area : S -->
+	<div class="con_search_area"><div class="con_menu_search_wrap03">
+		<div class="con_sub_tit_wrap">
+			<span class="con_sub_tit">검색</span>
+		</div>
+		<form th:action="@{/audit/admin/list}" method="get">
+		<div class="searchWrap">
+			<span class="sw_tit w70">관리자 ID </span> 
+			<input type="text" class="width_200 input_txt" placeholder="관리자 ID를 입력하세요" 
+				name="srcRegId" id="srcRegId" th:value="${srcKeyword.srcRegId}"> 
+			
+			<span class="sw_tit w70">관리자 IP </span> 
+			<input type="text" class="width_200 input_txt" placeholder="관리자 IP를 입력하세요" 
+				name="srcRegIp" id="srcRegIp" th:value="${srcKeyword.srcRegIp}"> 
+			
+			<span class="sw_tit w70">요청 명령어 </span> 
+			<select class="styled" name="srcCommand" id="srcCommand" style="width: 200px;">
+				<option value="all" class="selectBox">전체</option>
+				<th:block th:each="code : ${operationList}">
+					<option th:value="${code.code}" 
+						th:selected="${srcKeyword.srcCommand != null} ? ${#strings.equals(srcKeyword.srcCommand, code.code)} : false" th:text="${code.description}"></option>
+				</th:block>
+			</select>
+		</div>
+		<br />
+		<div class="searchWrap">
+			<span class="sw_tit w70">결과</span> 
+			<select class="styled" name="srcResult" id="srcResult" style="width: 200px;">
+				<option value="all" class="selectBox">전체</option>
+				<th:block th:each="code : ${resultSFList}">
+					<option th:value="${code.code}" 
+						th:selected="${srcKeyword.srcResult != null} ? ${#strings.equals(srcKeyword.srcResult, code.code)} : false" th:text="${code.description}"></option>
+				</th:block>
+			</select>
+			<span class="sw_tit w70">일자</span>
+			<div class="width_700 sch_tbl_con">
+				<span class="width_46p sch_tbl_input_date">
+					<input type="text" class="S_date_month" name="srcFrom" id="srcFrom" th:value="${srcKeyword.srcFrom}"
+						oninput="this.value = this.value.replace(/[^0-9-]/g, '');">
+                    <!-- datepicker opne button tag -->
+					<div class="btn-calender" ></div>
+				</span>
+				<span class="sch_tbl_input_date_txt range">~</span> 
+				<span class="width_46p sch_tbl_input_date">
+					<input type="text" class="E_date_month" name="srcTo" id="srcTo" th:value="${srcKeyword.srcTo}"
+						oninput="this.value = this.value.replace(/[^0-9-]/g, '');">
+                    <div class="btn-calender" ></div>
+				</span>
+			</div>
+			<div class="btn_area">
+				<button th:onclick="|return check()|">
+					<span class="width_100 btn_blu"><i class="la la-search"></i>조회</span>
+				</button>
+			</div>
+		</div>
+		</form>
+	</div></div>
+	<!-- Search Area : E -->
+	
+	<!-- List Area : S -->
+	<div class="con_sub_wrap"><div class="con_sub_all_box">
+		<!-- Title & Button : S -->
+		<div class="con_sub_tit_wrap">
+			<span class="con_sub_tit">목록</span>
+			<span class="btn_area_top">
+			</span>
+		</div>
+		<!-- Title & Button : E -->
+		<!-- Data Table : S -->
+		<div class="con_tb_area"><div class="con_menu_tb_wrap">
+			<table id="tableData" class="dt_tbl">
+				<colgroup>
+					<col style="width:10%;">
+					<col style="width:25%;">
+					<col style="width:10%;">
+					<col style="width:10%;">
+					<col style="width:10%;">
+					<col style="width:20%;">
+					<col style="width:15%;">
+				</colgroup>
+				<thead>
+					<tr>
+						<th>No.</th>
+						<th>요청 명령어</th>
+						<th>결과</th>
+						<th>관리자 ID</th>
+						<th>관리자 이름</th>
+						<th>관리자 IP</th>
+						<th>일자</th>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:each="item : ${list}">
+						<tr change-modal-id="adminAuditDetail" th:onclick="goAdminDetail([[${item}]])" >
+							<td th:text = "${item.id}"></td>
+<!-- 							<td th:text = "${item.url}"></td> -->
+							<td th:text = "${item.description}"></td>
+							<td th:text = "${item.result}"></td>
+							<td th:text = "${item.adminId}"></td>
+							<td th:text = "${item.adminName}"></td>
+							<td th:text = "${item.adminIp}"></td>
+							<td th:text = "${#dates.format(item.regDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+		</div>
+		<!-- paging.html -->
+	<th:block th:include="common/paging"></th:block>
+		</div>
+		<!-- Data Table : E -->
+	</div></div>
+	<!-- List Area : E -->
+</div></div></div>
+<!-- Content : E -->
+<th:block th:include="audit/adminAuditDetail"></th:block>
+<th:block th:include="common/layout/footer"></th:block>
+</html>

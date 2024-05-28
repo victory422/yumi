@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-KmsadminApplication<kmsadmin_new>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.dreamsecurity.magickms.KmsadminApplication",
+            "projectName": "kmsadmin_new",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

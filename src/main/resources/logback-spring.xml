@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 5분마다 설정 파일의 변경을 확인하고 변경시 갱신 -->
+<configuration scan='true' scanPeriod="300 seconds">
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>
+            	[MagicKMS-Admin]-%d{yyyy-MM-dd HH:mm:ss.SSS} [%3thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logs/MagicKMS-Admin.log</file>
+		<!-- 추후 상황 봐서 SizeBasedTriggeringPolicy로 변경 (파일당 크기 제한 가능)-->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/MagicKMS-Admin.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!-- keep 30 days worth of history -->
+			<maxHistory>30</maxHistory>
+<!-- 			<totalSizeCap>3GB</totalSizeCap> -->
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>
+            	[MagicKMS-Admin]-%d{yyyy-MM-dd HH:mm:ss.SSS} [%3thread] %-5level %logger{36} - %msg%n
+            </pattern>
+		</encoder>	
+	</appender>
+    <root level="info">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </root>
+
+	<!-- ### log4jdbc 옵션 설정 ### -->
+	<logger name="jdbc" level="OFF"/>
+	<!-- 커넥션 open close 이벤트를 로그로 남긴다. -->
+	<logger name="jdbc.connection" level="OFF"/>
+	<!-- SQL문만을 로그로 남기며, PreparedStatement일 경우 관련된 argument 값으로 대체된 SQL문이 보여진다. -->
+	<logger name="jdbc.sqlonly" level="OFF"/>
+	<!-- SQL문과 해당 SQL을 실행시키는데 수행된 시간 정보(milliseconds)를 포함한다. -->
+	<logger name="jdbc.sqltiming" level="DEBUG"/>
+	<!-- ResultSet을 제외한 모든 JDBC 호출 정보 (로그多) -->
+	<logger name="jdbc.audit" level="OFF"/>
+	<!-- ResultSet을 포함한 모든 JDBC 호출 정보 (로그多) -->
+	<logger name="jdbc.resultset" level="OFF"/>
+	<!-- SQL 결과 조회된 데이터의 table을 로그로 남긴다. -->
+	<logger name="jdbc.resultsettable" level="DEBUG"/>
+</configuration>

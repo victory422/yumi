@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- 
+		HTML Info
+		1. file path	: /templates/code/mcodeRegistration.html
+		2. project name	: yumi korea Admin
+		3. description	: 공통코드 관리 > 등록(팝업)  
+ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div id="registerMasterCode" class="modal-box-change">
+	<div class="modal_header"><a class="js-modal-close-change pop_close" style='cursor:pointer'><i class="la la-close"></i></a>
+		<p class="modal_tit" style="text-align: center;">마스터 코드 등록</p>
+	</div>
+	<div class="modal_body">
+		<table class="dt_tbl03">
+			<colgroup>
+				<col class="dt_tbl_width30">
+				<col class="dt_tbl_width70">
+			</colgroup>
+			<tbody>
+				<tr>
+					<td class="dt_tbl_col_th02">코드명<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td><input type="text" class="width_300 input_txt" name="regMcodeName" id="regMcodeName" placeholder="코드명을 입력하세요." /></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">길이<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td><input type="text" class="width_300 input_txt" name="regMcodeLen" id="regMcodeLen" placeholder="길이를 입력하세요." /></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">설명</td>
+					<td><textarea class="tb_result textarea" name="regMcodeDesc" id="regMcodeDesc" cols="20" rows="5" style="resize:none;" maxlength="4000" placeholder="설명을 입력하세요."></textarea></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal_footer">
+		<div class="modal_footer_box">
+			<!-- ~ button -->
+			<div class="pop_btn_one width_100">
+				<a href="javascript:goRegistry();">등록</a>
+			</div>
+			<div class="pop_btn_cancle width_100 js-modal-close-change">
+				<a href="#">취소</a>
+			</div>
+			<!-- button ~ -->
+        </div>
+    </div>
+</div>
+</html>

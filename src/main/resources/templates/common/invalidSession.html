@@ -1,0 +1,31 @@
+lo<!DOCTYPE html>
+<!-- 
+	HTML info
+	1. file path	: /templates/index.html
+	2. project name	: yumi korea Admin
+	3. description	: 로그인
+ -->
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="common/plugin"></th:block>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>::: YUMI KOREA Web Admin:::</title>
+</head>
+<script th:inline="javascript">
+	
+</script>
+<body>
+	<h1>invalidSession</h1>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    let session_info = /*[[${session_info}]]*/false;
+    if( session_info == null ) {
+		session_info = "세션이 만료되었습니다.";
+	}
+        alert(session_info);
+        location.href = "/logout";
+    /*]]>*/
+</script>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!-- 
+	HTML info
+	1. file path	: /templates/admin/adminList.html
+	2. project name	: yumi korea Admin
+	3. description	: 관리자 관리 > 목록  
+ -->
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="common/layout/header"></th:block>
+<!-- 프로그램별 script 추가 -->
+<script type="text/javascript" th:src="@{/js/views/adminJs.js}"></script>
+<script type="text/javascript" th:src="@{/js/views/adminAuthorityJs.js}"></script>
+ 
+<!-- Content : S -->
+<div id="con_wrap"><div class="con_box_flex"><div class="flex_wrap">
+	<!-- Info Area : S -->
+	<div class="con_sub_wrap"><div class="con_sub_all_box">
+		<!-- Title & Button : S -->
+		<div class="con_sub_tit_wrap">
+			<span class="con_sub_tit">현재 관리자</span>
+		</div>
+		<!-- Title & Button : E -->
+		<!-- Data Table : S -->
+		<div class="con_tb_area"><div class="con_menu_tb_wrap">	
+			<table id="tableData" class="dt_tbl">	
+				<colgroup>
+					<col style="width:15%;">
+					<col style="width:15%;">
+					<col style="width:20%;">
+					<col style="width:10%;">
+					<col style="width:20%;">
+					<col style="width:20%;">
+				</colgroup>
+				<thead>
+		            <tr>
+		                <th>ID</th>
+		                <th>이름</th>
+		                <th>이메일</th>
+		                <th>권한</th>
+		                <th>등록일자</th>
+		                <th>마지막 접속일</th>
+		            </tr>
+				</thead>
+				<tbody>         
+					<tr>
+						<td th:text = "${admin.adminId}"></td>
+						<td th:text = "${admin.name}"></td>
+						<td th:text = "${admin.email}"></td>
+						<td th:text = "${admin.authVal}"></td>
+						<td th:text = "${#dates.format(admin.regDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+						<td th:text = "${#dates.format(admin.lastDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div></div>
+		<!-- Data Table : E -->
+	</div></div>
+	<!-- Info Area : E -->
+	<br /> 
+	<!-- Search Area : S -->
+    <div class="con_search_area"><div class="con_menu_search_wrap03">
+		<div class="con_sub_tit_wrap">
+			<span class="con_sub_tit">검색</span>
+		</div>
+		<form th:action="@{/admin/list}" method="get">
+			<div class="searchWrap">
+				<span class="sw_tit w70">관리자 ID </span>
+				<input type="text" class="width_200 input_txt" placeholder="관리자 ID를 입력하세요" name="srcAdminId" id="srcAdminId" th:value="${srcAdminId}">
+				
+	      	    <span class="sw_tit w70">관리자명 </span>
+				<input type="text" class="width_200 input_txt" placeholder="관리자명을 입력하세요" name="srcAdminName" id="srcAdminName" th:value="${srcAdminName}">
+				<span style="color:red;">* 관리자명은 정확히 일치하는 경우에만 조회 가능</span>
+				<div class="btn_area">
+					<button>
+						<span class="width_100 btn_blu"><i class="la la-search"></i>조회</span>
+					</button>
+				</div>	
+			</div>
+		</form>
+    </div></div>
+    <!-- Search Area : E -->
+	<!-- List Area : S -->
+	<div class="con_sub_wrap"><div class="con_sub_all_box">
+		<!-- Title & Button : S -->
+		<div class="con_sub_tit_wrap">
+			<span class="con_sub_tit">목록</span>
+			<span class="btn_area_top">
+			    <a change-modal-id="registerAdmin"><span class="width_100 btn_grn">등록</span></a>	
+			    <a href="javascript:;" onclick="goUpdateSt()" button-type="PUT"><span class="width_100 btn_blu">잠김 해제</span></a>
+			    <a id="btn_registAuthority" onclick="openPopupAuthoritys(this)" button-type="POST">
+					<span class="width_100 btn_blu">화면권한설정</span>
+				</a>
+			    <a href="javascript:;" onclick="goDelete()" ><span class="width_100 pop_btn_red">삭제</span></a>	
+			</span>
+		</div>
+		<!-- Title & Button : E -->
+		<!-- Data Table : S -->
+		<div class="con_tb_area"><div class="con_menu_tb_wrap">	
+			<table id="tableData" class="dt_tbl">	
+				<colgroup>
+	                <col style="width:5%;">
+					<col style="width:10%;">
+					<col style="width:10%;">
+					<col style="width:20%;">
+					<col style="width:10%;">
+					<col style="width:20%;">
+					<col style="width:15%;">
+					<col style="width:10%;">
+				</colgroup>
+				<thead>
+		            <tr>
+		                <th class="list_chk_box">
+		                	<input type="checkbox" th:id="allCheckBox" th:onclick="allChecked()" />
+							<label th:for="allCheckBox"><span></span></label>
+						</th>
+		                <th>ID</th>
+		                <th>이름</th>
+		                <th>이메일</th>
+		                <th>권한</th>
+		                <th>등록일자</th>
+		                <th>마지막 접속일</th>
+		                <th>상태</th>
+		            </tr>
+				</thead>
+				<tbody>         
+					<th:block th:each="item : ${list}">
+						<tr change-modal-id="updateAdmin" th:onclick="goDetail([[${item}]])">
+							<td class="list_chk_box" onclick="event.cancelBubble=true">
+								<input type="checkbox" th:id="${item.adminId + '_chk'}" name="chk" class="chk" th:onclick="chkClicked()" 
+														th:chkId="${item.adminId}" th:chkVal="${item.userState}"  />
+								<label th:for="${item.adminId + '_chk'}"><span></span></label>
+							</td>
+							<td th:text = "${item.adminId}"></td>
+							<td th:text = "${item.name}"></td>
+							<td th:text = "${item.email}"></td>
+							<td th:text = "${item.authVal}"></td>
+							<td th:text = "${#dates.format(item.regDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+							<td th:text = "${#dates.format(item.lastDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+							<td th:text = "${item.userStateVal}"></td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+		</div>
+		<!-- paging.html -->
+		<th:block th:include="common/paging"></th:block>
+		</div>
+		<!-- Data Table : E -->
+	</div></div>
+	<!-- List Area : E -->
+</div></div></div>
+<!-- Content : E -->
+<th:block th:include="admin/adminRegistration"></th:block>
+<th:block th:include="admin/adminDetail"></th:block>
+<th:block th:include="admin/adminAuthorityDetail"></th:block>
+<th:block th:include="common/layout/footer"></th:block>
+</html>

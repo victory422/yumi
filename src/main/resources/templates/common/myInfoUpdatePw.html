@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!-- 
+		HTML Info
+		1. file path	: /templates/common/myInfoUpdatePw.html
+		2. project name	: yumi korea Admin
+		3. description	: 공통 > 로그인 > 비밀번호 변경  
+ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script th:inline="javascript">
+	window.addEventListener("keyup", function(e){
+	let styleMyInfo = document.getElementById("getMyInfo").getAttribute("style");
+	let styleMyInfoArr = [];
+	if( styleMyInfo != null && styleMyInfo != "" && styleMyInfo.indexOf(";") > -1 ) {
+		styleMyInfoArr = styleMyInfo.replaceAll(" ","").split(";");
+	}
+		// enter AND 팝업창 활성화
+		if ( styleMyInfoArr.indexOf("display:block") > -1 && e.keyCode == 13 ) {
+			document.querySelector("#getMyInfo > div.modal_footer > div > div.pop_btn_one.width_100 > a").click();
+		} 
+	});
+	
+</script>
+<!-- register pop up : S -->
+<div id="updateMyPw" class="modal-box-change">
+	<div class="modal_header"><a class="js-modal-close-change pop_close" style='cursor:pointer'><i class="la la-close"></i></a>
+		<p class="modal_tit" style="text-align: center;">비밀번호 변경</p>
+	</div>
+	<div class="modal_body">
+		<table class="dt_tbl03">
+			<colgroup>
+				<col class="dt_tbl_width30">
+				<col class="dt_tbl_width70">
+			</colgroup>
+			<tbody>
+				<tr>
+					<td class="dt_tbl_col_th02">현재 비밀번호<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td>
+						<input type="password" class="width_300 input_txt" name="password" id="password" />
+<!--						<input type="hidden" id="loginId" th:value="${#request.getSession().getAttribute('loginId')}" />-->
+<!--						<input type="hidden" id="sessionId" th:value="${#request.getSession().getId()}" />-->
+					</td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">새 비밀번호<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td>
+						<input type="password" class="width_300 input_txt" name="newPw" id="newPw" placeholder="숫자, 영문 대소문자, 특수문자의 조합(2가지 이상) 8~20자로 입력하세요." />
+					</td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">비밀번호 확인<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td><input type="password" class="width_300 input_txt" name="pwChk" id="pwChk" /></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal_footer">
+		<div class="modal_footer_box">
+			<!-- ~ button -->
+			<div class="pop_btn_one width_100" button-type="COMMON">
+				<a href="javascript:goUpdateMyPw();">변경</a>
+			</div>
+			<div class="pop_btn_cancle width_100 js-modal-close-change">
+				<a href="#">취소</a>
+			</div>
+			<!-- button ~ -->
+        </div>
+    </div>
+</div>
+</html>

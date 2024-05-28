@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script th:inline="javascript">
+	
+</script>
+
+
+
+<div id="getMyInfo" class="modal-box-change" style="width:800px;">
+	<div class="modal_header"><a class="js-modal-close-change pop_close" style='cursor:pointer'><i class="la la-close"></i></a>
+		<p class="modal_tit" style="text-align: center;">내 정보 보기</p>
+	</div>
+	<div class="modal_body">
+		<table class="dt_tbl06">
+			<colgroup>
+				<col class="dt_tbl_width20">
+				<col class="dt_tbl_width30">
+				<col class="dt_tbl_width20">
+				<col class="dt_tbl_width30">
+			</colgroup>
+			<tbody>
+				<tr>
+					<td class="dt_tbl_col_th02">아이디</td>
+					<td><input type="text" class="width_200 input_txt" id="myInfoId" name="myInfoId" readonly="readonly" /></td>
+					<td class="dt_tbl_col_th02">이름</td>
+					<td><input type="text" class="width_200 input_txt" id="myInfoName" name="myInfoName" /></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">등록일</td>
+					<td id="myInfoRegDate"></td>
+					<td class="dt_tbl_col_th02">최근 접속일</td>
+					<td id="myInfoLastDate"></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">회사</td>
+					<td><input type="text" class="width_200 input_txt" id="myInfoCompanyName" name="myInfoCompanyName" /></td>
+					<td class="dt_tbl_col_th02">부서</td>
+					<td><input type="text" class="width_200 input_txt" id="myInfoDeptName" name="myInfoDeptName" /></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">전화번호</td>
+					<td><input type="text" class="width_200 input_txt" id="myInfoTelNo" name="myInfoTelNo" /></td>
+					<td class="dt_tbl_col_th02">이메일</td>
+					<td><input type="text" class="width_200 input_txt" id="myInfoEmail" name="myInfoEmail" /></td>
+				</tr> 
+				<tr>
+					<td class="dt_tbl_col_th02">권한</td>
+					<td id="myInfoAuth"></td>
+					<td class="dt_tbl_col_th02">비밀번호</td>
+					<td><input type="password" class="width_200 input_txt" id="myInfoPassword" name="myInfoPassword" /></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">화면권한</td>
+					<td id="myInfoAuthScreen"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal_footer">
+		<div class="modal_footer_box">
+			<!-- ~ button -->
+			<div class="pop_btn_one width_100" button-type="COMMON">
+				<a href="javascript:goUpdateMyInfo();">수정</a>
+			</div>
+			<div class="pop_btn_cancle width_100 js-modal-close-change">
+				<a href="#">닫기</a>
+			</div>
+			<!-- button ~ -->
+        </div>
+    </div>
+</div>
+<!-- Detail : E -->
+
+</html>

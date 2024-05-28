@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<style>
+	.autocomplete {
+		overflow:scroll;
+		height:150px;
+	}
+	/* 현재 선택된 검색어 */
+	.autocomplete > div.active {
+	  background: #e0e5f6;
+	  color: #000;
+	}
+	
+	/* -------------------------- */
+	
+	.autocomplete > div {
+	  background: #f1f3f499;
+	  padding: .2rem .6rem;
+	}
+	
+	#url_title {
+		font-size: 16px;
+		margin-top : 20px;
+	}
+
+</style>
+
+<div id="registMenuUrl" class="modal-box-change">
+	<div class="modal_header"><a class="js-modal-close-change pop_close" style='cursor:pointer'><i class="la la-close"></i></a>
+		<p class="modal_tit" style="text-align: center;">화면권한 등록</p>
+		<p id="url_title"></p>
+	</div>
+	<div class="modal_body">
+		<table class="dt_tbl03">
+			<colgroup>
+				<col class="dt_tbl_width30">
+				<col class="dt_tbl_width70">
+			</colgroup>
+			<tbody>
+				<tr>
+					<td class="dt_tbl_col_th02">권한ID<span class="str_txt"><img src="/images/bullet02.png" /></span></td>
+					<td><input type="text" class="width_300 input_txt" name="registUrl" id="url_autorityId" readonly/></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">권한명</td>
+					<td><input type="text" class="width_300 input_txt" name="" id="url_autorityName" readonly/></td>
+				</tr>
+				<tr>
+					<td class="dt_tbl_col_th02">화면명<span class="str_txt"><img src="/images/bullet02.png" /></span>
+						<i class="la la-search" style="margin-left: 10px; font-size : 20px;"></i>
+					</td>
+					<td>
+						<input type="text" class="width_300 input_txt" name="registUrl" id="url_menuName" placeholder="검색어를 입력해주세요."/>
+						<input type="hidden" name="" id="url_menuCode"/>
+						<input type="hidden" name="" id="url_operation"/>
+						<div class="autocomplete" style="display: none;"></div>
+					</td>
+				</tr>
+<!--				<tr>-->
+<!--					<td class="dt_tbl_col_th02">메소드</td>-->
+<!--					<td>-->
+<!--						<select id="url_method" name="" class="styled" style='width:300px;'>-->
+<!--							<option value="GET" selected="selected">조회</option>-->
+<!--							<option value="POST">등록</option>-->
+<!--							<option value="PUT">수정</option>-->
+<!--							<option value="DELTE">삭제</option>-->
+<!--						</select>-->
+<!--						<input type="text" class="width_300 input_txt" name="" id="url_method"/>-->
+<!--					</td>-->
+<!--				</tr>-->
+			</tbody>
+		</table>
+	</div>
+	<div class="modal_footer">
+		<div class="modal_footer_box">
+			<!-- ~ button -->
+			<div class="pop_btn_one width_100">
+				<a href="javascript:;" onclick="registAuthorityUrl()">등록</a>
+			</div>
+			<div class="pop_btn_cancle width_100 js-modal-close-change">
+				<a href="#">취소</a>
+			</div>
+			<!-- button ~ -->
+        </div>
+    </div>
+</div>
+</html>

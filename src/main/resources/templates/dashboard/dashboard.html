@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<!-- 
+		HTML Info
+		1. file path	: /templates/audit/adminAuditList.html
+		2. project name	: yumi korea Admin
+		3. description	: 감사로그 > Admin 감사로그 > 목록  
+ -->
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!-- Header -->
+<th:block th:include="common/layout/header"></th:block>
+<!-- 프로그램별 script 추가 -->
+<script type="text/javascript" th:src="@{/js/charts.js}"></script>
+<script type="text/javascript" th:src="@{/js/views/dashboardJs.js}"></script>
+<script type="text/javascript" th:src="@{/js/highcharts.js}"></script>
+<script type="text/javascript" th:src="@{/js/highcharts-more.js}"></script>
+<script type="text/javascript" th:src="@{/js/solid-gauge.js}"></script>
+		
+<!-- Content : S -->
+<div id="con_wrap"><div id="con_area"><div class="con_box">
+	<div class="con_tit_wrap">
+     	<span class="con_tit_nav"><i class="la la-home"></i><i class="la la-angle-right"></i>
+     		대시보드<i class="la la-angle-right"></i><span class="con_tit_nav_st">대시보드</span>
+     	</span>
+		<span class="con_tit"></span>
+	</div><!-- con_tit_wrap -->
+
+	<!-- Content_state : S -->
+	<div class="con_sub_all_box">
+	<div class="con_state_area">
+		<div class="con_menu_state_wrap">
+			<div class="sch_tbl_box">
+				<div class="con_state01">
+					<div class="con_state01_body">
+						<span class="con_state_icon"><i class="la la-desktop"></i></span>
+						<span class="con_state_txt">
+							<span class="con_state_tit">Total</span>
+							<span id="Total" class="con_state_con">0</span>
+						</span>
+					</div>
+				</div><!-- con_state01 -->
+				<div class="con_state02">
+					<div class="con_state02_body">
+						<span class="con_state_icon"><i class="la la-key"></i></span>
+						<span class="con_state_txt">
+							<span class="con_state_tit">지점1</span>
+							<span id="Sy" class="con_state_con">0</span>
+						</span>
+					</div>
+				</div><!-- con_state02 -->
+				<div class="con_state03">
+					<div class="con_state03_body">
+						<span class="con_state_icon"><i class="la la-key"></i></span>
+						<span class="con_state_txt">
+							<span class="con_state_tit">지점2</span>
+							<span id="KeyPair" class="con_state_con">0</span>
+						</span>
+					</div>
+				</div><!-- con_state03 -->
+				<div class="con_state04">
+					<div class="con_state04_body">
+						<span class="con_state_icon"><i class="la la-certificate"></i></span>
+						<span class="con_state_txt">
+							<span class="con_state_tit">지점3</span>
+							<span id="Cert" class="con_state_con">300</span>
+						</span>
+					</div>
+				</div><!-- con_state04 -->
+			</div><!-- sch_tbl_box -->
+		</div><!-- con_menu_state_wrap -->
+	</div><!-- con_state_area -->
+	</div><!-- con_sub_all_box -->
+	
+	<div class="con_chart_box_wrap">
+			<!--box1-->
+			<div class="con_chart_box01">
+				<!--chart-->
+				<div class="chart_box" style="width: calc(100% - 1px);">
+					<div class="chart_box_body">
+						<div class="chart_tit">test</div>
+						<div class="chart_con_wrap">
+								<div id="line_chart" style="height:270px; padding-top: 20px; width: 100%;"></div>
+						</div>
+					</div>
+				</div>
+				<!--chart-->
+				<div class="height_5"></div>
+				<!--chart-->
+				<div class="chart_box" style="width: calc(100% - 1px);">
+					<div class="chart_box_body">
+						<div class="chart_tit">test<div class="btn_reset"><a href="#"><i class="las la-redo-alt"></i></a></div></div>
+						<div class="chart_con_wrap">
+							<div id="line_chart02" style="height:270px; padding-top: 20px; width: 100%;"></div>
+						</div><!-- chart_con_wrap -->
+					</div><!-- chart_box_body -->
+				</div>
+				<!--chart-->
+				<!--chart-->
+				<!--
+				<div class="chart_box width_45p" style="margin-left:-1px;">
+					<div class="chart_box_body">
+						<div class="chart_tit">사용자 메뉴별 요청 명령어 통계<div class="btn_reset"><a href="#"><i class="las la-redo-alt"></i></a></div></div>
+						<div class="chart_con_wrap"><div id="bar_chart" style="height:270px; padding-top: 20px;  width: 100%;"></div>
+					</div>
+				</div>
+				</div>
+				-->
+				<!--chart-->
+			</div>
+			<!--//box1-->
+			<!--box2-->
+			<div class="con_chart_box02">
+					<!--chart-->
+					<div class="chart_box">
+						<div class="chart_box_body">
+							<div class="chart_tit">서버 시간</div>
+							<div class="clock_wrap">
+								<div class="clock_time">
+									<div id="Date"></div>
+									<ul>
+										<li id="hours"> </li>
+									    <li id="point">:</li>
+									    <li id="min"> </li>
+									    <li id="point">:</li>
+									    <li id="sec"> </li>
+									</ul>
+								</div>
+							</div>
+
+
+
+
+						</div>
+					</div>
+					<!--chart-->
+					<div class="height_5"></div>
+					<!--chart-->
+					<div class="chart_box">
+						<div class="chart_box_body">
+							<div class="chart_tit">circle<div class="btn_reset"><a href="#"><i class="las la-redo-alt"></i></a></div></div>
+							<div class="chart_con_wrap">
+									<div id="circle_chart" style="height:270px; width: 100%;"></div>
+							</div>
+						</div>
+					</div>
+					<!--chart-->
+			</div>
+			<!--//box2-->
+			<!--box3-->
+			<div class="con_chart_box03">
+					<!--chart-->
+					<div class="chart_box">
+						<div class="chart_box_body_pie">
+							<div class="chart_tit">CPU % 이용률</div>
+
+												<div class="outer">
+													<div id="semi_donut_chart" class="chart-container"></div>
+												</div>
+						</div>
+					</div>
+					<!--chart-->
+					<div class="height_5"></div>
+					<!--chart-->
+					<div class="chart_box">
+						<div class="chart_box_body_pie">
+							<div class="chart_tit">메모리 % 이용률</div>
+
+												<div class="outer">
+													<div id="semi_donut_chart02" class="chart-container"></div>
+												</div>
+						</div>
+					</div>
+					<!--chart-->
+					<div class="height_5"></div>
+					<!--chart-->
+					<div class="chart_box">
+						<div class="chart_box_body_pie">
+							<div class="chart_tit">Driver % 이용률</div>
+
+												<div class="outer">
+													<div id="semi_donut_chart03" class="chart-container"></div>
+												</div>
+						</div>
+					</div>
+					<!--chart-->
+			</div>
+			<!--//box3-->
+		</div>
+</div></div></div>
+<th:block th:include="common/layout/footer"></th:block>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Content_paging : S -->
+<div class="pagenation_area_squar" >
+	<span class="con_btn_area_float_l">
+		<span class="total_view_list">Total 
+			<span class="txt_blue" th:text="${page.totalData}"></span>
+				<th:block th:if="${page.totalData != 0 }"> <!-- 글 개수가 0보다 크면 페이지 넘버 출력 -->		
+					<th:block th:if="${page.page != page.realEnd}">
+						( <span th:text=" ${page.totalData - (page.page * 10) + 1}"></span> ~ <span th:text="${page.totalData - ((page.page -1) * 10)}"></span>)
+					</th:block>
+					<th:block th:if="${page.page == page.realEnd}">
+						( 1 ~  <span th:text="${page.totalData - ((page.page -1) * 10)}"></span> )
+					</th:block>
+				</th:block>	
+		</span>
+	</span>
+	<div class="pagenation_squar">
+		<ul class="list_page">
+			<!-- 처음 -->
+			<th:block th:if="${page.prev}"><!-- 이전 페이지가 있는 경우 -->
+				<li>
+					<a th:onclick="|javascript:goList(1)|" class="btn_tb_back">
+						<i class="la la-angle-double-left"></i>
+					</a>
+				</li>
+			</th:block>
+			<th:block th:if="${!page.prev}"><!-- 이전 페이지가 없는 경우 -->
+				<li>
+<!--					<a href="#" class="btn_tb_back"><i class="la la-angle-double-left"></i></a>-->
+				</li>
+			</th:block>
+			<!-- 처음 -->
+			<!-- 이전 -->
+			<th:block th:if="${page.page > 1}">
+			
+				<li>
+					<a th:onclick="|javascript:goList(${page.page - 1})|" class="btn_tb_back">
+						<i class="la la-angle-left"></i>
+					</a>
+				</li>					
+			</th:block>
+			<th:block th:if="${page.page <= 1}">
+<!--				<li><a href="#" class="btn_tb_back"><i class="la la-angle-left"></i></a></li>-->
+			</th:block>
+			<!-- 이전 -->
+			<!-- page number -->
+			<th:if test="${page.totalData != 0 }">		
+				<th:block th:each="pageIdx : ${#numbers.sequence(page.startPage, page.endPage)}">
+					<li>
+			            <a th:if="${page.totalData > 0 && pageIdx != page.page}" th:onclick="|javascript:goList(${pageIdx})|" th:text="${pageIdx}" style='padding:0 0.5em'></a>
+						<a th:if="${pageIdx == page.page}" href="#" class="active" th:text="${pageIdx}" style='padding:0 0.5em'></a>
+		            </li>
+		        </th:block>	
+			</th:if>
+			
+			<!-- 다음 -->
+			<th:block th:if="${page.page < page.realEnd}">
+				<li>
+					<a th:onclick="|javascript:goList(${page.page+1})|" class="btn_tb_next">
+						<i class="la la-angle-right"></i>
+					</a>
+				</li>					
+			</th:block>
+			<th:block th:if="${page.page >= page.realEnd}">					
+<!--				<li><a href="#"><i class="la la-angle-right"></i></a></li>-->
+			</th:block>	
+			
+			<!-- 맨뒤 -->
+			<th:block th:if="${page.next}">					
+				<li>
+					<a th:onclick="|javascript:goList(${page.realEnd})|" class="btn_tb_next">
+						<i class="la la-angle-double-right"></i>
+					</a>
+				</li>
+			</th:block>
+			<th:block th:if="${!page.next}">
+<!--				<li><a href="#" style="padding:0px"><i class="la la-angle-double-right"></i></a></li>-->
+			</th:block>
+		</ul>
+	</div>
+	
+<!-- 	<span class="con_btn_area_float_r" style="margin-right:10px;"> -->
+<!--         <span class="tb_num_view"> -->
+<!--             <select name="rows" id="rows" style="width:80px;" th:onChange="|javascript:goList(${page.page})|" class="styled select"> -->
+<!-- 				<option value="10" th:selected="${page.rows} == 10">10개</option>								 -->
+<!-- 				<option value="20" th:selected="${page.rows} == 20">20개</option>								 -->
+<!-- 				<option value="30" th:selected="${page.rows} == 30">30개</option>								 -->
+<!-- 			</select> -->
+<!--         </span> -->
+<!--     </span> -->
+</div>
+
+<!-- Content_paging : E -->
+</html>

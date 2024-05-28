@@ -1,0 +1,68 @@
+@media \0screen{/*ie8 전용 css*/
+
+/*graph*/
+.fields_area{HEIGHT: 133px; WIDTH: 100px; }
+group{width:100%!important;}	
+
+v\:rect{behavior : url(#default#VML); padding: 0; border-bottom:4px solid #fff; border-right:4px solid #fff; background:#fff;}	
+v\:fill{background-color:#fff; border:2px solid #fff;}
+.chart_box{background: #fff; text-align:center; }
+#bar_chart, #area_chart, donut_chart, pie_chart{margin:0 auto;}	
+.chart_box div{border:1px solid #e2e2e2; text-align:center; background:url(../images/ie8_guide_txt.png) no-repeat center center;}	
+.graph_ingo_tb tr th{padding:8px 0 6px; border:1px solid #e2e2e2; text-align: center;}
+.graph_ingo_tb tr td{padding:8px 0 6px; border:1px solid #e2e2e2; text-align: center;}
+	
+	
+	
+/* Check-box */
+input[type='checkbox']{position: absolute; left:-99999px; }
+input[type='checkbox'] + label{background:#fff url(../images/check_box.png) no-repeat; padding-left:30px; }
+span.selected input[type='checkbox'] + label{background: url(../images/check_black.png) no-repeat; }
+input[type='checkbox'] + label > span{display: none;}
+.con_form_check_input { position:relative; float:left; height:22px; line-height:22px; margin: 0.5em;}
+	
+/* Radio-box */
+input[type='radio']{position: absolute; left:-99999px; }
+input[type='radio'] + label > span{display: none;}
+.con_form_radio_input { position:relative; float:left; width:70px; height:22px; line-height:22px; margin: 0.5em;}
+.con_form_radio_input.first { margin-right:17px; }
+.con_form_radio_input .iRadio { visibility:hidden; height:22px; line-height:0; }
+.con_form_radio_input .iLabel {  position:absolute; left:30px; top:0; visibility:visible; width:200px; cursor:pointer; }
+	
+.con_form_radio_input .designRadio { position:absolute; left:0; top:0; display:block; width:22px; height:22px; cursor:pointer; }
+.con_form_radio_input .designRadio .radio { display:block; width:22px; height:22px; background-image:url(../images/radio_box.png); background-repeat:no-repeat; }
+.con_form_radio_input .designRadio .radio.checked {display:block; width:22px; height:22px; background-image:url(../images/radio_black.png); background-repeat:no-repeat;}
+	
+/*header*/
+.hd_search_box{margin-left: -6px; }
+	
+/*layout*/
+.closeNav .con_box {position:relative;left: 70px; width: calc(100% - 70px); width:96%;}
+	
+.con_box {position:relative; left:250px; width:1170px;}
+	
+/* upload menu */
+.con_upload_holder {width:50%; float:left; border:2px dashed #e2e2e2; background: #eee url(../images/icon_upload_ie8.png) no-repeat center center; height: 150px; box-sizing: border-box; }
+
+.con_state01_body{padding:15px 30px; color:#fff;  background:#0f5acf url(../images/icon_data_ie8.png) no-repeat 90% center; background-size: 60px;  border-radius:3px;}
+.con_state02_body{padding:15px 30px; color:#fff; background:#1b76d3 url(../images/icon_cube_ie8.png) no-repeat 90% center; background-size: 66px; border-radius:3px;}
+.con_state03_body{padding:15px 30px; color:#fff; background:#119cd7 url(../images/icon_data02_ie8.png) no-repeat 90% center; background-size: 66px; border-radius:3px;}
+.con_state04_body{padding:15px 30px; color:#fff;  background:#3c4e98 url(../images/icon_folder_ie8.png) no-repeat 90% center; background-size: 66px; border-radius:3px;}
+
+		
+/* Data Table */
+.dt_tbl th span{padding-right:14px; }
+.certi_icon_fc{display: inline-block; text-align: center; width:1.5em; height:1.5em; font-size:20px; margin:0 0.4em; vertical-align:middle; 
+	background:#5473e8 url(../images/icon_fc_ie8.png) no-repeat center center; background-size:16px;  border-radius: 400px;}
+.certi_icon_eye{display: inline-block; text-align: center; width:1.5em; height:1.5em; font-size:20px; margin:0 0.4em; vertical-align:middle; 
+	background:#36c2cf url(../images/icon_eye_ie8.png) no-repeat center center; background-size:16px;  border-radius: 400px;}
+.certi_icon_mobile{display: inline-block; text-align: center; width:1.5em; height:1.5em; font-size:20px; margin:0 0.4em; vertical-align:middle; 
+	background:#fabc6c url(../images/icon_mobile_ie8.png) no-repeat center center; background-size:16px;  border-radius: 400px;}
+	
+/*캘린더*/
+.ui-datepicker-prev.ui-corner-all{background: url(../images/calendar_arrow_l_ie8.png) no-repeat;}
+.ui-datepicker-next.ui-corner-all{background: url(../images/calendar_arrow_r_ie8.png) no-repeat;}
+.ui-datepicker .ui-datepicker-next {position: absolute;top: 10px;width: 24px;height: 24px;}
+
+	
+}
