@@ -1,6 +1,6 @@
 package com.yumikorea.db.repository;
 
-import static com.yumikorea.db.entity.QDB.dB;
+import static com.yumikorea.db.entity.QDBManagementEntity.dBManagementEntity;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
@@ -35,7 +35,7 @@ public class DBRepositoryCustom {
 	public Long findAllCnt(DBRequestDto dto) {
 		return jpaQueryFactory
 			.select(Wildcard.count)
-			.from(dB)
+			.from(dBManagementEntity)
 			.where(whereBuilder(dto))
 			.fetchOne();
 	}
@@ -43,11 +43,11 @@ public class DBRepositoryCustom {
 	public List<DBRequestDto> findAll(DBRequestDto dto ) {
 		return jpaQueryFactory
 				.select(Projections.constructor(DBRequestDto.class
-						, dB.dbId
+						, dBManagementEntity.db_seq
 						, Expressions.stringTemplate("F_CODE_DETAIL({0}, {1}, {2})"
-													, EnumMasterCode.RESULT_SF.getMasterCodeValue(), dB.deptSeq, "DESCRIPTION").as("deptCode")
+													, EnumMasterCode.RESULT_SF.getMasterCodeValue(), dBManagementEntity.dept_code, "DESCRIPTION").as("deptCode")
 						))
-				.from(dB)
+				.from(dBManagementEntity)
 				.where(whereBuilder(dto))
 				.offset(dto.getOffset())
 				.limit(dto.getRows())
