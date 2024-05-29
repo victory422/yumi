@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!-- 
+		HTML Info
+		1. file path	: /templates/authority/authorityList.html
+		2. project name	: yumi korea Admin
+		3. description	: 환경설정 > DB 관리 > 목록  
+ -->
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!-- Header -->
+<!-- 프로그램별 script 추가 -->
+
+<style>
+	#con_wrap > div > div > div:nth-child(1) > span.con_tit_nav > span, i {
+		cursor: pointer;
+	}
+</style>
+
+<!-- Content : S -->
+	<div class="flex_wrap">
+		<!-- Search Area : S -->
+		<div class="con_search_area">
+			<div class="con_menu_search_wrap03">
+				<div class="con_sub_tit_wrap">
+					<span class="con_sub_tit">DB 검색</span>
+				</div>
+				<div class="searchWrap">
+					<span class="sw_tit w70">DB명</span> 
+					<input type="text" class="width_150 input_txt" placeholder="DB명을 입력하세요"  id="search_authorityName"> 
+						<div class="btn_area">
+						<button onclick="javascript:getListAuthority(1)">
+							<span class="width_100 btn_blu"><i class="la la-search"></i>조회</span>
+						</button>
+					</div> 
+				</div>
+			</div>
+		</div>
+	<!-- Search Area : E -->
+	<!-- List Area : S -->
+	<div class="con_sub_wrap"><div class="con_sub_all_box">
+		<!-- Title & Button : S -->
+		<div class="con_sub_tit_wrap">
+			<span class="con_sub_tit">DB목록</span>
+			<span class="btn_area_top">
+				<a change-modal-id="dbRegistration" onclick="openDBRegistPopup()" button-type="POST"><span class="width_100 btn_grn">등록</span></a>
+				<a onclick="javascript:deleteDB()" id="btn_deleteDB" button-type="DELETE"><span class="width_100 btn_redd">삭제</span></a>
+			</span>
+		</div>
+		<!-- Title & Button : E -->
+		<!-- Data Table : S -->
+			<div class="con_tb_area">
+				<table id="tableData" class="dt_tbl">
+					<colgroup>
+						<col style="width: 10%;">
+						<col style="width: 15%;">
+						<col style="width: 30%;">
+					</colgroup>
+					<thead>
+						<tr>
+			                <th>선택</th>
+							<th>DB명</th>
+							<th>번호</th>
+						</tr>
+					</thead>
+					<tbody id="authorityTable">
+					</tbody>
+				</table>
+				<!-- paging.html -->
+				<div id="page_authority">
+					<th:block th:include="common/paging_script"></th:block>
+				</div>
+			</div>
+		<!-- Data Table : E -->
+	</div></div>
+	<!-- List Area : E -->
+</div>
+<th:block th:include="db/dbRegistration"></th:block>
+</html>

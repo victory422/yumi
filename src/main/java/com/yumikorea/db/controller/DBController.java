@@ -1,6 +1,5 @@
 package com.yumikorea.db.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,23 +31,24 @@ public class DBController extends BasicController {
 	
 	private final DBService service;
 	
-	/* 목록 조회 */
+	/* 화면이동 */
 	@GetMapping( "/list" )
-	public String list( Model model, DBRequestDto dto, HttpServletRequest request ) {
+	public String goPage( Model model, DBRequestDto dto, HttpServletRequest request ) {
 		return "db/dbManagement";
+	}
+	
+	/* 목록 조회 */
+	@GetMapping( "/get-list" )
+	public ResponseEntity<Map<String, Object>> getList( Model model, DBRequestDto dto, HttpServletRequest request ) {
+		return ResponseEntity.ok(service.getList( dto ));
 	}
 	
 	/* 등록 */
 	@PostMapping("/register")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> register( @RequestBody DBRequestDto dto, HttpServletRequest request ) {
-		String token = (String) request.getSession().getAttribute( EAdminConstants.TOKEN.getValue() );
-		
-		Map<String, Object> map = new HashMap<>();
-		
-		map = service.register( dto, token );
-		
-		return ResponseEntity.ok(map);
+		String loginId = (String) request.getSession().getAttribute( EAdminConstants.LOGIN_ID.getValue() );
+		return ResponseEntity.ok(service.register( dto, loginId ));
 	}
 
 	/* 상태 변경 */

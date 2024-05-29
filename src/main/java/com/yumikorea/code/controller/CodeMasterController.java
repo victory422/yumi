@@ -36,7 +36,7 @@ public class CodeMasterController extends BasicController {
 		// MASTER CODE LIST
 		Map<String, Object> map = service.getList(requestDto);
 		model.addAttribute("list", map.get("list"));
-		model.addAttribute("page", map.get("page"));
+		model.addAttribute(EAdminConstants.PAGE.getValue(), map.get(EAdminConstants.PAGE.getValue()));
 
 		// SEARCH KEYWORD
 		model.addAttribute("srcMasterCode", requestDto.getSrcMasterCode());

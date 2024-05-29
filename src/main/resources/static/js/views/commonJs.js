@@ -698,6 +698,8 @@ let matchingCodeDetailToComponent = function( options ) {
 	if( selectBox.firstChild != null ) {
 		selectBox.firstChild.click();
 	}
+	
+	console.log(options.id);
 }
 
 

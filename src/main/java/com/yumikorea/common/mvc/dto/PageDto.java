@@ -1,6 +1,7 @@
 package com.yumikorea.common.mvc.dto;
 
 import com.google.gson.JsonObject;
+import com.yumikorea.common.enums.EAdminConstants;
 
 import lombok.Getter;
 
@@ -44,7 +45,7 @@ public class PageDto {
 	}
 	
 	public PageDto(JsonObject baseTable) {
-		this.page = baseTable.get("page").getAsInt();
+		this.page = baseTable.get(EAdminConstants.PAGE.getValue()).getAsInt();
 		this.rows = baseTable.get("rows").getAsInt();
 		this.totalData = baseTable.get("records").getAsInt();
 		this.realEnd = baseTable.get("total").getAsInt();

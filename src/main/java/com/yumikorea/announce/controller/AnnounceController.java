@@ -44,7 +44,7 @@ public class AnnounceController extends BasicController {
 		
 		Map<String, Object> map = service.getList( dto );
 		model.addAttribute( "list", map.get("list") );
-		model.addAttribute( "page", map.get("page") );
+		model.addAttribute( EAdminConstants.PAGE.getValue(), map.get(EAdminConstants.PAGE.getValue()) );
 		
 		return "announce/announceList";
 	}
@@ -53,11 +53,11 @@ public class AnnounceController extends BasicController {
 	@PostMapping("/register")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> register( @RequestBody AnnounceRequestDto dto, HttpServletRequest request ) {
-		String token = (String) request.getSession().getAttribute( EAdminConstants.TOKEN.getValue() );
+		String loginId = (String) request.getSession().getAttribute( EAdminConstants.LOGIN_ID.getValue() );
 		
 		Map<String, Object> map = new HashMap<>();
 		
-		map = service.register( dto, token );
+		map = service.register( dto, loginId );
 		
 		return ResponseEntity.ok(map);
 	}

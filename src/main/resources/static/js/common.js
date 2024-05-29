@@ -4,7 +4,12 @@ let cloneNodeSet = new Set();
 // 모달 팝업 open
 function fn_modalOpen(popareaName){
 	document.querySelectorAll("a[change-modal-id], tr[change-modal-id]").forEach(function(d){
-		cloneNodeSet.add(document.getElementById(d.getAttribute("change-modal-id")).id);
+		var modalId = d.getAttribute("change-modal-id");
+		if( document.getElementById(modalId) == null ) {
+			alertPopup("유효하지 않은 팝업 ID 입니다. <br/>ID : " + modalId);
+			return;
+		}
+		cloneNodeSet.add(modalId);
 	});
 	
 	$(document).on("click", "a[change-modal-id], tr[change-modal-id]", function(){

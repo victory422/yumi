@@ -66,8 +66,8 @@ public class WebInterceptor implements HandlerInterceptor {
 				return false;
 			}
 			
-			// 세션 유효성 체크
-			if( !this.sessionCheck(request.getSession().getId()) ) {
+			// 세션 유효성 체크	 false :: 테스트
+			if( false && !this.sessionCheck(request.getSession().getId()) ) {
 				logger.info("session invalid :: " + bestMatchingPattern);
 				request.getSession().invalidate();
 				if( request.getAttribute(EAdminConstants.SESSION_INFO.getValue()) == null ) {

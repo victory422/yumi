@@ -38,7 +38,7 @@ public class AnnounceService {
 		result.put("list", repositoryCustom.findAll(dto));
 
 		PageDto page = new PageDto(dto.getPage(), dto.getRows(), totCnt.intValue());
-		result.put("page", page);
+		result.put(EAdminConstants.PAGE.getValue(), page);
 
 		return result;
 	}

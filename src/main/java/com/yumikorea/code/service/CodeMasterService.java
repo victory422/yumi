@@ -43,7 +43,7 @@ public class CodeMasterService {
 			list = repositoryCustom.findAll(requestDto);
 		}
 
-		retMap.put("page", page);
+		retMap.put(EAdminConstants.PAGE.getValue(), page);
 		retMap.put("list", list);
 
 		return retMap;

@@ -2,10 +2,11 @@ package com.yumikorea.db.entity;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -19,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Builder
 @Entity
@@ -26,37 +28,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @DynamicUpdate
+@ToString
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "DB")
-public class DB {
-
-	@Id
+@Table(name = "DB_MANAGEMENT")
+public class DBManagementEntity {
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int db_seq;
 	private String admin_id; // not null
+	private String 	db_gender;
+	private String 	db_name;
+	private String 	db_reg_path;
 	@Convert(converter = AesConverter.class)
-	private String name; // not null , 24자 이내
-	private String password; // not null
-	
-	@Convert(converter = AesConverter.class)
-	private String e_mail;
-	
-	@Column(name = "reg_date")
-	private Date regDate;
-	private Date mod_date;
-	private Date last_date;
-	private Date before_last_date;
-	private String company_name; // 회사명 24자 이내
-	private String dept_name; // 부서명 24자 이내
-	
-	@Convert(converter = AesConverter.class)
-	private String tel_no;
-	
-	private String del_id;
-	private Date del_date;
-	private String enable_type;
-	private int auth;
-
-	// 01: 정상 02: 초기 03: 잠김
-	private String user_state;
-
-	private int access_count;
+	private String 	db_tel;
+	private String dept_code;
+	private String modify_id;
+	private Date modify_date;
 }

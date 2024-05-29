@@ -79,7 +79,7 @@ public class DashboardController {
 //		Map<String, Object> map = service.getList(dto);
 //		
 //		model.addAttribute( "list", map.get("list") );
-//		model.addAttribute( "page", map.get("page") );
+//		model.addAttribute( EAdminConstants.PAGE.getValue(), map.get(EAdminConstants.PAGE.getValue()) );
 //		
 //		model.addAttribute("srcKeyword", dto);
 //		

@@ -45,7 +45,7 @@ public class AdminService {
 		map.put("authorityList", authorityRepository.findAll());
 
 		PageDto page = new PageDto(dto.getPage(), dto.getRows(), totCnt.intValue());
-		map.put("page", page);
+		map.put(EAdminConstants.PAGE.getValue(), page);
 		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
 
 		return map;

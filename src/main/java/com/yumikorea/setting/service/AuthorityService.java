@@ -128,7 +128,7 @@ public class AuthorityService {
 		List<AuthorityMenuDto> list = authorityRepositoryCustom.findAllByCondition(dto);
 		PageDto page = new PageDto(dto.getPage(), dto.getRows(), totalCnt.intValue());
 		map.put("listAuthorityUser", list);
-		map.put("page", page);
+		map.put(EAdminConstants.PAGE.getValue(), page);
 		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
 		return map;
 	}

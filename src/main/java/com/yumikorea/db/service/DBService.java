@@ -1,11 +1,15 @@
 package com.yumikorea.db.service;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLDataException;
+import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.exception.SQLGrammarException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,22 +34,42 @@ public class DBService {
 
 	/* 목록 조회 */
 	public Map<String, Object> getList(DBRequestDto dto) {
-		Map<String, Object> result = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 
 		Long totCnt = repositoryCustom.findAllCnt(dto);
-		result.put("list", repositoryCustom.findAll(dto));
+		map.put("list", repositoryCustom.findAll(dto));
 
 		PageDto page = new PageDto(dto.getPage(), dto.getRows(), totCnt.intValue());
-		result.put("page", page);
+		map.put(EAdminConstants.PAGE.getValue(), page);
+		
+		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
+		map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.REGISTER_SUCCESS.getMessage());
 
-		return result;
+		return map;
 	}
 
 	/* 등록 */
-	public Map<String, Object> register(DBRequestDto dto, String token) {
-		Map<String, Object> map = new HashMap<>();
+	public Map<String, Object> register(DBRequestDto dto, String loginId) {
 		
-	
+		Map<String, Object> map = new HashMap<>();
+		Object res = null;
+		
+		dto.setModifyId(loginId);
+		dto.setModifyDate(new Date());
+		try {
+			res  = repository.save(dto.toSaveEntity());
+			
+		} catch (SQLGrammarException e) {
+			e.printStackTrace();
+			map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.FAIL.getValue());
+			map.put(EAdminConstants.MESSAGE.getValue(), e.getMessage());
+			return map;
+		}
+		
+		System.out.println("@@@@@test@@@@@@@");
+		System.out.println(res .toString());
+		System.out.println("@@@@@test@@@@@@@");
+		
 		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
 		map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.REGISTER_SUCCESS.getMessage());
 
@@ -59,7 +83,7 @@ public class DBService {
 		
 		int len = CommonUtil.getLength(idArr);
 		for (int i = 0; i < len; i++) {
-			repositoryCustom.deleteDBById(idArr[i], loginId);
+			repository.deleteById(null);
 		}
 		
 		if( len == 0 ) {
