@@ -645,6 +645,7 @@ options :: EX )
 		,code : "0"							// option :: 단건 조회할 때 사용
 		,valueCode : "description"	// option :: <option value="">에 필요한 값이 description인지, value01인지 등에 쓰임
 		,sufix : "L"						// option :: <option value="">에 추가로 코드를 붙일 때 사용 
+		,all: false							// option :: <option value="all"> 사용여부
 		,style: "width:290px;"
 	};
 */
@@ -657,8 +658,20 @@ let matchingCodeDetailToComponent = function( options ) {
 	
 	if( typeof options.class == "undefined" ||  options.class == "" ) options.class = "styled";
 	
-	while ( selectBox.hasChildNodes() ) {
-		selectBox.removeChild(selectBox.firstChild);
+	if ( isNull(options.all) ) options.all = false;
+	
+	if( !options.all ) {
+		while ( selectBox.hasChildNodes() ) {
+			selectBox.removeChild(selectBox.firstChild);
+		}
+	} else {
+		if( selectBox.querySelector("option[value=all]") == null ) {
+			var op = document.createElement("option");
+			op.setAttribute("value", "all");
+			op.setAttribute("class", "selectBox");
+			op.innerText = "전체";
+			selectBox.appendChild(op);
+		}
 	}
 	
 	let keys = Object.keys(options);
@@ -695,11 +708,10 @@ let matchingCodeDetailToComponent = function( options ) {
 	selectBox.previousElementSibling.remove();
 	$("select#"+ options.id).styledSelect();
 
-	if( selectBox.firstChild != null ) {
-		selectBox.firstChild.click();
+	if( selectBox.querySelector("option") != null ) {
+		selectBox.querySelector("option").click();
 	}
 	
-	console.log(options.id);
 }
 
 

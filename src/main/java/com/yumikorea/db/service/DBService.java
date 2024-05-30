@@ -1,10 +1,11 @@
 package com.yumikorea.db.service;
 
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLDataException;
-import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,12 +36,19 @@ public class DBService {
 	/* 목록 조회 */
 	public Map<String, Object> getList(DBRequestDto dto) {
 		Map<String, Object> map = new HashMap<>();
-
+		List<DBRequestDto> resultList = new ArrayList<>();
 		Long totCnt = repositoryCustom.findAllCnt(dto);
-		map.put("list", repositoryCustom.findAll(dto));
+		
+		
+		for(DBRequestDto result : repositoryCustom.findAll(dto) ) {
+			result.setModifyDateString(new SimpleDateFormat("yy/MM/dd").format(result.getModifyDate()));
+			resultList.add(result);
+		}
 
 		PageDto page = new PageDto(dto.getPage(), dto.getRows(), totCnt.intValue());
+		
 		map.put(EAdminConstants.PAGE.getValue(), page);
+		map.put(EAdminConstants.RESULT_MAP.getValue(), resultList);
 		
 		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
 		map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.REGISTER_SUCCESS.getMessage());
@@ -78,12 +86,11 @@ public class DBService {
 
 
 	/* 삭제 */
-	public Map<String, Object> delete(String[] idArr, String loginId ) {
+	public Map<String, Object> delete(List<DBRequestDto> dtoList, String loginId ) {
 		Map<String, Object> map = new HashMap<>();
-		
-		int len = CommonUtil.getLength(idArr);
+		int len = CommonUtil.getLength(dtoList);
 		for (int i = 0; i < len; i++) {
-			repository.deleteById(null);
+			repositoryCustom.deleteForUpdate(dtoList.get(i).getDbSeq());
 		}
 		
 		if( len == 0 ) {
@@ -93,42 +100,8 @@ public class DBService {
 			map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
 			map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.DELETE_SUCCESS.getMessage());
 		}
-		return map;
-	}
-
-	/* 상태 변경 */
-	public Map<String, Object> updateSt(String[] idArr) {
-		Map<String, Object> map = new HashMap<>();
-		String initPw = "";
-		// hmlee
-		// #1. 비밀번호 초기화
-		// #2. 관리자 상태 '초기'로 변경 & 초기 비밀번호 저장
-		int len = CommonUtil.getLength(idArr);
-		for (int i = 0; i < len; i++) {
-			// random password 생성
-				initPw = PwHashUtils.randomString(13);
-			try {
-				String newPw = PwHashUtils.getPwHash(initPw, idArr[i]);
-//				repositoryCustom.updateDBUserStateInit(idArr[i], newPw);
-			} catch (NoSuchAlgorithmException e) {
-				map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.FAIL.getValue());
-				map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.UPDATE_FAIL.getMessage());
-				e.printStackTrace();
-				return map;
-			}
-		}
-		
-		if( len == 0 ) {
-			map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.FAIL.getValue());
-			map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.NO_SEARCH_RESULT.getMessage());		
-		} else {
-			map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
-			map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.UPDATE_SUCCESS.getMessage());		
-			map.put(EAdminConstants.PASSWORD.getValue(), initPw);
-		}
 		
 		return map;
-		
 	}
 
 	/* 내 정보 보기 */

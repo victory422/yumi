@@ -31,28 +31,19 @@ import lombok.ToString;
 @DynamicUpdate
 @ToString
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "DB_MANAGEMENT")
-public class DBManagementEntity {
+@Table(name = "MEMO")
+public class MemoEntity {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "db_seq" , length = 1 , nullable = false )
+	@Column(name = "memo_seq" , length = 11 , nullable = false )
+	private int memoSeq;
+	@Column(name = "db_seq" , length = 11 , nullable = false )
 	private int dbSeq;
+	@Column(name = "memo_content" , length = 3000 , nullable = false )
+	private String 	memoContent;
+	@Column(name = "memo_result" , length = 5 , nullable = false )
+	private String 	memoResult;
 	@Column(name = "admin_id" , length = 24 , nullable = false )
-	private String adminId; // not null
-	@Column(name = "db_gender" , length = 1 , nullable = false )
-	private String 	dbGender;
-	@Column(name = "db_name" , length = 100 , nullable = false )
-	private String 	dbName;
-	@Column(name = "db_reg_path" , length = 5 , nullable = true )
-	private String 	dbRegPath;
-	@Convert(converter = AesConverter.class)
-	@Column(name = "db_tel" , length = 128 , nullable = false )
-	private String 	dbTel;
-	@Column(name = "dept_code" , length = 5 , nullable = true )
-	private String deptCode;
-	@Column(name = "modify_id" , length = 24 , nullable = true )
-	private String modifyId;
-	@Column(name = "modify_date" , length = 24 , nullable = true )
-	private Date modifyDate;
-	@Column(name = "use_yn" , length = 1 , nullable = false )
-	private String useYn;
+	private String 	adminId;
+	@Column(name = "meno_date" , nullable = false )
+	private Date menoDate;
 }

@@ -33,7 +33,7 @@ public class AuthorityUrlEntity extends BasicRequestDto implements Serializable 
 	@Column(name = "menu_code" , length = 100 , nullable = false , insertable = false, updatable = false)
 	private String menuCode;
 	@Id
-	@Column(name = "method" , length = 100 , nullable = true )
+	@Column(name = "method" , length = 20 , nullable = true )
 	private String method;
 	@Column(name = "modify_date" , nullable = true )
 	private Date modifyDate;

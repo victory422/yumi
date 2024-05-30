@@ -9,42 +9,50 @@
  
 /* 화면 로드 후 이벤트 */
 window.addEventListener("load", function(){
-//	setDBAttributeReadonly();
-
+	loadCommonCodes();
+	getDBList();
 	document.getElementById("dbTel").addEventListener("keyup", function() {
 		this.value = inputPhoneNumberValidation(this.value);
 	});
 });
 
 
- /* 권한 목록 조회 */
-let getListAuthority = function(pageNo) {
-	let authorityName = document.getElementById("search_authorityName").value;
-	var url = "/authority/getListAuthority?";
-	if( authorityName ) url += "authorityName=" + authorityName;
-	if( pageNo ) url += "&page=" + pageNo;
-	
-	$.ajax({
-		url: url,
-		type: "get",
-		contentType: "application/json; charset=UTF-8",
-		success: function( responseData ){
-			initData();
-			g_listAuthority = responseData.listAuthority;
-			makeAuthorityTable(document.getElementById("authorityTable"), responseData.listAuthority);
-			
-			// makePaging :: paging_script.html 내 정의 
-			// param : page Object, selector (div ID), function name 
-			makePaging(responseData.page1, "page_authority", "getListAuthority");
-			
-//			document.getElementById("btn_updateUrl").setAttribute("style","display:none;");
-			setDisplay(document.getElementById("btn_updateUrl"), false);
-//			document.getElementById("btn_registUrl").setAttribute("style","display:none;");
-			setDisplay(document.getElementById("btn_registUrl"), false);
-//			document.getElementById("btn_deleteUrl").setAttribute("style","display:none;");
-			setDisplay(document.getElementById("btn_deleteUrl"), false);
-		}
+let loadCommonCodes = function() {
+		// 공통코드 호출 : 성별
+	matchingCodeDetailToComponent({
+		id: "dbGender"
+		,masterCode : "GENDER"
+		,valueCode: "code"
 	});
+	
+	// 공통코드 호출 : 유입경로
+	matchingCodeDetailToComponent({
+		id: "dbRegPath"
+		,masterCode : "DB_REGIST_PATH"
+		,valueCode: "code"
+	});
+	
+	// 공통코드 호출 : 지점
+	matchingCodeDetailToComponent({
+		id: "deptCode"
+		,masterCode : "DEPARTMENT"
+		,valueCode: "code"
+	});
+	
+	// 공통코드 호출 : 컨택결과
+	matchingCodeDetailToComponent({
+		id: "setContactResult"
+		,masterCode : "CONTACT_RESULT"
+		,valueCode: "code"
+		,all: true
+	});	
+	// 공통코드 호출 : 컨택결과
+	matchingCodeDetailToComponent({
+		id: "srcContactResult"
+		,masterCode : "CONTACT_RESULT"
+		,valueCode: "code"
+		,all: true
+	});	
 }
 
 
@@ -56,28 +64,22 @@ let setDBAttributeReadonly = function() {
 
 /* DB등록 팝업 */
 let openDBRegistPopup = function() {
-	fn_modalOpen("dbRegistration");
 	document.getElementById("db_modalTitle").innerText = "DB 등록";
-	// 공통코드 호출 : 성별
-	matchingCodeDetailToComponent({
-		id: "dbGender"
-		,masterCode : "GENDER"
-		,valueCode: "code"
-	});
-	
-	// 공통코드 호출 : 지점
-	matchingCodeDetailToComponent({
-		id: "deptCode"
-		,masterCode : "DEPARTMENT"
-		,valueCode: "code"
-	});
-	
+	openDBPopup("POST");
+}
+
+
+let openDBPopup = function(method) {
+	if( typeof method == "undefined" ) {
+		method = "POST";
+	}
+	method = method.toUpperCase();
+	fn_modalOpen("dbRegistration");
 	
 	setSelectBoxValue("dbGender", "W");	// 여성 기본 선택
 	
-	
 	document.querySelectorAll("div[button-type]").forEach(function(d){
-		if( d.getAttribute("button-type") == "POST" ) {
+		if( d.getAttribute("button-type") == method ) {
 			d.removeAttribute("style");
 		} else {
 			d.setAttribute("style", "display:none;");
@@ -87,23 +89,27 @@ let openDBRegistPopup = function() {
 
 /* DB 목록조회 */
 let getDBList = function(page) {
-	if ( typeof page == "undefined" ) {
+	if ( isNull(page) ) {
 		page = 1;
 	}
-	let data = {};
-	document.getElementsByName("db_attr").forEach(function(d) {
-    	data[d.id] = d.value;
-	});
 	
-	let url = "/db/list";
+	let param = "";
+	
+	let srcDbName = document.getElementById("src_dbName").value;
+	
+	if( !isNull(srcDbName) ) {
+		param += "?srcDbName=" + srcDbName;
+	}
+	
+	let url = "/db/get-list" + param;
 	$.ajax({
 		url: url,
-		type: "post",
-		data: JSON.stringify(data),
+		type: "get",
 		contentType: "application/json; charset=UTF-8",
 		success: function( responseData ){
-			console.log(responseData);
-			alertPopup(responseData.message);
+			var tbody = document.getElementById("dbList");
+			makeTable(tbody, responseData.resultMap);
+			makePaging(responseData.page, "page_dbList", "getDBList");
 		}
 	});	
 }
@@ -122,15 +128,157 @@ let goRegistDB = function() {
 		data: JSON.stringify(data),
 		contentType: "application/json; charset=UTF-8",
 		success: function( responseData ){
-			console.log(responseData);
 			alertPopup(responseData.message);
+			getDBList();
 		}
 	});	
 }
-
-
 
 /* DB 수정 */
 let goUpdateDB = function() {
 	
 }
+
+/* DB 삭제 */
+let deleteDB = function() {
+	const query = 'input[name="chk"]:checked';
+    const selectedElements = document.querySelectorAll( query );
+    
+    // 체크박스 체크된 항목의 개수
+    if( selectedElements.length == 0 ) {
+		alertPopup( "삭제할 항목을 선택해주세요." );
+		return false;	
+	}
+
+	
+	let data = [];
+	
+	selectedElements.forEach(function(c) {
+		let db = {};
+		db.dbSeq = c.getAttribute("id").replace("chk_","");
+		data.push(db);
+	});
+	
+	let url = "/db/delete";
+	$.ajax({
+		url: url,
+		type: "delete",
+		data: JSON.stringify(data),
+		contentType: "application/json; charset=UTF-8",
+		success: function( responseData ){
+			alertPopup(responseData.message);
+			getDBList();
+		}
+	});	
+}
+
+
+let openDbDetail = function(db) {
+	document.getElementById("db_modalTitle").innerText = "DB 상세";
+	openDBPopup("PUT");
+	document.getElementsByName("db_attr").forEach(function(d) {
+    	for(key in db ) {
+	    	if( d.id == key ) {
+				if( d.tagName.toUpperCase() == "SELECT" ) {
+					setSelectBoxValue(d.id, db[key]);
+				} else {
+					d.value = db[key];
+				}
+			}
+		}
+	});
+	
+}
+
+let makeTable = function(tbody, dbList) {
+	while ( tbody.hasChildNodes() ) {
+		tbody.removeChild(tbody.firstChild);
+	}
+	
+	if( dbList != null ) {
+		dbList.forEach(function(db){
+			let tr = document.createElement("tr");
+			
+			let check = makeCheckBox(db.dbSeq, "chk_" );
+			let dbName = document.createElement("td");
+			let dbTel = document.createElement("td");
+			
+			var prefix = "td_";
+			dbName.id = prefix + "menuCode";
+			dbTel.id = prefix + "menuName";
+			
+			dbName.innerText = db.dbName;
+			dbTel.innerText = db.dbTel;
+			
+			tr.appendChild(check);
+			tr.setAttribute("change-modal-id", "dbRegistration");
+			tr.addEventListener("click",function(event){
+				openDbDetail(db);
+			});
+			
+			check.querySelector("input").addEventListener("click", function(event){
+				if( this.checked ) {
+					loadDBMemo(db);
+				}
+			});
+			
+			tr.appendChild(dbName);
+			tr.appendChild(dbTel);
+			tbody.appendChild(tr);
+		});
+	}
+}
+
+
+
+/* 체크박스 만들기 */
+let makeCheckBox = function( code , prefix ) {
+	let check = document.createElement("td");
+	check.setAttribute("class", "list_chk_box");
+	check.setAttribute("onclick", "javascript:event.cancelBubble=true;");
+	let checkBox = document.createElement("input");
+	checkBox.setAttribute("type","checkbox");
+	checkBox.setAttribute("class","chk");
+	checkBox.setAttribute("id", prefix + code );
+	checkBox.setAttribute("name","chk");
+	let label = document.createElement("label");
+	label.setAttribute("for", prefix + code );
+	let span = document.createElement("span");
+	label.appendChild(span);
+	check.appendChild(checkBox);
+	check.appendChild(label);
+	return check;
+}
+
+let loadDBMemo = function(db) {
+	document.getElementById("tbody_detail").querySelectorAll("tr > td").forEach(function(td){
+		var td_id = td.id.replace("td_","");
+		for(key in db) {
+			if( td_id == key ) {
+				td.innerText = db[key];
+			}
+		}
+	});
+	getContactResult();
+}
+
+let registMemo = function() {
+	let data = {
+		
+		
+		
+	};
+	
+	
+	let url = "/db/registMemo";
+	$.ajax({
+		url: url,
+		type: "post",
+		data: JSON.stringify(data),
+		contentType: "application/json; charset=UTF-8",
+		success: function( responseData ){
+			alertPopup(responseData.message);
+		}
+	});		
+}
+

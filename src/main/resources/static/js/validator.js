@@ -455,3 +455,14 @@ function inputDateValidation(inputValue) {
     // Update the input value with the formatted value
     return formattedValue;
 }
+
+
+function isNull(val) {
+	let result = false;
+	
+	if( typeof val == "undefined" || val == "" ) {
+		result = true;
+	}
+	
+	return result;
+}

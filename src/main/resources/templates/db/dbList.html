@@ -25,9 +25,9 @@
 				</div>
 				<div class="searchWrap">
 					<span class="sw_tit w70">DB명</span> 
-					<input type="text" class="width_150 input_txt" placeholder="DB명을 입력하세요"  id="search_authorityName"> 
+					<input type="text" class="width_150 input_txt" placeholder="DB명을 입력하세요"  id="src_dbName"> 
 						<div class="btn_area">
-						<button onclick="javascript:getListAuthority(1)">
+						<button onclick="javascript:getDBList(1)">
 							<span class="width_100 btn_blu"><i class="la la-search"></i>조회</span>
 						</button>
 					</div> 
@@ -61,11 +61,11 @@
 							<th>번호</th>
 						</tr>
 					</thead>
-					<tbody id="authorityTable">
+					<tbody id="dbList">
 					</tbody>
 				</table>
 				<!-- paging.html -->
-				<div id="page_authority">
+				<div id="page_dbList">
 					<th:block th:include="common/paging_script"></th:block>
 				</div>
 			</div>

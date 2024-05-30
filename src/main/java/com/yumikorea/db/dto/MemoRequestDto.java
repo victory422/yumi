@@ -15,7 +15,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-public class DBRequestDto extends BasicRequestDto {
+public class MemoRequestDto extends BasicRequestDto {
 	
 	private int dbSeq;
 	private String dbGender;

@@ -1,5 +1,6 @@
 package com.yumikorea.db.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yumikorea.common.enums.EAdminConstants;
@@ -51,13 +51,6 @@ public class DBController extends BasicController {
 		return ResponseEntity.ok(service.register( dto, loginId ));
 	}
 
-	/* 상태 변경 */
-	@PutMapping("/updateSt")
-	@ResponseBody
-	public ResponseEntity<Map<String,Object>> updateSt( @RequestParam( value = "arr" ) String [] arr ) {
-		return ResponseEntity.ok( service.updateSt( arr ) );
-	}
-	
 	/* 수정 */
 	@PutMapping("/update")
 	@ResponseBody
@@ -67,9 +60,9 @@ public class DBController extends BasicController {
 
 	/* 삭제 */
 	@DeleteMapping("/delete")
-	public ResponseEntity<Map<String, Object>> delete( @RequestParam( value = "arr" ) String [] arr , HttpServletRequest request ) {
+	public ResponseEntity<Map<String, Object>> delete( @RequestBody List<DBRequestDto> dtoList , HttpServletRequest request ) {
 		String loginId = (String) request.getSession().getAttribute(EAdminConstants.LOGIN_ID.getValue());
-		return new ResponseEntity<Map<String, Object>>( service.delete( arr , loginId ), HttpStatus.OK);
+		return new ResponseEntity<Map<String, Object>>( service.delete( dtoList , loginId ), HttpStatus.OK);
 	}
 	
 	

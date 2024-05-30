@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!-- 
+		HTML Info
+		1. file path	: /templates/authority/authorityList.html
+		2. project name	: yumi korea Admin
+		3. description	: 환경설정 > 권한 관리 > 목록  
+ -->
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!-- Header -->
+<!-- 프로그램별 script 추가 -->
+<style>
+	#con_wrap > div > div > div:nth-child(1) > span.con_tit_nav > span, i {
+		cursor: pointer;
+	}
+</style>
+
+<!-- Content : S -->
+	<div class="flex_wrap">
+		<!-- Search Area : S -->
+		<div class="con_search_area">
+			<div class="con_menu_search_wrap03">
+				<div class="con_sub_tit_wrap">
+					<span class="con_sub_tit">DB 상세</span>
+				</div>
+				<div class="con_sub_wrap">
+					<table id="tableData" class="dt_tbl">
+						<colgroup>
+							<col style="width: 14%;">
+							<col style="width: 14%;">
+							<col style="width: 14%;">
+							<col style="width: 14%;">
+							<col style="width: 14%;">
+							<col style="width: 14%;">
+							<col style="width: 14%;">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>이름</th>
+								<th>성별</th>
+								<th>번호</th>
+								<th>유입경로</th>
+								<th>담당자</th>
+								<th>지점</th>
+								<th>등록일</th>
+							</tr>
+						</thead>
+						<tbody id="tbody_detail">
+							<tr>
+								<td id="td_dbName"></td>
+								<td id="td_dbGenderName"></td>
+								<td id="td_dbTel"></td>
+								<td id="td_dbRegPathName"></td>
+								<td id="td_adminId"></td>
+								<td id="td_deptName"></td>
+								<td id="td_modifyDateString"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	<!-- Search Area : E -->
+	<!-- List Area : S -->
+	<div class="con_sub_wrap">
+		<div class="con_sub_all_box">
+		<!-- Title & Button : S -->
+			<div class="con_sub_tit_wrap">
+				<span class="con_sub_tit">메모 등록</span>
+				<textarea class="tb_result textarea" name="detMcodeDesc" id="detMcodeDesc" 	cols="10" rows="3" maxlength="3000" placeholder="메모를 입력하세요." style="resize:none;width:75%;"></textarea>
+				<div style="display: inline-block;">
+					<select class="styled" name="" id="setContactResult" style="width:10%;">
+						<option value="all">전체</option>
+					</select>
+				</div>
+				<span class="btn_area_top">
+					<a id="btn_registMemo" onclick="javascript:registMemo()" button-type="POST"><span class="width_100 btn_blu">등록</span></a>
+				</span>
+			</div>
+			<!-- Title & Button : E -->
+					<!-- Data Table : S -->
+			<div class="con_tb_area">
+				<!-- paging.html -->
+			</div>
+			<!-- Data Table : E -->
+			</div>
+	</div>
+	<div class="con_sub_wrap">
+		<div class="con_sub_all_box">
+			<div class="searchWrap">
+				<span class="con_sub_tit" style="width:10%;">메모 조회</span>
+				<span class="sw_tit w70">결과</span> 
+				<select class="styled" name="" id="srcContactResult" style="width:10%;">
+					<option value="all">전체</option>
+				</select>
+				<span class="sw_tit w70">일자</span>
+				<div class="width_400 sch_tbl_con">
+					<span class="width_45p sch_tbl_input_date">
+						<input type="text" class="S_date_month" name="srcFrom" id="srcFrom"
+							oninput="this.value = this.value.replace(/[^0-9-]/g, '');">
+	                    <!-- datepicker opne button tag -->
+						<div class="btn-calender" ></div>
+					</span>
+					<span class="sch_tbl_input_date_txt range" style="position: absolute;">~</span>
+					<span class="width_45p sch_tbl_input_date">
+						<input type="text" class="E_date_month" name="srcTo" id="srcTo"
+							oninput="this.value = this.value.replace(/[^0-9-]/g, '');">
+	                    <div class="btn-calender" ></div>
+					</span>
+				</div>
+				<div class="btn_area">
+					<button onclick="javascript:getListAuthorityUrl(1);">
+						<span class="width_100 btn_blu"><i class="la la-search"></i>조회</span>
+					</button>
+				</div> 
+			</div>
+<!-- 		메모리스트 S -->
+			<div class="con_sub_tit_wrap">
+				<p>test</p>
+			</div>
+<!-- 		메모리스트 E -->
+			
+		</div>
+	</div>
+	<!-- List Area : E -->
+</div>
+<th:block th:include="authority/authorityUrlDetail"></th:block>
+</html>
