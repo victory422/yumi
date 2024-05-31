@@ -36,9 +36,7 @@ public class DashboardController {
 	//사용자 메뉴별 요청 명령어 통계
 	@GetMapping("/dashboard/admin_request")
 	public ResponseEntity<Map<String, Object>> create( HttpServletRequest request ) {
-//		String token = (String) request.getSession().getAttribute( AdminConstants.TOKEN );
 //		
-//		Map<String, String> map = service.create(dto, token);
 		Map<String, Object> map = null;
 		return ResponseEntity.ok(map);
 	}

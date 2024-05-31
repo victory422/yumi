@@ -44,7 +44,6 @@ let loadCommonCodes = function() {
 		id: "setContactResult"
 		,masterCode : "CONTACT_RESULT"
 		,valueCode: "code"
-		,all: true
 	});	
 	// 공통코드 호출 : 컨택결과
 	matchingCodeDetailToComponent({
@@ -52,7 +51,7 @@ let loadCommonCodes = function() {
 		,masterCode : "CONTACT_RESULT"
 		,valueCode: "code"
 		,all: true
-	});	
+	});
 }
 
 
@@ -251,6 +250,7 @@ let makeCheckBox = function( code , prefix ) {
 }
 
 let loadDBMemo = function(db) {
+	clearChildNodes(document.getElementById("tbody_memoList"));
 	document.getElementById("tbody_detail").querySelectorAll("tr > td").forEach(function(td){
 		var td_id = td.id.replace("td_","");
 		for(key in db) {
@@ -259,16 +259,21 @@ let loadDBMemo = function(db) {
 			}
 		}
 	});
-	getContactResult();
+	getListMemo();
 }
 
 let registMemo = function() {
 	let data = {
-		
-		
-		
+		dbSeq :document.getElementById("tbody_detail").querySelector("#td_dbSeq").innerText
+		, adminId : document.getElementById("tbody_detail").querySelector("#td_adminId").innerText
+		, memoContent : document.getElementById("memoContent").value
+		, memoResult : document.getElementById("setContactResult").value
 	};
 	
+	if( isNull(data.memoContent.trim()) ) {
+		alertPopup("작성된 메모내용이 없습니다.");
+		return;
+	}
 	
 	let url = "/db/registMemo";
 	$.ajax({
@@ -278,7 +283,59 @@ let registMemo = function() {
 		contentType: "application/json; charset=UTF-8",
 		success: function( responseData ){
 			alertPopup(responseData.message);
+			if( responseData.status == "success" ) {
+				// 값 초기화
+				document.getElementById("memoContent").value = "";
+				setSelectBoxValue("memoContent", "C01");
+				getListMemo();
+			}
 		}
 	});		
 }
 
+let getListMemo = function() {
+	let data = {
+		srcDbSeq :document.getElementById("tbody_detail").querySelector("#td_dbSeq").innerText
+		, srcContactResult : document.getElementById("srcContactResult").value
+		, srcTo : document.getElementById("srcTo").value
+		, srcFrom : document.getElementById("srcFrom").value
+	};
+	
+	if( isNull(data.srcDbSeq) ) {
+		alertPopup("선택된 DB가 없습니다.");
+		return;
+	}
+	
+	let divArea = document.getElementById("tbody_memoList");
+	clearChildNodes(divArea);
+		
+	let url = "/db/get-list-memo" + toQueryString(data);
+	$.ajax({
+		url: url,
+		type: "get",
+		contentType: "application/json; charset=UTF-8",
+		success: function( responseData ){
+			if( responseData.status == "success" ) {
+				setMemoList(responseData.resultMap);
+			}
+		}
+	});
+}
+
+let setMemoList = function(memos) {
+	memos.forEach(function(memo){
+		var cloneTr = document.getElementById("tr_memoList").cloneNode(true);
+		cloneTr.removeAttribute("style");
+		cloneTr.querySelector("#td_memoRegistDate").innerText = memo.registDate;
+		cloneTr.querySelector("#td_memoAdminId").innerText = memo.adminId;
+		cloneTr.querySelector("#td_memoResult").innerText = memo.memoResult;
+		
+		var textAreaInTable = cloneTr.querySelector("#td_memoContent");
+		var textArea = document.createElement("textarea");
+		textArea.setAttribute("class", "tb_result textarea");
+		textArea.setAttribute("readonly", "readonly");
+		textArea.value = memo.memoContent;
+		textAreaInTable.appendChild(textArea);
+		document.getElementById("tbody_memoList").appendChild(cloneTr);
+	});
+}

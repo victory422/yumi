@@ -4,6 +4,8 @@ import static com.yumikorea.db.entity.QDBManagementEntity.dBManagementEntity;
 
 import java.util.List;
 
+import javax.persistence.criteria.Root;
+
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.BooleanBuilder;
@@ -31,6 +33,7 @@ public class DBRepositoryCustom {
 	}
 	
 	public List<DBRequestDto> findAll(DBRequestDto dto ) {
+
 		return jpaQueryFactory
 				.select(Projections.fields(DBRequestDto.class
 						, dBManagementEntity.dbSeq

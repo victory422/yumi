@@ -23,7 +23,7 @@ import com.yumikorea.admin.dto.AdminRequestDto;
 import com.yumikorea.admin.dto.AdminResponseDto;
 import com.yumikorea.admin.service.AdminService;
 import com.yumikorea.common.enums.EAdminConstants;
-import com.yumikorea.common.mvc.controller.BasicController;
+
 import com.yumikorea.setting.dto.request.AuthorityMenuDto;
 import com.yumikorea.setting.service.AuthorityService;
 
@@ -32,7 +32,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping( "/admin" )
-public class AdminController extends BasicController {
+public class AdminController {
 	
 	private final AdminService service;
 	private final AuthorityService authorityService;

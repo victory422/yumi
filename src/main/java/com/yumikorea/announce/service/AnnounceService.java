@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yumikorea.announce.dto.AnnounceRequestDto;
-import com.yumikorea.announce.dto.AnnounceResponseDto;
-import com.yumikorea.announce.entity.Announce;
 import com.yumikorea.announce.repository.AnnounceRepository;
 import com.yumikorea.announce.repository.AnnounceRepositoryCustom;
 import com.yumikorea.common.enums.EAdminConstants;
@@ -32,21 +30,25 @@ public class AnnounceService {
 
 	/* 목록 조회 */
 	public Map<String, Object> getList(AnnounceRequestDto dto) {
-		Map<String, Object> result = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 
 		Long totCnt = repositoryCustom.findAllCnt(dto);
-		result.put("list", repositoryCustom.findAll(dto));
+		map.put(EAdminConstants.RESULT_MAP.getValue(), repositoryCustom.findAll(dto));
 
 		PageDto page = new PageDto(dto.getPage(), dto.getRows(), totCnt.intValue());
-		result.put(EAdminConstants.PAGE.getValue(), page);
+		map.put(EAdminConstants.PAGE.getValue(), page);
 
-		return result;
+		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
+		map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.REGISTER_SUCCESS.getMessage());
+		
+		return map;
 	}
 
 	/* 등록 */
-	public Map<String, Object> register(AnnounceRequestDto dto, String token) {
+	public Map<String, Object> register(AnnounceRequestDto dto, String loginId) {
 		Map<String, Object> map = new HashMap<>();
-		
+		dto.setAdminId(loginId);
+		repository.save(dto.toSaveEntity());
 	
 		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
 		map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.REGISTER_SUCCESS.getMessage());
@@ -61,7 +63,7 @@ public class AnnounceService {
 		
 		int len = CommonUtil.getLength(idArr);
 		for (int i = 0; i < len; i++) {
-			repositoryCustom.deleteAnnounceById(idArr[i], loginId);
+//			repositoryCustom.deleteAnnounceById(idArr[i], loginId);
 		}
 		
 		if( len == 0 ) {

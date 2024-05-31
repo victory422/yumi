@@ -28,7 +28,6 @@ public enum EAdminConstants {
 	USER_NAME("userName"),
 	PASSWORD("password"),
 
-	TOKEN("token"),
 
 	// Quartz scheduler constant
 	JOB_INTERVAL("jobInterval"),

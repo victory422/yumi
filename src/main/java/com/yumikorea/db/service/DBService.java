@@ -1,8 +1,5 @@
 package com.yumikorea.db.service;
 
-import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,10 +15,12 @@ import com.yumikorea.common.enums.EAdminConstants;
 import com.yumikorea.common.enums.EAdminMessages;
 import com.yumikorea.common.mvc.dto.PageDto;
 import com.yumikorea.common.utils.CommonUtil;
-import com.yumikorea.common.utils.PwHashUtils;
 import com.yumikorea.db.dto.DBRequestDto;
+import com.yumikorea.db.dto.MemoRequestDto;
 import com.yumikorea.db.repository.DBRepository;
 import com.yumikorea.db.repository.DBRepositoryCustom;
+import com.yumikorea.db.repository.MemoRepository;
+import com.yumikorea.db.repository.MemoRepositoryCustom;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,20 +29,22 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DBService {
 
-	private final DBRepository repository;
-	private final DBRepositoryCustom repositoryCustom;
+	private final DBRepository dbRepository;
+	private final DBRepositoryCustom dbRepositoryCustom;
+	private final MemoRepository memoRepository;
+	private final MemoRepositoryCustom memoRepositoryCustom;
 
 	/* 목록 조회 */
 	public Map<String, Object> getList(DBRequestDto dto) {
 		Map<String, Object> map = new HashMap<>();
-		List<DBRequestDto> resultList = new ArrayList<>();
-		Long totCnt = repositoryCustom.findAllCnt(dto);
+//		List<DBRequestDto> resultList = new ArrayList<>();
+		Long totCnt = dbRepositoryCustom.findAllCnt(dto);
+		List<DBRequestDto> resultList = dbRepositoryCustom.findAll(dto);
 		
 		
-		for(DBRequestDto result : repositoryCustom.findAll(dto) ) {
-			result.setModifyDateString(new SimpleDateFormat("yy/MM/dd").format(result.getModifyDate()));
-			resultList.add(result);
-		}
+//		for(DBRequestDto result : repositoryCustom.findAll(dto) ) {
+//			result.setModifyDate(DateUtil.formatDate(result.getModifyDate()));
+//		}
 
 		PageDto page = new PageDto(dto.getPage(), dto.getRows(), totCnt.intValue());
 		
@@ -51,32 +52,24 @@ public class DBService {
 		map.put(EAdminConstants.RESULT_MAP.getValue(), resultList);
 		
 		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
-		map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.REGISTER_SUCCESS.getMessage());
 
 		return map;
 	}
 
 	/* 등록 */
-	public Map<String, Object> register(DBRequestDto dto, String loginId) {
+	public Map<String, Object> register(DBRequestDto dto ) {
 		
 		Map<String, Object> map = new HashMap<>();
-		Object res = null;
 		
-		dto.setModifyId(loginId);
 		dto.setModifyDate(new Date());
 		try {
-			res  = repository.save(dto.toSaveEntity());
-			
+			dbRepository.save(dto.toSaveEntity());
 		} catch (SQLGrammarException e) {
 			e.printStackTrace();
 			map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.FAIL.getValue());
 			map.put(EAdminConstants.MESSAGE.getValue(), e.getMessage());
 			return map;
 		}
-		
-		System.out.println("@@@@@test@@@@@@@");
-		System.out.println(res .toString());
-		System.out.println("@@@@@test@@@@@@@");
 		
 		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
 		map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.REGISTER_SUCCESS.getMessage());
@@ -90,7 +83,7 @@ public class DBService {
 		Map<String, Object> map = new HashMap<>();
 		int len = CommonUtil.getLength(dtoList);
 		for (int i = 0; i < len; i++) {
-			repositoryCustom.deleteForUpdate(dtoList.get(i).getDbSeq());
+			dbRepositoryCustom.deleteForUpdate(dtoList.get(i).getDbSeq());
 		}
 		
 		if( len == 0 ) {
@@ -161,4 +154,38 @@ public class DBService {
 		return map;
 	}
 
+	public Map<String, Object> registMemo(MemoRequestDto dto) {
+		Map<String, Object> map = new HashMap<>();
+		dto.setRegistDate(new Date());
+		try {
+			memoRepository.save(dto.toSaveEntity());
+		} catch (SQLGrammarException e) {
+			e.printStackTrace();
+			map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.FAIL.getValue());
+			map.put(EAdminConstants.MESSAGE.getValue(), e.getMessage());
+			return map;
+		}
+		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
+		map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.REGISTER_SUCCESS.getMessage());
+
+		return map;
+	}
+
+
+	/* 메모 목록 조회 */
+	public Map<String, Object> getListMemo(MemoRequestDto dto) {
+		Map<String, Object> map = new HashMap<>();
+		List<MemoRequestDto> resultList = memoRepositoryCustom.findAll(dto);
+		
+		
+//		for(DBRequestDto result : repositoryCustom.findAll(dto) ) {
+//			result.setModifyDate(DateUtil.formatDate(result.getModifyDate()));
+//		}
+
+		
+		map.put(EAdminConstants.RESULT_MAP.getValue(), resultList);
+		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
+
+		return map;
+	}
 }

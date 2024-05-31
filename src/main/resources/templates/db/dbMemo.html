@@ -25,6 +25,7 @@
 				<div class="con_sub_wrap">
 					<table id="tableData" class="dt_tbl">
 						<colgroup>
+							<col style="width: 0%; display: none;">
 							<col style="width: 14%;">
 							<col style="width: 14%;">
 							<col style="width: 14%;">
@@ -46,13 +47,14 @@
 						</thead>
 						<tbody id="tbody_detail">
 							<tr>
+								<td id="td_dbSeq" style="display:none;"></td>
 								<td id="td_dbName"></td>
 								<td id="td_dbGenderName"></td>
 								<td id="td_dbTel"></td>
 								<td id="td_dbRegPathName"></td>
 								<td id="td_adminId"></td>
 								<td id="td_deptName"></td>
-								<td id="td_modifyDateString"></td>
+								<td id="td_modifyDate"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -66,10 +68,9 @@
 		<!-- Title & Button : S -->
 			<div class="con_sub_tit_wrap">
 				<span class="con_sub_tit">메모 등록</span>
-				<textarea class="tb_result textarea" name="detMcodeDesc" id="detMcodeDesc" 	cols="10" rows="3" maxlength="3000" placeholder="메모를 입력하세요." style="resize:none;width:75%;"></textarea>
+				<textarea class="tb_result textarea" id="memoContent" cols="10" rows="3" maxlength="3000" placeholder="메모를 입력하세요." style="resize:none;width:75%;"></textarea>
 				<div style="display: inline-block;">
 					<select class="styled" name="" id="setContactResult" style="width:10%;">
-						<option value="all">전체</option>
 					</select>
 				</div>
 				<span class="btn_area_top">
@@ -108,14 +109,37 @@
 					</span>
 				</div>
 				<div class="btn_area">
-					<button onclick="javascript:getListAuthorityUrl(1);">
+					<button onclick="javascript:getListMemo();">
 						<span class="width_100 btn_blu"><i class="la la-search"></i>조회</span>
 					</button>
 				</div> 
 			</div>
 <!-- 		메모리스트 S -->
-			<div class="con_sub_tit_wrap">
-				<p>test</p>
+			<div class="con_sub_tit_wrap" style="margin-top: 10px; height:280px; overflow-x: scroll;">
+				<table id="memoListTable" class="dt_tbl">
+					<colgroup>
+						<col style="width: 10%;">
+						<col style="width: 10%;">
+						<col style="width: 70%;">
+						<col style="width: 10%;">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>작성일</th>
+							<th>작성자</th>
+							<th>내용</th>
+							<th>결과</th>
+						</tr>
+						<tr id="tr_memoList" style="display: none;">
+							<td id="td_memoRegistDate"></td>
+							<td id="td_memoAdminId"></td>
+							<td id="td_memoContent"></td>
+							<td id="td_memoResult"></td>
+						</tr>
+					</thead>
+					<tbody id="tbody_memoList">
+					</tbody>
+				</table>
 			</div>
 <!-- 		메모리스트 E -->
 			

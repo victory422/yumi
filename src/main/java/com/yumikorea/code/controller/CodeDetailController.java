@@ -20,14 +20,14 @@ import com.yumikorea.code.dto.request.CodeDetailRequestDto;
 import com.yumikorea.code.dto.response.CodeDetailResponseDto;
 import com.yumikorea.code.service.CodeDetailService;
 import com.yumikorea.common.enums.EAdminConstants;
-import com.yumikorea.common.mvc.controller.BasicController;
+
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/code/detail")
-public class CodeDetailController extends BasicController {
+public class CodeDetailController {
 
 	private final CodeDetailService service;
 	

@@ -54,18 +54,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	
 	@PostConstruct
 	public void init() {
-		if( false ) {
-//			this.excludePattern = this.setExUrlList(codeDetailService.getList("NOT_CHECK_URL"));
-//			this.requiredDateParamArray = codeDetailService.getListWithCodeDetail("GET_DATE_PARAM_URL");
-//			this.securityException = this.setExUrlList(codeDetailService.getList("SPRING_SECURITY_EXCEPTION_URL"));
-//			if ( this.excludePattern.size() == 0 ) setDefaultValues(0);
-//			if ( this.requiredDateParamArray.length == 0 ) setDefaultValues(1);
-//			if ( this.securityException.size() == 0 ) setDefaultValues(2);
-		} else {
-			setDefaultValues(0);
-			setDefaultValues(1);
-			setDefaultValues(2);
-		}
+		setDefaultValues(0);
+		setDefaultValues(1);
+		setDefaultValues(2);
 		
 		this.setResultCode();
 	}
@@ -76,13 +67,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		switch (key) {
 			case 0:
 				this.excludePattern = new ArrayList<>();
-//				this.excludePattern = new String[]{"/login","/error","/common","/js/","/css/","/fonts/","/images/"};
 				String[] temp1 = new String[]{"/login","/error","/common","/js/","/css/","/fonts/","/images/"};
 				for(String t : temp1 ) this.excludePattern.add(t); 
 				break;
 			case 1:
-				String[] temp2 = new String[]{"/policy/list","/symmetrickey/list","/keypair/list","/splitkey/list",
-						"/cert/list","/audit/admin/list","/service/list"};
+				String[] temp2 = new String[]{""};
 				this.requiredDateParamArray = new String[temp2.length];
 				for(int i = 0 ; i < temp2.length; i ++ )  {
 					this.requiredDateParamArray[i] = (temp2[i]);
@@ -90,7 +79,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				break;
 			case 2:
 				this.securityException = new ArrayList<>();
-//				this.securityException = new String[]{"/error/**","/login","/common/**","/js/**","/css/**","/fonts/**","/images/**"};
 				String[] temp3 = new String[]{"/error/**","/login","/common/**","/js/**","/css/**","/fonts/**","/images/**"};
 				for(String t : temp3 ) this.securityException.add(t);
 				break;
@@ -156,12 +144,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     
 	
 	/* list to array */
-	private ArrayList<String> setExUrlList(List<CodeDetailResponseDto> list) {
+	@SuppressWarnings("unused")
+	private ArrayList<String> listToArray(List<CodeDetailResponseDto> list) {
 		ArrayList<String> rst = new ArrayList<>();
     	for( int i = 0 ; i < list.size() ; i ++ ) {
     		rst.add(list.get(i).getValue01());
     	}
-    	
     	return rst;
 	}
 	

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yumikorea.common.enums.EAdminConstants;
-import com.yumikorea.common.mvc.controller.BasicController;
+
 import com.yumikorea.setting.dto.request.MenuDto;
 import com.yumikorea.setting.entity.MenuEntity;
 import com.yumikorea.setting.service.MenuService;
@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping( "/menu" )
-public class MenuController extends BasicController {
+public class MenuController {
 	
 	private final MenuService service;
 	

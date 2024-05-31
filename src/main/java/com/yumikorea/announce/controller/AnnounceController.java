@@ -19,17 +19,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yumikorea.announce.dto.AnnounceRequestDto;
-import com.yumikorea.announce.dto.AnnounceResponseDto;
 import com.yumikorea.announce.service.AnnounceService;
 import com.yumikorea.common.enums.EAdminConstants;
-import com.yumikorea.common.mvc.controller.BasicController;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping( "/announce" )
-public class AnnounceController extends BasicController {
+public class AnnounceController {
 	
 	private final AnnounceService service;
 	
@@ -38,9 +36,6 @@ public class AnnounceController extends BasicController {
 	public String list( Model model, AnnounceRequestDto dto, HttpServletRequest request ) {
 		
 		String sessionId = (String) request.getSession().getAttribute( EAdminConstants.LOGIN_ID.getValue() );
-		
-		AnnounceResponseDto responseDto = (AnnounceResponseDto) service.getDetail( sessionId ).get(EAdminConstants.RESULT_MAP.getValue());
-		model.addAttribute( "announce", responseDto );
 		
 		Map<String, Object> map = service.getList( dto );
 		model.addAttribute( "list", map.get("list") );

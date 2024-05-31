@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yumikorea.code.dto.request.CodeMasterRequestDto;
 import com.yumikorea.code.service.CodeMasterService;
 import com.yumikorea.common.enums.EAdminConstants;
-import com.yumikorea.common.mvc.controller.BasicController;
+
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/code")
-public class CodeMasterController extends BasicController {
+public class CodeMasterController {
 
 	private final CodeMasterService service;
 

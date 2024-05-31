@@ -3,8 +3,7 @@ package com.yumikorea.db.dto;
 import java.util.Date;
 
 import com.yumikorea.common.mvc.dto.BasicRequestDto;
-import com.yumikorea.common.utils.CommonUtil;
-import com.yumikorea.db.entity.DBManagementEntity;
+import com.yumikorea.db.entity.MemoEntity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,39 +16,27 @@ import lombok.ToString;
 @ToString
 public class MemoRequestDto extends BasicRequestDto {
 	
+	private int memoSeq;
 	private int dbSeq;
-	private String dbGender;
-	private String dbGenderName;
-	private String dbName;
-	private Date modifyDate;
-	private String modifyDateString;
-	private String dbRegPath;
-	private String dbRegPathName;
+	private String memoContent;
+	private String memoResult;
 	private String adminId;
-	private String dbTel;
-	private String deptCode;
-	private String deptName;
-	private String modifyId;
-	private String useYn;
+	private Date registDate;
 	
-	private String srcDbName;
-	private String srcDbTel;
-	private String srcAdminId;
-	
+	private String srcTo;
+	private String srcFrom;
+	private int srcDbSeq;
+	private String srcContactResult;
 	
 	// 등록 dto -> entity
-	public DBManagementEntity toSaveEntity() {
-		return DBManagementEntity.builder()
+	public MemoEntity toSaveEntity() {
+		return  MemoEntity.builder()
+				.memoSeq(memoSeq)
 				.dbSeq(dbSeq)
-				.dbName(dbName)
-				.dbGender(dbGender)
-				.modifyDate(modifyDate)
-				.dbRegPath(dbRegPath)
-				.dbTel(dbTel)
-				.adminId( adminId )
-				.deptCode( deptCode )
-				.modifyId( modifyId )
-				.useYn( CommonUtil.isNull(useYn) ? "Y" : useYn )
+				.memoContent(memoContent)
+				.memoResult(memoResult)
+				.adminId(adminId)
+				.registDate(registDate)
 				.build();
 	}
 	

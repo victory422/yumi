@@ -22,7 +22,6 @@ public class DBRequestDto extends BasicRequestDto {
 	private String dbGenderName;
 	private String dbName;
 	private Date modifyDate;
-	private String modifyDateString;
 	private String dbRegPath;
 	private String dbRegPathName;
 	private String adminId;

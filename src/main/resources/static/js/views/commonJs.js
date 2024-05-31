@@ -833,3 +833,22 @@ function toastOn(message){
         toastMessage.classList.remove('active');
     },1000);
 }
+
+
+function toQueryString(object) {
+	let result = "?";
+	let keys = Object.keys(object);
+	for( var i = 0 ; i < keys.length; i ++ ) {
+		if( object[keys[i]] != "" ) {
+			result += keys[i] + "=" + object[keys[i]] + "&";
+		}
+	}
+	return result.substring(0, result.lastIndexOf("&"));
+}
+
+
+function clearChildNodes(obj) {
+	while ( obj.hasChildNodes() ) {
+		obj.removeChild(obj.firstChild);
+	}
+}

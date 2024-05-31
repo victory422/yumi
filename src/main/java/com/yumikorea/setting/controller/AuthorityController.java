@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yumikorea.common.enums.EAdminConstants;
-import com.yumikorea.common.mvc.controller.BasicController;
+
 import com.yumikorea.setting.dto.request.AuthorityMenuDto;
 import com.yumikorea.setting.service.AuthorityService;
 
@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping( "/authority" )
-public class AuthorityController extends BasicController {
+public class AuthorityController {
 	
 	private final AuthorityService service;
 	

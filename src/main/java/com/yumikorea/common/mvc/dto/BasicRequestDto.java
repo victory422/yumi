@@ -1,8 +1,5 @@
 package com.yumikorea.common.mvc.dto;
 
-import java.util.Date;
-
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,9 +20,4 @@ public class BasicRequestDto {
 		this.rows = rows;
 	}
 	
-	public Date toDate(String eDate) {
-		String[] dates = eDate.split("-");
-		return new Date(eDate);
-//		return DateUtils.t(Integer.parseInt(dates[0]), Integer.parseInt(dates[1]), Integer.parseInt(dates[2]));
-	}
 }
