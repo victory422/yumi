@@ -24,9 +24,19 @@
 					<span class="con_sub_tit">DB 검색</span>
 				</div>
 				<div class="searchWrap">
+					<span class="sw_tit w70">지점</span> 
+					<select id="src_deptCode" class="styled" style='width:140px;' onChange="" title="지점">
+						<option value="all">전체</option>
+					</select>
+ 
 					<span class="sw_tit w70">DB명</span> 
-					<input type="text" class="width_150 input_txt" placeholder="DB명을 입력하세요"  id="src_dbName"> 
-						<div class="btn_area">
+					<input type="text" class="width_150 input_txt" placeholder="DB명을 입력하세요"  id="src_dbName">
+				</div>
+				<br>
+				<div class="searchWrap">
+					<span class="sw_tit w70">번호</span> 
+					<input type="text" class="width_150 input_txt" placeholder="DB명을 입력하세요"  id="src_dbTel">
+					<div class="btn_area">
 						<button onclick="javascript:getDBList(1)">
 							<span class="width_100 btn_blu"><i class="la la-search"></i>조회</span>
 						</button>

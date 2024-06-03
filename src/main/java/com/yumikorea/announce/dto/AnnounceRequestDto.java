@@ -25,6 +25,11 @@ public class AnnounceRequestDto extends BasicRequestDto {
 	private Date reigistDate;
 	private int announceCount;
 	private String deleteYn;
+
+	private String srcAdminId;
+	private String srcAnnounceObject;
+	private String srcFrom;
+	private String srcTo;
 	
 	// 등록 dto -> entity
 	public AnnounceEntity toSaveEntity() {

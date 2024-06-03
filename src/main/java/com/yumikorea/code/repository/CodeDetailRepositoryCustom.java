@@ -9,12 +9,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.yumikorea.code.dto.request.CodeDetailRequestDto;
-import com.yumikorea.code.dto.response.CodeDetailResponseDto;
-import com.yumikorea.common.enums.EAdminConstants;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.yumikorea.code.dto.request.CodeDetailRequestDto;
+import com.yumikorea.code.dto.response.CodeDetailResponseDto;
+import com.yumikorea.common.enums.EAdminConstants;
+import com.yumikorea.common.utils.CommonUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -44,7 +45,8 @@ public class CodeDetailRepositoryCustom {
 						))
 				.from(codeDetail)
 				.innerJoin(codeMaster).on(codeDetail.codeDetailPK.masterCode.eq(codeMaster.master_code))
-				.where(whereBuilder(masterCode))
+				.where(new BooleanBuilder().and(codeDetail.codeDetailPK.masterCode.eq(masterCode)))
+				.where(new BooleanBuilder().and(codeDetail.enable.eq(EAdminConstants.STR_Y.getValue())))
 				.orderBy(codeDetail.codeDetailPK.code.asc())
 				.fetch();
 	}
@@ -73,12 +75,6 @@ public class CodeDetailRepositoryCustom {
 				.fetch();
 	}
 	
-	private BooleanBuilder whereBuilder(String masterCode) {
-		BooleanBuilder whereBuilder = new BooleanBuilder();
-//		whereBuilder.and(codeDetail.enable.eq("Y"));
-		whereBuilder.and(codeDetail.codeDetailPK.masterCode.eq(masterCode));
-		return whereBuilder;
-	}
 	// master code, code, description value01~05
 	private BooleanBuilder whereBuilder(CodeDetailRequestDto dto) {
 		String srcMasterCode = dto.getSrcMasterCode();
@@ -89,40 +85,45 @@ public class CodeDetailRepositoryCustom {
 		String srcValue03 = dto.getSrcValue03();
 		String srcValue04 = dto.getSrcValue04();
 		String srcValue05 = dto.getSrcValue05();
+		String srcEnalbeString = dto.getSrcEnable();
 		
 		
 		BooleanBuilder whereBuilder = new BooleanBuilder();
-		whereBuilder.and(codeDetail.enable.eq(EAdminConstants.STR_Y.getValue()));
+		if( !CommonUtil.isNull(srcEnalbeString) ) {
+			 if ( !srcEnalbeString.equals(EAdminConstants.ALL.getValue()) ) {
+				 whereBuilder.and(codeDetail.enable.eq(srcEnalbeString));
+			 }
+		}
 		
-		if( srcMasterCode != null && !srcMasterCode.equals("")) {
+		if( !CommonUtil.isNull(srcMasterCode) ) {
 			whereBuilder.and(codeDetail.codeDetailPK.masterCode.eq(srcMasterCode));
 		}
 		
-		if( srcCode != null && !srcCode.equals("")) {
+		if( !CommonUtil.isNull(srcCode) ) {
 			whereBuilder.and(codeDetail.codeDetailPK.code.eq(srcCode));
 		}
 		
-		if( srcDescription != null && !srcDescription.equals("")) {
+		if( !CommonUtil.isNull(srcDescription) ) {
 			whereBuilder.and(codeDetail.description.eq(srcDescription));
 		}
 		
-		if( srcValue01 != null && !srcValue01.equals("")) {
+		if( !CommonUtil.isNull(srcValue01) ) {
 			whereBuilder.and(codeDetail.value_01.eq(srcValue01));
 		}
 		
-		if( srcValue02 != null && !srcValue02.equals("")) {
+		if( !CommonUtil.isNull(srcValue02) ) {
 			whereBuilder.and(codeDetail.value_02.eq(srcValue02));
 		}
 		
-		if( srcValue03 != null && !srcValue03.equals("")) {
+		if( !CommonUtil.isNull(srcValue03) ) {
 			whereBuilder.and(codeDetail.value_03.eq(srcValue03));
 		}
 		
-		if( srcValue04 != null && !srcValue04.equals("")) {
+		if( !CommonUtil.isNull(srcValue04) ) {
 			whereBuilder.and(codeDetail.value_04.eq(srcValue04));
 		}
 		
-		if( srcValue05 != null && !srcValue05.equals("")) {
+		if( !CommonUtil.isNull(srcValue05) ) {
 			whereBuilder.and(codeDetail.value_05.eq(srcValue05));
 		}
 		

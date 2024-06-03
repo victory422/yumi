@@ -628,7 +628,9 @@ let getCodeDetail = function(val1, val2) {
 		async:false,
 		contentType: "application/json; charset=UTF-8",
 		success: function( responseData ){
-			rst = responseData;
+			if( responseData.status == "success" ) {
+				rst = responseData.resultMap;
+			}
 		}
 	});
 	

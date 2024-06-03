@@ -17,7 +17,6 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.yumikorea.code.dto.request.CodeDetailRequestDto;
 import com.yumikorea.code.dto.response.CodeDetailResponseDto;
 import com.yumikorea.code.enums.EnumMasterCode;
 import com.yumikorea.code.service.CodeDetailService;
@@ -72,10 +71,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				break;
 			case 1:
 				String[] temp2 = new String[]{""};
-				this.requiredDateParamArray = new String[temp2.length];
-				for(int i = 0 ; i < temp2.length; i ++ )  {
-					this.requiredDateParamArray[i] = (temp2[i]);
-				}
+				this.requiredDateParamArray = temp2;
 				break;
 			case 2:
 				this.securityException = new ArrayList<>();
@@ -154,9 +150,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	}
 	
 	private void setResultCode() {
-		CodeDetailRequestDto resultSFDto = new CodeDetailRequestDto();
-		resultSFDto.setSrcMasterCode(EnumMasterCode.RESULT_SF.getMasterCodeValue());
-		List<CodeDetailResponseDto> resultSFList = codeDetailService.getList(resultSFDto);
+		// 결과값 공통코드
+		List<CodeDetailResponseDto> resultSFList =  codeDetailService.getList(EnumMasterCode.RESULT_SF.getMasterCodeValue());
 		
 		for( int i = 0 ; i < resultSFList.size(); i++ ) {
 			CodeDetailResponseDto dto = resultSFList.get(i);

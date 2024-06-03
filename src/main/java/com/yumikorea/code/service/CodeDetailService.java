@@ -41,6 +41,7 @@ public class CodeDetailService {
 	public String[] getListWithCodeDetail( String masterCode ) {
     	CodeDetailRequestDto codeDto = new CodeDetailRequestDto();
     	codeDto.setSrcMasterCode(masterCode);
+    	codeDto.setSrcEnable(EAdminConstants.STR_Y.getValue());
     	List<String> rstList = repositoryCustom.getListWithCodeDetail(codeDto);
     	
     	String[] rst = new String[rstList.size()];

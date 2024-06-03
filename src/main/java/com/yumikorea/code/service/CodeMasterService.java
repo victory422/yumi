@@ -42,9 +42,9 @@ public class CodeMasterService {
 		if (totCnt > 0) {
 			list = repositoryCustom.findAll(requestDto);
 		}
-
+		retMap.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
 		retMap.put(EAdminConstants.PAGE.getValue(), page);
-		retMap.put("list", list);
+		retMap.put(EAdminConstants.RESULT_MAP.getValue(), list);
 
 		return retMap;
 	}

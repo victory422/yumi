@@ -4,8 +4,6 @@ import static com.yumikorea.db.entity.QDBManagementEntity.dBManagementEntity;
 
 import java.util.List;
 
-import javax.persistence.criteria.Root;
-
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.BooleanBuilder;
@@ -14,6 +12,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yumikorea.code.enums.EnumMasterCode;
+import com.yumikorea.common.enums.EAdminConstants;
 import com.yumikorea.common.utils.CommonUtil;
 import com.yumikorea.db.dto.DBRequestDto;
 
@@ -75,6 +74,16 @@ public class DBRepositoryCustom {
 		
 		if( !CommonUtil.isNull(dto.getSrcDbName()) ) {
 			whereBuilder.and(dBManagementEntity.dbName.like("%" + dto.getSrcDbName() + "%"));
+		}
+		
+		if( !CommonUtil.isNull(dto.getSrcDbTel()) ) {
+			whereBuilder.and(dBManagementEntity.dbTel.eq(dto.getSrcDbTel()));
+		}
+		
+		if( !CommonUtil.isNull(dto.getSrcDeptCode()) ) {
+			if( !dto.getSrcDeptCode().equalsIgnoreCase(EAdminConstants.ALL.getValue()) ) {
+				whereBuilder.and(dBManagementEntity.deptCode.eq(dto.getSrcDeptCode()));
+			}
 		}
 		
 		if( CommonUtil.isNull(dto.getUseYn()) ) {

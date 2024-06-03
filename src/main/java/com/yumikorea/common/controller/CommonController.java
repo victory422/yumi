@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yumikorea.admin.dto.AdminRequestDto;
 import com.yumikorea.admin.service.AdminService;
 import com.yumikorea.code.dto.request.CodeDetailRequestDto;
-import com.yumikorea.code.dto.response.CodeDetailResponseDto;
 import com.yumikorea.code.service.CodeDetailService;
 import com.yumikorea.common.enums.EAdminConstants;
 import com.yumikorea.common.utils.CommonUtil;
@@ -122,9 +121,12 @@ public class CommonController {
 	
 	/* commonJs.js에서 호출된 화면 권한 목록 */
 	@GetMapping( "/getCodeDetail" )
-	public ResponseEntity<List<CodeDetailResponseDto>> getCodeDetail( HttpServletRequest request, CodeDetailRequestDto codeDetailDto) {
-		return ResponseEntity.ok(codeDetailService.getList(codeDetailDto));
+	public ResponseEntity<Map<String,Object>> getCodeDetail( HttpServletRequest request, CodeDetailRequestDto codeDetailDto) {
+		Map<String,Object> map = new HashMap<>();
+		codeDetailDto.setSrcEnable(EAdminConstants.STR_Y.getValue());
+		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
+		map.put(EAdminConstants.RESULT_MAP.getValue(), codeDetailService.getList(codeDetailDto));
+		return ResponseEntity.ok(map);
 	}
-	
 	
 }

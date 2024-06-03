@@ -212,10 +212,11 @@ function openDetailList(masterCode){
 			url 		: '/code/detail/list',
 			data 		: { masterCode : masterCode },
 			traditional : true,
-			success		: function(data){
+			success		: function(responseData){
+				let codeDetailList = responseData.resultMap;
 				var tbody = '<tbody>';
-				for( var i=0; i<data.length; i++ ){
-					var codeDetail = data[i];
+				for( var i=0; i<codeDetailList.length; i++ ){
+					var codeDetail = codeDetailList[i];
 					var uuid = "_" + masterCode + "_" + codeDetail.code;
 					var dCodeUpdateFunc = 'goDCodeUpdate("'  + masterCode + '", "' +codeDetail.code+ '")';
 					var dCodeUpdateStatusFunc = 'goDCodeUpdateState("' + masterCode +'", "' + codeDetail.code + '", "' + codeDetail.enable + '")';

@@ -1,6 +1,6 @@
 package com.yumikorea.code.controller;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yumikorea.code.dto.request.CodeDetailRequestDto;
-import com.yumikorea.code.dto.response.CodeDetailResponseDto;
 import com.yumikorea.code.service.CodeDetailService;
 import com.yumikorea.common.enums.EAdminConstants;
-
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,8 +31,16 @@ public class CodeDetailController {
 	
 	@GetMapping(value = "/list")
 	@ResponseBody
-	public ResponseEntity<List<CodeDetailResponseDto>> list(@RequestParam("masterCode") String masterCode) {
-		return ResponseEntity.ok(service.getList(masterCode));
+	public ResponseEntity<Map<String, Object>> list(@RequestParam("masterCode") String masterCode) {
+		Map<String, Object> map = new HashMap<>();
+		
+		CodeDetailRequestDto paramDto = new CodeDetailRequestDto();
+		paramDto.setSrcMasterCode(masterCode);
+		paramDto.setSrcEnable(EAdminConstants.ALL.getValue());
+		
+		map.put(EAdminConstants.RESULT_MAP.getValue(), service.getList(paramDto));
+		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
+		return ResponseEntity.ok(map);
 	}
 	
 	@PostMapping(value = "/register")

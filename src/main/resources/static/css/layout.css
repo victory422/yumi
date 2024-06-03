@@ -6967,6 +6967,23 @@ input.modi_input[readonly] {
 	color: #fff;
 }
 
+.modal_footer_box .pop_btn_one_red {
+	cursor:pointer;
+	margin-left: 10px;
+	text-decoration: none;
+	background-color: #DF696C;;
+	color: #fff;
+	display: block;
+	height: 40px;
+	line-height: 40px;
+	color: #0882D6;
+	text-align: center;
+	box-sizing: border-box;
+	font-size: 14px;
+	border-radius: 100px;
+	color: #fff;
+}
+
 .pop_btn_one a {
 	color: #fff;
 	display: inline-block;
@@ -7840,7 +7857,7 @@ input.modi_input[readonly] {
 .searchWrap>.styled-select{
     margin-bottom: 0;
     margin-right: 16px;
-    width: 200px !important;
+    width: 200px;
 }
 .searchWrap 
 .searchWrap_flex {

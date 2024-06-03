@@ -32,6 +32,7 @@ public class DBRequestDto extends BasicRequestDto {
 	private String useYn;
 	
 	private String srcDbName;
+	private String srcDeptCode;
 	private String srcDbTel;
 	private String srcAdminId;
 	

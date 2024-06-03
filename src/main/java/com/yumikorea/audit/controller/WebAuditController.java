@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.yumikorea.audit.dto.request.WebAuditRequestDto;
 import com.yumikorea.audit.dto.response.WebAuditResponseDto;
 import com.yumikorea.audit.service.WebAuditService;
-import com.yumikorea.code.dto.request.CodeDetailRequestDto;
 import com.yumikorea.code.dto.response.CodeDetailResponseDto;
 import com.yumikorea.code.enums.EnumMasterCode;
 import com.yumikorea.code.service.CodeDetailService;
@@ -35,13 +34,8 @@ public class WebAuditController {
 		@SuppressWarnings("unchecked")
 		List<WebAuditResponseDto> auditList = (List<WebAuditResponseDto>) map.get("list");
 		
-		CodeDetailRequestDto operationDto = new CodeDetailRequestDto();
-		operationDto.setSrcMasterCode(EnumMasterCode.ADMIN_OPERATION_CODE.getMasterCodeValue());
-		List<CodeDetailResponseDto> operationList = codeService.getList(operationDto);
-		
-		CodeDetailRequestDto resultSFDto = new CodeDetailRequestDto();
-		resultSFDto.setSrcMasterCode(EnumMasterCode.RESULT_SF.getMasterCodeValue());
-		List<CodeDetailResponseDto> resultSFList = codeService.getList(resultSFDto);
+		List<CodeDetailResponseDto> operationList = codeService.getList(EnumMasterCode.ADMIN_OPERATION_CODE.getMasterCodeValue());
+		List<CodeDetailResponseDto> resultSFList = codeService.getList(EnumMasterCode.RESULT_SF.getMasterCodeValue());
 		
 		for( CodeDetailResponseDto codeDto : operationList ) {
 			for( WebAuditResponseDto auditDto : auditList ) {

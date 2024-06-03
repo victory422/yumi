@@ -98,7 +98,7 @@ public class AdminRepositoryCustom {
 		}
 		
 		if( !CommonUtil.isNull(dto.getSrcAdminName()) ) {
-			whereBuilder.and(admin.name.like( dto.getSrcAdminName() ));
+			whereBuilder.and(admin.name.like("%" + dto.getSrcAdminName() + "%"));
 		}
 		
 		return whereBuilder;

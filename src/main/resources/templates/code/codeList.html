@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- 
 		HTML Info
-		1. file path	: /templates/user/userList.html
+		1. file path	: /templates/code/codeList.html
 		2. project name	: yumi korea Admin
 		3. description	: 환경 설정 > 사용자 관리 > 목록  
  -->
@@ -72,7 +72,7 @@
 			            </tr>
 					</thead>
 					<tbody>
-						<th:block th:each="item : ${list}">
+						<th:block th:each="item : ${resultMap}">
 							<tr th:onclick="openDetailList([[${item.masterCode}]])" style="cursor: pointer">
 								<td class="list_chk_box" onclick="event.cancelBubble=true">
 									<input type="checkbox" th:id="${item.masterCode + '_chk'}" name="chk" class="chk" th:onclick="chkClicked()" 

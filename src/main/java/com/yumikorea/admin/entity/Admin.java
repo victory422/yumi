@@ -32,7 +32,7 @@ public class Admin {
 
 	@Id
 	private String admin_id; // not null
-	@Convert(converter = AesConverter.class)
+//	@Convert(converter = AesConverter.class)
 	private String name; // not null , 24자 이내
 	private String password; // not null
 	

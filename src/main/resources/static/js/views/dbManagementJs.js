@@ -32,6 +32,14 @@ let loadCommonCodes = function() {
 		,valueCode: "code"
 	});
 	
+	// 공통코드 호출 : 지점(검색)
+	matchingCodeDetailToComponent({
+		id: "src_deptCode"
+		,masterCode : "DEPARTMENT"
+		,valueCode: "code"
+		,all: true
+	});
+	
 	// 공통코드 호출 : 지점
 	matchingCodeDetailToComponent({
 		id: "deptCode"
@@ -92,15 +100,17 @@ let getDBList = function(page) {
 		page = 1;
 	}
 	
-	let param = "";
+	let param = {
+		page:page
+	};
 	
-	let srcDbName = document.getElementById("src_dbName").value;
+	param.srcDbName = document.getElementById("src_dbName").value;
+	param.srcDeptCode = document.getElementById("src_deptCode").value;
+	param.srcDbTel = document.getElementById("src_dbTel").value;
+
+	;
 	
-	if( !isNull(srcDbName) ) {
-		param += "?srcDbName=" + srcDbName;
-	}
-	
-	let url = "/db/get-list" + param;
+	let url = "/db/get-list" + toQueryString(param);
 	$.ajax({
 		url: url,
 		type: "get",
