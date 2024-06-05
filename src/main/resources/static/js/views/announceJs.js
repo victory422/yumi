@@ -6,7 +6,7 @@
  */
 
 // 삭제
-function goDelete(){
+function goDelete() {
 	confirmPopup("선택한 게시물을 삭제하시겠습니까?");
 	document.querySelector( ".js-modal-next" ).onclick = function(e){
 		e.stopPropagation();
@@ -17,148 +17,109 @@ function goDelete(){
 		});
 		$(window).resize();
 		
-		const query = 'input[name="chk"]:checked';
-	    const selectedElements = document.querySelectorAll( query );
-	    
-	    // 체크박스 체크된 항목의 개수
-	    const selectedElementsCnt = selectedElements.length;
-	    
-	    if( selectedElementsCnt == 0 ) {
-			alert( "삭제할 관리자를 선택해주세요." );
-			return false;	
-		} else {
-			var arr = new Array( selectedElementsCnt );
-			
-			for( var i=0; i<selectedElementsCnt; i++ ) {
-				arr[i] = selectedElements[i].getAttribute( "chkId" );
-			}
-			
-			$.ajax({
-				type 		: 'delete',
-				url 		: '/admin/delete',
-				data 		: { arr : arr },
-				traditional : true,
-				success		: function(data){
-					if( data != null && data.status == "success" ) {
-						successPopup(data.message);
-					}
+		$.ajax({
+			type 		: 'delete',
+			url 		: "/announce/delete?announceId=" + document.getElementById("pop_announceId").value,
+			traditional : true,
+			success		: function(data){
+				if( data != null && data.status == "success" ) {
+					successPopup(data.message);
 				}
-			});
-			
-		}
-		
+			}
+		});
 	}
 }
 
 // 목록
 function goList( page ){
-	var srcAdminId = $("#srcAdminId").val();
-	var srcAdminName = $("#srcAdminName").val();
-	
-	// 검색 조건이 있는 경우
-	if( srcAdminId != null && srcAdminName != null ){
-		location.href='/admin/list?page=' + page + '&srcAdminId=' + srcAdminId + '&srcAdminName=' + srcAdminName;
-		
-	} else {
-		location.href='/admin/list?page=' + page;
-	}	
-}                   
-// 목록
-
-// 등록
-function goRegistry(){
-	// 필수값 : 이름, 아이디, 이메일
-	
-	if( $("#rAdminId").val() == null || $("#rAdminId").val() == "" ) {
-		alert("아이디을(를) 입력하세요.");
-		return false;
-	} else if( idDuplChk ) {
-		alert("아이디가 중복됩니다.");
-		return false;
-	} else if( $("#rName").val() == null || $("#rName").val() == "" ) {
-		alert("이름을(를) 입력하세요.");
-		return false;
-//	} else if( $("#rTelNo").val() == null || $("#rTelNo").val() == "" ) {
-//		alert("전화번호을(를) 입력하세요.");
-//		return false;
-	} else if( $("#rEmail").val() == null || $("#rEmail").val() == "" ) {
-		alert("이메일을(를) 입력하세요.");
-		return false;
-	} else if( !isValidPhoneNumber($("#rTelNo").val(), $("#rTelNo")) ) {
-		alert("전화번호가 올바르지 않습니다.");
-		return false;
-	}else if( !isValidEmail($("#rEmail").val(), $("#rEmail")) ) {
-		alert("이메일의 값이 올바르지 않습니다.");
-		return false;
+	if( isNull(page) ) {
+		page = 1;
+	}
+	let param = {
+		srcAdminId : $("#srcAdminId").val()
+		,srcAnnounceObject : $("#srcAnnounceObject").val()
+		,page : page
 	}
 	
+	let url = "/announce/list" + toQueryString(param)
+	console.log(url)	
+//	location.href=url;
 	
+}
+
+// 등록팝업
+let openRegistPopup = function() {
+	document.getElementById("detailTitle").innerText = "공지사항 등록";
+	document.getElementById("pop_announceObject").value = "";
+	document.getElementById("pop_announceContent").value = "";
+	setDetailBtns(true);
+}
+
+
+// 상세
+let goDetail = function(announce) {
+	console.log(announce);
+	document.getElementById("detailTitle").innerText = "공지사항 수정";
+	document.getElementById("pop_announceId").value = announce.announceId;
+	document.getElementById("pop_announceObject").value = announce.announceObject;
+	document.getElementById("pop_announceContent").value = announce.announceContent;
+	
+	if( announce.adminId != getLoginInfo().loginId ) {
+		// 조회 수 증가
+		addCount(announce.announceId);
+		// 버튼 컨트롤러
+		setDetailBtns(false);
+	} else {
+		// 버튼 컨트롤러
+		setDetailBtns(null, true);
+	}
+}
+
+
+let goRegist = function() {
 	let jsonData = {
-		adminId	 	: $("#rAdminId").val(),
-		name		: $("#rName").val(),
-		companyName	: $("#rCompanyName").val(),
-		deptName	: $("#rDeptName").val(),
-		telNo		: $("#rTelNo").val(),
-		email		: $("#rEmail").val(),
-		auth		: 0,
-		authorityId	: $("#rAuth").val()
+		announceObject : document.getElementById("pop_announceObject").value
+		,announceContent : document.getElementById("pop_announceContent").value
 	};
 	
 	$.ajax({
-			url: "/admin/register",
-			type: "post",
-			contentType: "application/json; charset=UTF-8",
-			data: JSON.stringify(jsonData),
-			success: function( data ){
-				// 실패
-				if(data.status == "fail"){
-					alertPopup(data.message);
-				// 성공인경우
-				} else if(data.status == "success") {
-					//alertPopup(data.message);
-					$("#registerAdmin").css("display","none");
-					$("#rAdminId").val("");
-					$("#rName").val("");
-					$("#rCompanyName").val("");
-					$("#rDeptName").val("");
-					$("#rTelNo").val("");
-					$("#rEmail").val("");
-					
-					const popupHidden =  "<div id='adminPoparea' name='adminPoparea' class='js-open-modal btn'></div>"
-					$("body").append(popupHidden);
-					const appendthis =  ("<div class='change-modal-overlay js-modal-close-change'></div>");
-					$("body").append(appendthis);
-					$(".change-modal-overlay").fadeTo(100, 0.7);
-					$('#checkInitPw').fadeIn($(this).data());
-					
-					$('#initPw').text(data.initPw);
-					
-					$(".modal-box-change").css({
-					    top: ($(window).height() - $(".modal-box-change").outerHeight()) / 2,
-					    left: ($(window).width() - $(".modal-box-change").outerWidth()) / 2
-					});
-					
-				} else {
-					alertPopup(data.message);
-				}
+		url: "/announce/register",
+		type: "post",
+		contentType: "application/json; charset=UTF-8",
+		data: JSON.stringify(jsonData),
+		success: function( data ){
+			if(data.status == "success") {
+				successPopup(data.message);
+			} else {
+				alertPopup(data.message);
 			}
-		})
+		}
+	});
 }
-// 등록
 
-let openRegistPopup = function() {
-	document.getElementById("announceContent").value = "";
-	document.querySelector("#detailTitle").innerText = "공지사항 등록";
+
+let goUpdate = function() {
+	let jsonData = {
+		announceId : document.getElementById("pop_announceId").value
+		, announceObject : document.getElementById("pop_announceObject").value
+		, announceContent : document.getElementById("pop_announceContent").value
+	};
 	
+	$.ajax({
+		url: "/announce/update",
+		type: "put",
+		contentType: "application/json; charset=UTF-8",
+		data: JSON.stringify(jsonData),
+		success: function( data ){
+			if(data.status == "success") {
+				successPopup(data.message);
+			} else {
+				alertPopup(data.message);
+			}
+		}
+	});
 }
-// 상세
-let goDetail = function(admin){
-	console.log("godetail");
-	console.log(admin);
-	document.querySelector("#detailTitle").innerText = "공지사항 수정";
-	document.getElementById("announceContent").value = admin.announceContent;
-}
-// 상세
+
 
 /* 모달 팝업 */
 $(document).on("click", ".js-modal-next", function(e) {
@@ -185,42 +146,39 @@ $(document).ready(function() {
 });
  
  
-  // 유효 사용자 확인
-let chgServiceSel = function (res){
-	// 값 지웠을때
-	if ( $("#rAdminId").val().length == 0 ){
-		$("#rAdminId").removeAttr("style");
-    // 유효한 사용자일때
-	} else if( res ) {
-		$("#rAdminId").css("background-color","rgba(245, 0, 0, 0.22)");
-	// 유효하지 않은 사용자
-	} else {
-		$("#rAdminId").css("background-color","rgba(0, 245, 75, 0.22)");
-	}
-}
 
-/* 어드민 목록 조회 */
-let getAdminList = function(rows) {
-	var result = [];
-	var paramData = {
-		rows : 9999	// limit 제한 없이 조회하기 위한 변수 입력
-	};
-	
-	if( typeof rows != "undefined" ) {
-		paramData.rows = rows;
-	}
-	
+let addCount = function(announceId) {
 	$.ajax({
-		url: "/admin/admin-list",
-		type: "get",
-		data: paramData,
-		async: false,
-		contentType: "application/json; charset=UTF-8",
-		success: function( rst ){
-			result = rst.list;
+		type 		: 'get'
+		,url 		: "/announce/add-count?announceId=" + announceId
+		,success	: function(data){
 		}
-	});
-	
-	return result;	
+	});	
 }
 
+// 버튼 컨트롤러
+let setDetailBtns = function(bool, registerIsMe) {
+	document.querySelector("#pop_delete").setAttribute("style", "display:none;");
+	document.querySelector("#pop_update").setAttribute("style", "display:none;");
+	document.querySelector("#pop_regist").setAttribute("style", "display:none;");
+	document.getElementById("pop_announceObject").setAttribute("readonly", "readonly");	
+	document.getElementById("pop_announceContent").setAttribute("readonly", "readonly");
+	
+	// 등록자 수정일 때
+	if ( registerIsMe ) {
+		document.querySelector("#pop_delete").setAttribute("style", "display:inline-block;");
+		document.querySelector("#pop_update").setAttribute("style", "display:inline-block;");
+		document.getElementById("pop_announceContent").removeAttribute("readonly");
+	} else {
+		// 등록일 때
+		if( bool ) {
+			document.getElementById("pop_announceObject").removeAttribute("readonly");	
+			document.getElementById("pop_announceContent").removeAttribute("readonly");
+			document.querySelector("#pop_regist").setAttribute("style", "display:inline-block;");
+			document.querySelector("#pop_cancle").setAttribute("style", "display:inline-block;");
+		// 수정일 때
+		} else {
+			document.querySelector("#pop_cancle").setAttribute("style", "display:inline-block;");
+		}
+	}
+}

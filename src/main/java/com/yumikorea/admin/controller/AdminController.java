@@ -46,10 +46,7 @@ public class AdminController {
 		AdminResponseDto responseDto = (AdminResponseDto) service.getDetail( sessionId ).get(EAdminConstants.RESULT_MAP.getValue());
 		model.addAttribute( "admin", responseDto );
 		
-		Map<String, Object> map = service.getList( dto ); 
-		model.addAttribute( "list", map.get("list") );
-		model.addAttribute( EAdminConstants.PAGE.getValue(), map.get(EAdminConstants.PAGE.getValue()) );
-		model.addAttribute( "authorityList", map.get("authorityList") );
+		model.addAllAttributes(service.getList( dto ));
 		
 		model.addAttribute( "srcAdminId", dto.getSrcAdminId() );
 		model.addAttribute( "srcAdminName", dto.getSrcAdminName() );
@@ -106,12 +103,6 @@ public class AdminController {
 	public ResponseEntity<Map<String, String>> reigstAuthorityUser( HttpServletRequest request, @RequestBody List<AuthorityMenuDto> list ) {
 		String loginId = (String) request.getSession().getAttribute(EAdminConstants.LOGIN_ID.getValue());
 		return ResponseEntity.ok(authorityService.reigstAuthorityUser(list, loginId));
-	}
-	
-	/* 어드민 등록을 위한 admin-list 조회 */
-	@GetMapping( "/admin-list" )
-	public ResponseEntity<Map<String, Object>> getAdminList( HttpServletRequest request, AdminRequestDto dto) {
-		return ResponseEntity.ok(service.getList(dto));
 	}
 	
 	

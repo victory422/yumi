@@ -94,6 +94,27 @@ public class DBRepositoryCustom {
 		
 		return whereBuilder;
 	}
+
+	public long checkDuplicate(String srcStr, String bifurcation) {
+		long res = 0;
+		BooleanBuilder localBuilder = new BooleanBuilder();
+		
+		if (bifurcation.equals("dbName")) {
+			localBuilder.and(dBManagementEntity.dbName.eq(srcStr));
+		} else if (bifurcation.equals("dbTel")) {
+			localBuilder.and(dBManagementEntity.dbTel.eq(srcStr));
+		} else {
+			return 1;
+		}
+		
+		res = jpaQueryFactory
+				.select(Wildcard.count)
+				.from(dBManagementEntity)
+				.where(localBuilder)
+				.fetchOne();
+		
+		return res;
+	}
 	
 	
 }

@@ -316,13 +316,13 @@ let getAdminList = function(rows) {
 	}
 	
 	$.ajax({
-		url: "/admin/admin-list",
+		url: "/common/admin-list",
 		type: "get",
 		data: paramData,
 		async: false,
 		contentType: "application/json; charset=UTF-8",
 		success: function( rst ){
-			result = rst.list;
+			result = rst.resultMap;
 		}
 	});
 	

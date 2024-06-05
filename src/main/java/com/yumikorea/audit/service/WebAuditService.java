@@ -38,8 +38,9 @@ public class WebAuditService {
 		
 		PageDto page = new PageDto(dto.getPage(), dto.getRows(), totCnt.intValue());
 		
-		retMap.put("list", list);
+		retMap.put(EAdminConstants.RESULT_MAP.getValue(), list);
 		retMap.put(EAdminConstants.PAGE.getValue(), page);
+		retMap.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
 		
 		return retMap;
 	}

@@ -104,7 +104,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<th:block th:each="item : ${list}">
+					<th:block th:each="item : ${resultMap}">
 						<tr change-modal-id="adminAuditDetail" th:onclick="goAdminDetail([[${item}]])" >
 							<td th:text = "${item.id}"></td>
 <!-- 							<td th:text = "${item.url}"></td> -->

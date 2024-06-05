@@ -114,7 +114,7 @@ public class AuthorityService {
 		PageDto page = new PageDto(dto.getPage(), dto.getRows(), totalCnt);
 		map.put("listAuthorityUrl", amdList);
 		map.put("page2", page);
-		map.put("srcKeyword",  dto);
+		map.put(EAdminConstants.SEARCH_KEY_WORD.getValue(),  dto);
 		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
 		
 		return map;
@@ -386,7 +386,10 @@ public class AuthorityService {
 			
 			if( !CommonUtil.isNull(reqDto.getMenuCode()) ) {
 				dto.setMenuCode(reqDto.getMenuCode());
-				urlRepository.save(dto);
+				for( String method : reqDto.getMethods()) {
+					dto.setMethod(method);
+					urlRepository.save(dto);
+				}
 			}
 			
 			rst.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
@@ -537,10 +540,11 @@ public class AuthorityService {
 		Set<AuthorityMenuDto> rstList = new HashSet<>();
 		
 		MenuDto paramDto = new MenuDto();
-		paramDto.setMenuUse(EAdminConstants.STR_Y.getValue());
+		// 모든 권한 열기
+//		paramDto.setMenuUse(EAdminConstants.STR_Y.getValue());
+		
 		paramDto.setRows(999);
 		List<MenuDto> menuList = menuRepositoryCutom.findAllByCondition(paramDto);
-		
 		String[] methods = {
 				EAdminConstants.HTTP_METHOD_GET.getValue(), EAdminConstants.HTTP_METHOD_POST.getValue(), 
 				EAdminConstants.HTTP_METHOD_PUT.getValue(), EAdminConstants.HTTP_METHOD_DELETE.getValue(), 

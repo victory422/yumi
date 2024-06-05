@@ -6,6 +6,25 @@
 		3. description	: DB관리 > DB 목록 > DB 등록  
  -->
 <html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<style>
+	.autocomplete {
+		overflow:scroll;
+		height:150px;
+	}
+	/* 현재 선택된 검색어 */
+	.autocomplete > div.active {
+	  background: #e0e5f6;
+	  color: #000;
+	}
+	
+	/* -------------------------- */
+	
+	.autocomplete > div {
+	  background: #f1f3f499;
+	  padding: .2rem .6rem;
+	}
+
+</style>
 <div id="dbRegistration" class="modal-box-change">
 	<div class="modal_header"><a class="js-modal-close-change pop_close" style='cursor:pointer'><i class="la la-close"></i></a>
 		<p id="db_modalTitle" class="modal_tit" style="text-align: center;">DB 등록</p>
@@ -13,27 +32,29 @@
 	<div class="modal_body">
 		<table class="dt_tbl03">
 			<colgroup>
-				<col class="dt_tbl_width30">
-				<col class="dt_tbl_width70">
+				<col class="dt_tbl_width20">
+				<col class="dt_tbl_width50">
+				<col class="dt_tbl_width20">
 			</colgroup>
 			<tbody>
 				<tr>
 					<td class="dt_tbl_col_th02">이름<span class="str_txt"></span></td>
-					<td>
+					<td colspan="2">
 						<input type="text" class="width_300 input_txt" name="db_attr" id="dbName" />
+						<input type="hidden" class="width_300 input_txt" name="db_attr" id="dbSeq" />
 						<div style="display: none;"></div>
 					</td>
 				</tr>
 				<tr>
 					<td class="dt_tbl_col_th02">성별<span class="str_txt"></span></td>
-					<td>
+					<td colspan="2">
 						<select name="db_attr" id="dbGender" class="styled" style='width:290px;' onChange="" title="지점">
 						</select>
 					</td>
 				</tr>
 				<tr>
 					<td class="dt_tbl_col_th02">번호</td>
-					<td>
+					<td colspan="2">
 						<input type="text" class="width_300 input_txt" name="db_attr" id="dbTel"  />
 					</td>
 				</tr>
@@ -43,21 +64,21 @@
 <!-- 				</tr> -->
 				<tr>
 					<td class="dt_tbl_col_th02">유입경로<span class="str_txt"></span></td>
-					<td>
-<!-- 						<input type="text" class="width_300 input_txt" name="db_attr" id="dbRegPath"  /> -->
+					<td colspan="2">
 						<select name="db_attr" id="dbRegPath" class="styled" style='width:290px;' onChange="" title="유입경로">
 						</select>
 					</td>
 				</tr>
 				<tr>
 					<td class="dt_tbl_col_th02">담당자<span class="str_txt"></span></td>
-					<td>
+					<td colspan="2">
 						<input type="text" class="width_300 input_txt" name="db_attr" id="adminId" />
+						<div class="autocomplete" style="display: none;"></div>
 					</td>
 				</tr>
 				<tr>
 					<td class="dt_tbl_col_th02">지점<span class="str_txt"></span></td>
-					<td>
+					<td colspan="2">
 						<select name="db_attr" id="deptCode" class="styled" style='width:290px;' onChange="" title="지점">
 						</select>
 					</td>

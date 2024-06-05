@@ -1,7 +1,7 @@
 package com.yumikorea.audit.repository;
 
-import static com.yumikorea.admin.entity.QAdmin.admin;
 import static com.yumikorea.audit.entity.QWebAudit.webAudit;
+import static com.yumikorea.admin.entity.QAdmin.admin;
 import static com.yumikorea.code.entity.QCodeDetail.codeDetail;
 
 import java.text.ParseException;
@@ -9,16 +9,15 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Wildcard;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yumikorea.audit.dto.request.WebAuditRequestDto;
 import com.yumikorea.audit.dto.response.WebAuditResponseDto;
 import com.yumikorea.code.enums.EnumMasterCode;
 import com.yumikorea.common.utils.CommonUtil;
 import com.yumikorea.common.utils.DateUtil;
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.Wildcard;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,16 +28,19 @@ public class WebAuditRepositoryCustom {
 	
 	public List<WebAuditResponseDto> findAll(WebAuditRequestDto dto ) {
 		return jpaQueryFactory
-				.select(Projections.constructor(WebAuditResponseDto.class
+				.select(Projections.fields(WebAuditResponseDto.class
 						, webAudit.id
 						, webAudit.admin_id.as("adminId")
 						, admin.name.as("adminName")
 						, webAudit.url
-						, webAudit.url.as("description")
+						, CommonUtil.selectCodeDescription
+						(jpaQueryFactory, webAudit.url, EnumMasterCode.ADMIN_OPERATION_CODE.getMasterCodeValue(), "value_01")
+							.as("description")
+						, CommonUtil.selectCodeDescription
+						(jpaQueryFactory, webAudit.result, EnumMasterCode.RESULT_SF.getMasterCodeValue())
+							.as("result")
 						, webAudit.admin_ip.as("adminIp")
 						, webAudit.reg_date.as("regDate")
-						, Expressions.stringTemplate("F_CODE_DETAIL({0}, {1}, {2})"
-													, EnumMasterCode.RESULT_SF.getMasterCodeValue(), webAudit.result, "DESCRIPTION").as("result")
 						, webAudit.error_msg.as("errMsg")
 						, webAudit.request_msg.as("reqMsg")
 						))

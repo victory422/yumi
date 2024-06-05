@@ -123,7 +123,7 @@
 		            </tr>
 				</thead>
 				<tbody>         
-					<th:block th:each="item : ${list}">
+					<th:block th:each="item : ${resultMap}">
 						<tr change-modal-id="updateAdmin" th:onclick="goDetail([[${item}]])">
 							<td class="list_chk_box" onclick="event.cancelBubble=true">
 								<input type="checkbox" th:id="${item.adminId + '_chk'}" name="chk" class="chk" th:onclick="chkClicked()" 

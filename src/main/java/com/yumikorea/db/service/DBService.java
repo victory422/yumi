@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.hibernate.exception.SQLGrammarException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,8 +56,19 @@ public class DBService {
 
 	/* 등록 */
 	public Map<String, Object> register(DBRequestDto dto ) {
-		
 		Map<String, Object> map = new HashMap<>();
+		
+		if( !this.checkDuplicate(dto.getDbName(), "dbName") ) {
+			map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.FAIL.getValue());
+			map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.NAME_DUPLICATE.getMessage());
+			return map;
+		}
+		
+		if( !this.checkDuplicate(dto.getDbTel(), "dbTel") ) {
+			map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.FAIL.getValue());
+			map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.TEL_DUPLICATE.getMessage());
+			return map;
+		}
 		
 		dto.setModifyDate(new Date());
 		try {
@@ -77,6 +86,50 @@ public class DBService {
 		return map;
 	}
 
+
+
+	public Map<String, Object> update(DBRequestDto dto) {
+		Map<String, Object> map = new HashMap<>();
+		
+		dto.setModifyDate(new Date());
+		dbRepository.save(dto.toSaveEntity());
+		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
+		map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.UPDATE_SUCCESS.getMessage());		
+		
+		return map;
+	}
+	
+
+	public Map<String, Object> registMemo(MemoRequestDto dto) {
+		Map<String, Object> map = new HashMap<>();
+		dto.setRegistDate(new Date());
+		try {
+			memoRepository.save(dto.toSaveEntity());
+		} catch (SQLGrammarException e) {
+			e.printStackTrace();
+			map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.FAIL.getValue());
+			map.put(EAdminConstants.MESSAGE.getValue(), e.getMessage());
+			return map;
+		}
+		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
+		map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.REGISTER_SUCCESS.getMessage());
+
+		return map;
+	}
+
+	
+
+	/* 메모 목록 조회 */
+	public Map<String, Object> getListMemo(MemoRequestDto dto) {
+		Map<String, Object> map = new HashMap<>();
+		List<MemoRequestDto> resultList = memoRepositoryCustom.findAll(dto);
+		map.put(EAdminConstants.RESULT_MAP.getValue(), resultList);
+		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
+
+		return map;
+	}
+
+	
 
 	/* 삭제 */
 	public Map<String, Object> delete(List<DBRequestDto> dtoList, String loginId ) {
@@ -97,95 +150,18 @@ public class DBService {
 		return map;
 	}
 
-	/* 내 정보 보기 */
-	public Map<String, Object> getDetail(String announceId) {
-		Map<String, Object> result = new HashMap<>();
-//		DB announce = repository.findById(announceId).orElse(null);
-//		DBResponseDto dto = new DBResponseDto(announce);
-//		result.put(EAdminConstants.RESULT_MAP.getValue(), dto);
-		result.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
-		return result;
 
-	}
 
-	/* 내 정보 수정 */
-	public Map<String, Object> udpateMyInfo(DBRequestDto dto, HttpServletRequest request) throws Exception {
-		Map<String, Object> map = new HashMap<>();
-
-		if( true ) {
-			map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.FAIL.getValue());
-			map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.NO_SEARCH_RESULT.getMessage());		
+	public Boolean checkDuplicate(String srcStr, String bifurcation) {
+		Boolean rst = false;
+		long res = dbRepositoryCustom.checkDuplicate(srcStr, bifurcation);
+		
+		if( res > 0 ) {
+			rst = false;
 		} else {
-			map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
-			map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.UPDATE_SUCCESS.getMessage());		
+			rst = true;
 		}
 		
-		return map;
-	}
-
-	// 로그인 - 비밀번호 변경
-	public Map<String, Object> updateMyPw(DBRequestDto dto, String loginId, String sessionId) {
-		Map<String, Object> map = new HashMap<>();
-
-		if( true ) {
-			map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.FAIL.getValue());
-			map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.NO_SEARCH_RESULT.getMessage());		
-		} else {
-			map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
-			map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.UPDATE_SUCCESS.getMessage());		
-		}
-		
-		
-		return map;
-	}
-
-	public Map<String, Object> update(DBRequestDto dto) {
-		Map<String, Object> map = new HashMap<>();
-
-		if( true ) {
-			map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.FAIL.getValue());
-			map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.NO_SEARCH_RESULT.getMessage());		
-		} else {
-			map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
-			map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.UPDATE_SUCCESS.getMessage());		
-		}
-		
-		
-		return map;
-	}
-
-	public Map<String, Object> registMemo(MemoRequestDto dto) {
-		Map<String, Object> map = new HashMap<>();
-		dto.setRegistDate(new Date());
-		try {
-			memoRepository.save(dto.toSaveEntity());
-		} catch (SQLGrammarException e) {
-			e.printStackTrace();
-			map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.FAIL.getValue());
-			map.put(EAdminConstants.MESSAGE.getValue(), e.getMessage());
-			return map;
-		}
-		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
-		map.put(EAdminConstants.MESSAGE.getValue(), EAdminMessages.REGISTER_SUCCESS.getMessage());
-
-		return map;
-	}
-
-
-	/* 메모 목록 조회 */
-	public Map<String, Object> getListMemo(MemoRequestDto dto) {
-		Map<String, Object> map = new HashMap<>();
-		List<MemoRequestDto> resultList = memoRepositoryCustom.findAll(dto);
-		
-		
-//		for(DBRequestDto result : repositoryCustom.findAll(dto) ) {
-//			result.setModifyDate(DateUtil.formatDate(result.getModifyDate()));
-//		}
-
-		
-		map.put(EAdminConstants.RESULT_MAP.getValue(), resultList);
-		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
-
-		return map;
+		return rst;
 	}
 }

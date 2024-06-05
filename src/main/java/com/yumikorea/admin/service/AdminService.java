@@ -41,11 +41,9 @@ public class AdminService {
 		Map<String, Object> map = new HashMap<>();
 
 		Long totCnt = repositoryCustom.findAllCnt(dto);
-		map.put("list", repositoryCustom.findAll(dto));
+		map.put(EAdminConstants.RESULT_MAP.getValue(), repositoryCustom.findAll(dto));
 		map.put("authorityList", authorityRepository.findAll());
-
-		PageDto page = new PageDto(dto.getPage(), dto.getRows(), totCnt.intValue());
-		map.put(EAdminConstants.PAGE.getValue(), page);
+		map.put(EAdminConstants.PAGE.getValue(), new PageDto(dto.getPage(), dto.getRows(), totCnt.intValue()));
 		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
 
 		return map;

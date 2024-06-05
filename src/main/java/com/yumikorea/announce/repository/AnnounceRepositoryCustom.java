@@ -2,6 +2,7 @@ package com.yumikorea.announce.repository;
 
 import static com.yumikorea.announce.entity.QAnnounceEntity.announceEntity;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,10 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yumikorea.announce.dto.AnnounceRequestDto;
+import com.yumikorea.announce.entity.AnnounceEntity;
+import com.yumikorea.common.enums.EAdminConstants;
 import com.yumikorea.common.utils.CommonUtil;
+import com.yumikorea.common.utils.DateUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -60,8 +64,50 @@ public class AnnounceRepositoryCustom {
 			whereBuilder.and(announceEntity.deleteYn.eq(dto.getDeleteYn()) );
 		}
 		
+		if( !CommonUtil.isNull(dto.getSrcAdminId()) ) {
+			whereBuilder.and(announceEntity.adminId.like("%" + dto.getSrcAdminId() + "%") );
+		}
+		
+		if( !CommonUtil.isNull(dto.getSrcAnnounceObject()) ) {
+			whereBuilder.and(announceEntity.announceObject.like("%" + dto.getSrcAnnounceObject() + "%") );
+		}
+		
+		if( !CommonUtil.isNull(dto.getSrcFrom())  && !CommonUtil.isNull(dto.getSrcTo()) ) {
+			try {
+				whereBuilder.and(announceEntity.reigistDate.between(DateUtil.parseDate(dto.getSrcFrom(), 0),DateUtil.parseDate(dto.getSrcTo(), 1)));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		
 		return whereBuilder;
+	}
+
+	public void addCount(int announceId) {
+		jpaQueryFactory.update(announceEntity)
+		.set(announceEntity.announceCount, announceEntity.announceCount.add(1))
+		.where(new BooleanBuilder().and(announceEntity.announceId.eq(announceId)))
+		.execute()
+		;
+	}
+
+	public long deleteAnnounceById( int announceId ) {
+		return jpaQueryFactory.update(announceEntity)
+		.set(announceEntity.deleteYn, EAdminConstants.STR_Y.getValue())
+		.where(new BooleanBuilder().and(announceEntity.announceId.eq(announceId)))
+		.execute()
+		;
+		
+	}
+
+	public long update(AnnounceRequestDto dto) {
+		return jpaQueryFactory.update(announceEntity)
+		.set(announceEntity.announceContent, dto.getAnnounceContent())
+		.set(announceEntity.modifyDate, dto.getModifyDate())
+		.where(new BooleanBuilder().and(announceEntity.announceId.eq(dto.getAnnounceId())))
+		.execute()
+		;
 	}
 	
 	

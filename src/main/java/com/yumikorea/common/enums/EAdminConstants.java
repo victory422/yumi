@@ -88,6 +88,7 @@ public enum EAdminConstants {
 	
 	ERROR_MESSAGE("errorMessage"),
 	RESULT_CODE("resultCode"),
+	SEARCH_KEY_WORD("srcKeyword")
 	;
 	
 	

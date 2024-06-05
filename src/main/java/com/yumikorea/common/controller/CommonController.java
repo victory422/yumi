@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yumikorea.admin.dto.AdminRequestDto;
@@ -22,6 +23,7 @@ import com.yumikorea.code.dto.request.CodeDetailRequestDto;
 import com.yumikorea.code.service.CodeDetailService;
 import com.yumikorea.common.enums.EAdminConstants;
 import com.yumikorea.common.utils.CommonUtil;
+import com.yumikorea.db.service.DBService;
 import com.yumikorea.login.dto.LoginRequestDto;
 import com.yumikorea.login.service.SecurityLoginService;
 import com.yumikorea.setting.dto.request.MenuDto;
@@ -40,6 +42,7 @@ public class CommonController {
 	private final SecurityLoginService securityLoginService;
 	private final MenuService menuService;
 	private final CodeDetailService codeDetailService;
+	private final DBService dbService;
 	
 	
 	/* commonJs.js에서 호출된 화면 권한 목록 */
@@ -126,6 +129,24 @@ public class CommonController {
 		codeDetailDto.setSrcEnable(EAdminConstants.STR_Y.getValue());
 		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
 		map.put(EAdminConstants.RESULT_MAP.getValue(), codeDetailService.getList(codeDetailDto));
+		return ResponseEntity.ok(map);
+	}
+	
+	/* 어드민 등록을 위한 admin-list 조회 */
+	@GetMapping( "/admin-list" )
+	public ResponseEntity<Map<String, Object>> getAdminList( HttpServletRequest request, AdminRequestDto dto) {
+		return ResponseEntity.ok(adminService.getList(dto));
+	}
+	
+	
+	/* dbMangementJs.js에서 중복 체크 */
+	@GetMapping( "/check-duplicate" )
+	public ResponseEntity<Map<String,Object>> checkDuplicate( 
+			@RequestParam(required = true) String srcStr, @RequestParam(required = true) String bifurcation, HttpServletRequest request) {
+		Map<String,Object> map = new HashMap<>();
+		Boolean rst = dbService.checkDuplicate(srcStr, bifurcation);
+		map.put(EAdminConstants.RESULT_MAP.getValue(), rst);
+		map.put(EAdminConstants.STATUS.getValue(), EAdminConstants.SUCCESS.getValue());
 		return ResponseEntity.ok(map);
 	}
 	

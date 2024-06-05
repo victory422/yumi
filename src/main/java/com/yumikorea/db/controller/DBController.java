@@ -36,6 +36,16 @@ public class DBController {
 	public String goPage( Model model, DBRequestDto dto, HttpServletRequest request ) {
 		return "db/dbManagement";
 	}
+	/* 화면이동 */
+	@GetMapping( "/list2" )
+	public String goPage2( Model model, DBRequestDto dto, HttpServletRequest request ) {
+		return "db/dbList2";
+	}
+	/* 화면이동 */
+	@GetMapping( "/memo-list" )
+	public String goPage3s( Model model, DBRequestDto dto, HttpServletRequest request ) {
+		return "db/memoList";
+	}
 	
 	/* 목록 조회 */
 	@GetMapping( "/get-list" )
@@ -48,7 +58,7 @@ public class DBController {
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> register( @RequestBody DBRequestDto dto, HttpServletRequest request ) {
 		String loginId = (String) request.getSession().getAttribute( EAdminConstants.LOGIN_ID.getValue() );
-		dto.setAdminId(loginId);
+		dto.setModifyId(loginId);
 		return ResponseEntity.ok(service.register( dto ));
 	}
 
@@ -56,6 +66,8 @@ public class DBController {
 	@PutMapping("/update")
 	@ResponseBody
 	public ResponseEntity<Map<String,Object>> update( @RequestBody DBRequestDto dto, HttpServletRequest request ) {
+		String loginId = (String) request.getSession().getAttribute( EAdminConstants.LOGIN_ID.getValue() );
+		dto.setModifyId(loginId);
 		return ResponseEntity.ok( service.update( dto ) );
 	}
 

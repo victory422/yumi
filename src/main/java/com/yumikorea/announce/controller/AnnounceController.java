@@ -42,7 +42,7 @@ public class AnnounceController {
 		
 		model.addAllAttributes(map);
 		model.addAttribute( EAdminConstants.PAGE.getValue(), map.get(EAdminConstants.PAGE.getValue()) );
-		model.addAttribute("srcKeyword", dto);
+		model.addAttribute(EAdminConstants.SEARCH_KEY_WORD.getValue(), dto);
 
 		return "announce/announceList";
 	}
@@ -52,33 +52,34 @@ public class AnnounceController {
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> register( @RequestBody AnnounceRequestDto dto, HttpServletRequest request ) {
 		String loginId = (String) request.getSession().getAttribute( EAdminConstants.LOGIN_ID.getValue() );
-		
+		dto.setAdminId(loginId);
 		Map<String, Object> map = new HashMap<>();
 		
-		map = announceService.register( dto, loginId );
+		map = announceService.register( dto );
 		
 		return ResponseEntity.ok(map);
 	}
 
-	/* 상태 변경 */
-	@PutMapping("/updateSt")
-	@ResponseBody
-	public ResponseEntity<Map<String,Object>> updateSt( @RequestParam( value = "arr" ) String [] arr ) {
-		return ResponseEntity.ok( announceService.updateSt( arr ) );
-	}
-	
 	/* 수정 */
 	@PutMapping("/update")
 	@ResponseBody
 	public ResponseEntity<Map<String,Object>> update( @RequestBody AnnounceRequestDto dto, HttpServletRequest request ) {
+		String loginId = (String) request.getSession().getAttribute(EAdminConstants.LOGIN_ID.getValue());
+		dto.setAdminId(loginId);
 		return ResponseEntity.ok( announceService.update( dto ) );
 	}
 
 	/* 삭제 */
 	@DeleteMapping("/delete")
-	public ResponseEntity<Map<String, Object>> delete( @RequestParam( value = "arr" ) String [] arr , HttpServletRequest request ) {
+	public ResponseEntity<Map<String, Object>> delete( @RequestParam( required =  true ) int announceId , HttpServletRequest request ) {
 		String loginId = (String) request.getSession().getAttribute(EAdminConstants.LOGIN_ID.getValue());
-		return new ResponseEntity<Map<String, Object>>( announceService.delete( arr , loginId ), HttpStatus.OK);
+		return new ResponseEntity<Map<String, Object>>( announceService.delete( announceId ), HttpStatus.OK);
+	}
+	
+	
+	@GetMapping("/add-count")
+	public ResponseEntity<Map<String, Object>> addCount( @RequestParam( required = true ) int announceId, HttpServletRequest request ) {
+		return new ResponseEntity<Map<String, Object>>( announceService.addCount( announceId ), HttpStatus.OK);
 	}
 	
 	

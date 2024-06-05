@@ -70,6 +70,7 @@ public class YumiAdminAOP {
 		notCheckingUrls.add("/common/myInfo");
 		notCheckingUrls.add("/common/getCodeDetail");
 		notCheckingUrls.add("/common/service-by-server-info");
+		notCheckingUrls.add("/common/check-duplicate");
 		notCheckingUrls.add("/dashboard");
 		notCheckingUrls.add("/keypair/download/");
 		notCheckingUrls.add("/authority/getListAuthorityUrl");
@@ -125,8 +126,10 @@ public class YumiAdminAOP {
 		} else if(proceed instanceof String ) {
 			// 화면 조회
 			status = EAdminConstants.SUCCESS.getValue();
-		} else {
+		} else if (proceed != null ) {
 			log.info("[insertAuthAudit debug classname]  {}", proceed.getClass().getName());
+		} else {
+			log.info("[insertAuthAudit proceed is null]"); 
 		}
 		
 		auditMap.put(EAdminConstants.STATUS.getValue(), status);

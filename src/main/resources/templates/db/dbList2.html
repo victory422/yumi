@@ -8,12 +8,18 @@
 <html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <!-- Header -->
 <!-- 프로그램별 script 추가 -->
-
+<th:block th:include="common/layout/header"></th:block>
+<script type="text/javascript" th:src="@{/js/views/dbManagementJs.js}"></script>
 <style>
 	#con_wrap > div > div > div:nth-child(1) > span.con_tit_nav > span, i {
 		cursor: pointer;
 	}
 </style>
+
+<!-- Content : S -->
+<div id="con_wrap" style="display: inline-block;width: 100%;">
+	<div class="con_box_flex" style="min-width: auto;">
+
 
 <!-- Content : S -->
 	<div class="flex_wrap">

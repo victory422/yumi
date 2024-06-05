@@ -21,10 +21,10 @@
 		<div class="searchWrap">
 			<span class="sw_tit w70">작성자</span> 
 			<input type="text" class="width_200 input_txt" placeholder="작성자 ID를 입력하세요" 
-				id="srcAdminId" th:value="${srcKeyword.srcAdminId}"> 
+				id="srcAdminId" name="srcAdminId" th:value="${srcKeyword.srcAdminId}"> 
 			<span class="sw_tit w70">제목</span> 
 			<input type="text" class="width_200 input_txt" placeholder="제목을 입력하세요" 
-				id="srcAnnounceObject" th:value="${srcKeyword.srcAnnounceObject}"> 
+				id="srcAnnounceObject" name="srcAnnounceObject" th:value="${srcKeyword.srcAnnounceObject}"> 
 		</div>
 		<br />
 		<div class="searchWrap">
@@ -44,7 +44,7 @@
 				</span>
 			</div>
 			<div class="btn_area">
-				<button th:onclick="|return check()|">
+				<button th:onclick="|return goList()|">
 					<span class="width_100 btn_blu"><i class="la la-search"></i>조회</span>
 				</button>
 			</div>

@@ -5,7 +5,7 @@
  * 3. description	: DB관리 스크립트 
  */
  
- 
+let g_adminList = []; 
  
 /* 화면 로드 후 이벤트 */
 window.addEventListener("load", function(){
@@ -14,6 +14,25 @@ window.addEventListener("load", function(){
 	document.getElementById("dbTel").addEventListener("keyup", function() {
 		this.value = inputPhoneNumberValidation(this.value);
 	});
+	document.getElementById("dbTel").addEventListener("blur", function() {
+		this.value = inputPhoneNumberValidation(this.value);
+	});
+	
+	document.querySelectorAll("#dbName, #dbTel").forEach(function(dom){
+		dom.addEventListener("keyup", function() {
+			checkDuplicate(this);
+		});
+		dom.addEventListener("blur", function() {
+			checkDuplicate(this);
+		});
+	});
+	
+	g_adminList = getAdminList();
+
+	document.getElementById("adminId").addEventListener("keyup", function(e) {
+		findAdminAccount(e, this);
+	});
+	
 });
 
 
@@ -85,6 +104,11 @@ let openDBPopup = function(method) {
 	
 	setSelectBoxValue("dbGender", "W");	// 여성 기본 선택
 	
+	// 수정일 때
+	if( method == "PUT" ) {
+		document.getElementById("dbName").setAttribute("readonly", "readonly");
+	}
+	
 	document.querySelectorAll("div[button-type]").forEach(function(d){
 		if( d.getAttribute("button-type") == method ) {
 			d.removeAttribute("style");
@@ -116,7 +140,7 @@ let getDBList = function(page) {
 		type: "get",
 		contentType: "application/json; charset=UTF-8",
 		success: function( responseData ){
-			var tbody = document.getElementById("dbList");
+			var tbody = document.getElementById("tbody_dbList");
 			makeTable(tbody, responseData.resultMap);
 			makePaging(responseData.page, "page_dbList", "getDBList");
 		}
@@ -129,7 +153,8 @@ let goRegistDB = function() {
 	document.getElementsByName("db_attr").forEach(function(d) {
     	data[d.id] = d.value;
 	});
-	
+	data["adminId"] = document.getElementById("adminId").getAttribute("temp_adminId");
+	data["dbSeq"] = null;
 	let url = "/db/register";
 	$.ajax({
 		url: url,
@@ -145,6 +170,24 @@ let goRegistDB = function() {
 
 /* DB 수정 */
 let goUpdateDB = function() {
+	let data = {};
+	document.getElementsByName("db_attr").forEach(function(d) {
+    	data[d.id] = d.value;
+	});
+	
+	data["adminId"] = document.getElementById("adminId").getAttribute("temp_adminId");
+	
+	let url = "/db/update";
+	$.ajax({
+		url: url,
+		type: "put",
+		data: JSON.stringify(data),
+		contentType: "application/json; charset=UTF-8",
+		success: function( responseData ){
+			alertPopup(responseData.message);
+			getDBList();
+		}
+	});	
 	
 }
 
@@ -188,7 +231,17 @@ let openDbDetail = function(db) {
 	document.getElementsByName("db_attr").forEach(function(d) {
     	for(key in db ) {
 	    	if( d.id == key ) {
-				if( d.tagName.toUpperCase() == "SELECT" ) {
+				if( d.id == "adminId" ) {
+					var admin = g_adminList.filter(function(v){
+						if ( v.adminId == db.adminId ) {
+							return v;
+						}
+					})[0];
+					if( !isNull(admin) && !isNull(admin.name) ) {
+						d.value = admin.name;
+						d.setAttribute("temp_adminId", admin.adminId);
+					} 
+				} else if( d.tagName.toUpperCase() == "SELECT" ) {
 					setSelectBoxValue(d.id, db[key]);
 				} else {
 					d.value = db[key];
@@ -213,8 +266,8 @@ let makeTable = function(tbody, dbList) {
 			let dbTel = document.createElement("td");
 			
 			var prefix = "td_";
-			dbName.id = prefix + "menuCode";
-			dbTel.id = prefix + "menuName";
+			dbName.id = prefix + "dbName";
+			dbTel.id = prefix + "dbTel";
 			
 			dbName.innerText = db.dbName;
 			dbTel.innerText = db.dbTel;
@@ -349,3 +402,140 @@ let setMemoList = function(memos) {
 		document.getElementById("tbody_memoList").appendChild(cloneTr);
 	});
 }
+
+
+let checkDuplicate = function(dom) {
+	let srcStr = dom.value;
+	let bifurcation = dom.id;
+	let result = false;
+	$.ajax({
+		url: "/common/check-duplicate?srcStr=" + srcStr + "&bifurcation=" + bifurcation,
+		type: "get",
+		async: false,
+		contentType: "application/json; charset=UTF-8",
+		success: function( responseData ){
+			if( responseData.status == "success" ) {
+				result = responseData.resultMap
+			} else {
+				result = false;
+			}
+			chgServiceSel(dom, result);
+		}
+	});
+}
+
+  // 유효 값 확인
+let chgServiceSel = function (dom, res){
+	dom.setAttribute("duplicate", "Y");
+	// 값 지웠을때
+	if ( dom.value.length == 0 ) {
+		$("#"+dom.id).removeAttr("style");
+		dom.removeAttribute("duplicate");
+    // 중복일 때
+	} else if( !res ) {
+		$("#"+dom.id).css("background-color","rgba(245, 0, 0, 0.22)");
+		dom.setAttribute("duplicate", "Y");
+	// 중복 아닐 때
+	} else {
+		$("#"+dom.id).css("background-color","rgba(0, 245, 75, 0.22)");
+		dom.setAttribute("duplicate", "N");
+	}
+}
+
+/* 어드민 목록 조회 */
+let getAdminList = function(rows) {
+	var result = [];
+	var paramData = {
+		rows : 99999	// limit 제한 없이 조회하기 위한 변수 입력
+	};
+	
+	if( typeof rows != "undefined" ) {
+		paramData.rows = rows;
+	}
+	
+	$.ajax({
+		url: "/common/admin-list",
+		type: "get",
+		data: paramData,
+		async: false,
+		contentType: "application/json; charset=UTF-8",
+		success: function( rst ){
+			result = rst.resultMap;
+		}
+	});
+	
+	return result;	
+}
+
+
+
+/* 허가 URL 목록 등록 */
+let findAdminAccount = function(e, dom) {
+	// 검색어
+	let value = dom.value.trim();
+
+	let matchDataList = [];
+	// 자동완성 필터링
+	matchDataList = g_adminList.filter(function(admin) {
+		if( value != "" && admin.name.indexOf(value) > -1 ) {
+			return admin;
+		}
+	});
+	
+	switch (e.keyCode) {
+		// UP KEY
+		case 38:
+			nowIndex = Math.max(nowIndex - 1, 0);
+		break;
+		
+		// DOWN KEY
+		case 40:
+			nowIndex = Math.min(nowIndex + 1, matchDataList.length - 1);
+		break;
+		
+		// ENTER KEY
+		case 13:
+			var adminName = matchDataList[nowIndex].name;
+			var adminId = matchDataList[nowIndex].adminId;
+			showListSetData(adminId, adminName);
+			matchDataList = [];
+			value = "";
+			nowIndex = 0;
+		break;
+		  
+		// 그외 다시 초기화
+		default:
+			nowIndex = 0;
+		break;
+	}
+	
+	showList(matchDataList, value, nowIndex);
+}
+
+let showList = function(data, value, nowIndex) {
+	let sDiv = document.querySelector(".autocomplete");
+	
+	 // 정규식으로 변환
+	const regex = new RegExp(`(${value})`, "g");
+	
+	sDiv.innerHTML = data.map(
+		(admin,index) => `
+		<div class='${nowIndex === index ? "active" : ""}'
+		onclick='showListSetData("${admin.adminId}","${admin.name}")'>
+			${admin.name.replace(regex, "<mark>$1</mark>")}
+		</div>
+		`
+	).join("");
+	if( data.length > 0 ) {
+		sDiv.removeAttribute("style");
+	} else {
+		sDiv.setAttribute("style","display:none;");
+	}
+}
+
+let showListSetData = function(adminId, adminName) {
+	document.getElementById("adminId").value = adminName;
+	document.getElementById("adminId").setAttribute("temp_adminId", adminId);
+	showList([],"",0);
+}
+

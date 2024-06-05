@@ -71,27 +71,4 @@ public class DashboardController {
 	
 	
 
-	// 목록 조회
-//	@GetMapping("/list")
-//	public String list(PolicyRequestDto dto, Model model) {
-//		Map<String, Object> map = service.getList(dto);
-//		
-//		model.addAttribute( "list", map.get("list") );
-//		model.addAttribute( EAdminConstants.PAGE.getValue(), map.get(EAdminConstants.PAGE.getValue()) );
-//		
-//		model.addAttribute("srcKeyword", dto);
-//		
-//		return "policy/policyList";
-//	}
-//
-//	// 등록
-//	@PostMapping("/register")
-//	@ResponseBody
-//	public ResponseEntity<Map<String,String>> register(@RequestBody PolicyRequestDto dto, HttpServletRequest request) {
-//		String regId = (String) request.getSession().getAttribute("loginId");
-//		dto.setRegId(regId);
-//		Map<String,String> rstMap = service.register(dto);
-//		return ResponseEntity.ok( rstMap );
-//	}
-
 }

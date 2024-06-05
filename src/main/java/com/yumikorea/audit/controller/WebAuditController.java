@@ -1,7 +1,6 @@
 package com.yumikorea.audit.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yumikorea.audit.dto.request.WebAuditRequestDto;
-import com.yumikorea.audit.dto.response.WebAuditResponseDto;
 import com.yumikorea.audit.service.WebAuditService;
 import com.yumikorea.code.dto.response.CodeDetailResponseDto;
 import com.yumikorea.code.enums.EnumMasterCode;
@@ -29,27 +27,16 @@ public class WebAuditController {
 	
 	@GetMapping("/admin/list")
 	public String adminList( Model model, WebAuditRequestDto dto ) {
-		Map<String, Object> map =  service.getList(dto);
-		
-		@SuppressWarnings("unchecked")
-		List<WebAuditResponseDto> auditList = (List<WebAuditResponseDto>) map.get("list");
+
+		model.addAllAttributes(service.getList(dto));
 		
 		List<CodeDetailResponseDto> operationList = codeService.getList(EnumMasterCode.ADMIN_OPERATION_CODE.getMasterCodeValue());
 		List<CodeDetailResponseDto> resultSFList = codeService.getList(EnumMasterCode.RESULT_SF.getMasterCodeValue());
 		
-		for( CodeDetailResponseDto codeDto : operationList ) {
-			for( WebAuditResponseDto auditDto : auditList ) {
-				if( auditDto.getUrl().equals(codeDto.getValue01()) ) {
-					auditDto.setDescription(codeDto.getDescription());
-				}
-			}
-		}
 		
-		model.addAttribute( "list", auditList );
-		model.addAttribute( EAdminConstants.PAGE.getValue(), map.get(EAdminConstants.PAGE.getValue()) );
 		model.addAttribute( "resultSFList", resultSFList );
 		model.addAttribute( "operationList", operationList );
-		model.addAttribute("srcKeyword", dto);
+		model.addAttribute(EAdminConstants.SEARCH_KEY_WORD.getValue(), dto);
 
 		return "audit/adminAuditList";
 	}

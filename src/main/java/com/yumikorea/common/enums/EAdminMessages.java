@@ -5,6 +5,7 @@ public enum EAdminMessages {
 	
 	ID_DUPLICATE("이미 존재하는 아이디입니다."),
 	NAME_DUPLICATE("이미 존재하는 이름입니다."),
+	TEL_DUPLICATE("이미 존재하는 번호입니다."),
 
 	CREATE_SUCCESS("생성에 성공했습니다."),
 	CREATE_FAIL("생성에 실패했습니다. 관리자에게 문의하세요."),
