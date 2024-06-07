@@ -69,10 +69,8 @@ public class YumiAdminAOP {
 		notCheckingUrls.add("/common/initPw");
 		notCheckingUrls.add("/common/myInfo");
 		notCheckingUrls.add("/common/getCodeDetail");
-		notCheckingUrls.add("/common/service-by-server-info");
 		notCheckingUrls.add("/common/check-duplicate");
 		notCheckingUrls.add("/dashboard");
-		notCheckingUrls.add("/keypair/download/");
 		notCheckingUrls.add("/authority/getListAuthorityUrl");
 		notCheckingUrls.add("/authority/getListAuthority");
 		notCheckingUrls.add("/authority/getAuthorityMenulist");
@@ -87,13 +85,15 @@ public class YumiAdminAOP {
 				auditMap.put(EnumMasterCode.RESULT_SF.getMasterCodeValue(), getStatusCode(status));
 			}
 			
+			log.info("[request uri] {}", request.getHeader("host") + request.getRequestURI() + this.getQueryString(request));
+			
 			String requestBody = "";
 			if ( request.getContentType() != null && request.getContentType().contains("application/json") ) {
 				ReadableRequestBodyWrapper wrapper = new ReadableRequestBodyWrapper((HttpServletRequest) request);
 				requestBody = wrapper.getRequestBody();
 				wrapper.setAttribute("requestBody", requestBody);
 			} else {
-				requestBody = this.getQueryString(request); 
+				requestBody = this.toParameterObject(request); 
 			}
 			log.debug("request args : {}", requestBody);
 			
@@ -185,21 +185,29 @@ public class YumiAdminAOP {
 		}
 	}
 	
-	private String getQueryString(HttpServletRequest request) {
+	private String toParameterObject(HttpServletRequest request) {
 		Enumeration<String> params = request.getParameterNames();
-//		int cnt = 0;
 		String queryString = "";
 		while (params.hasMoreElements()){
 		    String name = (String)params.nextElement();
 		    queryString += String.format("%s : %s\n", name, request.getParameter(name));
-//		    if( cnt == 0) {
-//		    	queryString += "?" + name + "=" +request.getParameter(name);
-//		    } else {
-//		    	queryString += "&" + name + "=" +request.getParameter(name);
-//		    }
-//		    cnt++;
 		}
 		return queryString;
 	}
-
+	
+	private String getQueryString(HttpServletRequest request) {
+		Enumeration<String> params = request.getParameterNames();
+		int cnt = 0;
+		String queryString = "";
+		while (params.hasMoreElements()){
+			String name = (String)params.nextElement();
+		    if( cnt == 0) {
+		    	queryString += "?" + name + "=" +request.getParameter(name);
+		    } else {
+		    	queryString += "&" + name + "=" +request.getParameter(name);
+		    }
+		    cnt++;
+		}
+		return queryString;
+	}
 }
