@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,9 +57,6 @@ public class AuthorityService {
 	
 	@Autowired
 	private final HttpServletRequest request;
-	
-	@Autowired
-	private ApplicationContext applicationContext;
 	
 	private final Logger logger = LoggerFactory.getLogger( AuthorityService.class );
 	
@@ -268,14 +264,14 @@ public class AuthorityService {
 					if( requestUrl.toUpperCase().indexOf(EAdminConstants.HTTP_METHOD_DOWNLOAD.getValue()) > -1 ) {
 						if( amd.getMethod().equalsIgnoreCase(EAdminConstants.HTTP_METHOD_DOWNLOAD.getValue()) ) {
 							this.request.getSession().setAttribute(EAdminConstants.MESSAGE.getValue(), "");
-							logger.info("============= this request is vaild authoirty (true) =============");
+							logger.info("============= this request {} is vaild authoirty (true) =============", requestUrl);
 							menuName = amd.getMenuName();
 							result = true;
 						}
 						// 일반적인 요청과 get, post, put, delete 의 메소드를 처리 
 					} else if ( amd.getMethod().equalsIgnoreCase(method) ) {
 						this.request.getSession().setAttribute(EAdminConstants.MESSAGE.getValue(), "");
-						logger.info("============= this request is vaild authoirty (true) =============");
+						logger.info("============= this request {} is vaild authoirty (true) =============", requestUrl);
 						menuName = amd.getMenuName();
 						result = true;
 					} else {

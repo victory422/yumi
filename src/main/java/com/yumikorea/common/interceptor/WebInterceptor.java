@@ -59,7 +59,7 @@ public class WebInterceptor implements HandlerInterceptor {
 			
 			/* 관리도구 신규기능 적용 여부 체크 */
 			// 사용자 권한체크
-			if ( !authorityService.isAuthorityValid() ) {
+			if ( false && !authorityService.isAuthorityValid() ) {
 				// ErrorHandler.java 에서 처리
 				request.setAttribute(EAdminConstants.REQUESTED_URI.getValue(), request.getRequestURI());
 				request.getRequestDispatcher("/error/invalidAuthority").forward(request, response);

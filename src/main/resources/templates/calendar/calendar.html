@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!-- 
+		HTML Info
+		1. file path	: /templates/calendar/calendar.html
+		2. project name	: yumi korea Admin
+		3. description	:   
+ -->
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!-- Header -->
+<th:block th:include="common/layout/header"></th:block>
+<!-- 프로그램별 script 추가 -->
+<script type="text/javascript" th:src="@{/js/views/calendarJs.js}"></script>
+ <style>
+
+    .calendar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #f0f0f0;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #fff;
+    }
+
+    .calendar-title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .calendar-buttons {
+      display: flex;
+    }
+
+    .calendar-button {
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+
+    .calendar-body {
+      padding: 10px;
+    }
+
+    .calendar-week {
+      display: flex;
+    }
+
+    .calendar-day {
+      width: 14.28%;
+      text-align: center;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+    
+    #calendar-days {
+		display: ruby-text;
+    }
+  </style>
+
+	<!-- Content_state : S -->
+<div id="con_wrap"><div class="con_box_flex"><div class="flex_wrap">
+	<!-- Info Area : S -->
+	<!-- Info Area : E -->
+	<br /> 
+	<!-- Search Area : S -->
+    <div class="con_search_area"><div class="con_menu_search_wrap03">
+		<div class="con_sub_tit_wrap">
+			<span class="con_sub_tit">검색</span>
+		</div>
+    </div></div>
+    <!-- Search Area : E -->
+	<!-- List Area : S -->
+	<div class="con_sub_wrap"><div class="con_sub_all_box">
+		<!-- Title & Button : S -->
+		<div class="con_sub_tit_wrap">
+			<span class="con_sub_tit">목록</span>
+			<span class="btn_area_top">
+			    <a change-modal-id="registerAdmin"><span class="width_100 btn_grn">등록</span></a>	
+			    <a href="javascript:;" onclick="goUpdateSt()" button-type="PUT"><span class="width_100 btn_blu">잠김 해제</span></a>
+			    <a id="btn_registAuthority" onclick="openPopupAuthoritys(this)" button-type="POST">
+					<span class="width_100 btn_blu">화면권한설정</span>
+				</a>
+			    <a href="javascript:;" onclick="goDelete()" ><span class="width_100 pop_btn_red">삭제</span></a>	
+			</span>
+		</div>
+		<!-- Title & Button : E -->
+		<!-- Data Table : S -->
+		<div class="con_tb_area">
+			<div class="con_menu_tb_wrap">
+				<div class="calendar">
+				    <div class="calendar-header">
+				      <div class="calendar-title">2024년 6월</div>
+				      <div class="calendar-buttons">
+				        <button class="calendar-button prev">이전 달</button>
+				        <button class="calendar-button next">다음 달</button>
+				      </div>
+				    </div>
+				    <div class="calendar-body">
+				      <div class="calendar-week">
+				        <div class="calendar-day">일</div>
+				        <div class="calendar-day">월</div>
+				        <div class="calendar-day">화</div>
+				        <div class="calendar-day">수</div>
+				        <div class="calendar-day">목</div>
+				        <div class="calendar-day">금</div>
+				        <div class="calendar-day">토</div>
+				      </div>
+				      <div id="calendar-days"></div>
+				    </div>
+	  </div>	
+
+			</div>
+		</div>
+		<!-- Data Table : E -->
+	</div></div>
+	<!-- List Area : E -->
+</div></div></div>
+<th:block th:include="common/layout/footer"></th:block>
+</html>
